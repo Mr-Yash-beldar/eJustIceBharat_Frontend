@@ -517,6 +517,7 @@ const CompleteProfile: React.FC = () => {
             <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
               <div className="border-b border-stroke py-3 px-7 dark:border-strokedark"></div>
               <div className="p-5">
+                
                 {/* Profile Image Upload Section */}
                 <FileUpload fileDoc={LitigantDetails.profile_image} uploadFor={"profile"} model={"litigant"} />
 
