@@ -6,6 +6,7 @@ import PageTitle from './components/PageTitle';
 import SignIn from './pages/Authentication/SignIn';
 import SignUp from './pages/Authentication/SignUp';
 import DashBoard from './Dashboard';
+import ForgotPassword from './pages/Authentication/ForgotPassword';
 
 
 function App() {
@@ -41,6 +42,15 @@ function App() {
             <>
               <PageTitle title="Signup | EjusticeBharat" />
               <SignUp />
+            </>
+          }
+        />
+        <Route
+          path="/auth/ForgotPassword"
+          element={
+            <>
+              <PageTitle title="ForgotPassword | EjusticeBharat" />
+              <ForgotPassword />
             </>
           }
         />
