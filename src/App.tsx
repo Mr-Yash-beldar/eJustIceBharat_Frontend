@@ -7,6 +7,7 @@ import SignIn from './pages/Authentication/SignIn';
 import SignUp from './pages/Authentication/SignUp';
 import DashBoard from './Dashboard';
 import ForgotPassword from './pages/Authentication/ForgotPassword';
+import ResetPassword from './pages/Authentication/ResetPassword';
 
 
 function App() {
@@ -64,6 +65,17 @@ function App() {
             </>
           }
         />
+
+          <Route
+          path="/auth/ResetPassword"
+          element={
+            <>
+              <PageTitle title="ResetPassword | EjusticeBharat" />
+              <ResetPassword />
+            </>
+          }
+        />  
+
       </Routes>
 
       {/* Routes inside DefaultLayout */}
