@@ -8,6 +8,7 @@ import SignUp from './pages/Authentication/SignUp';
 import DashBoard from './Dashboard';
 import ForgotPassword from './pages/Authentication/ForgotPassword';
 import ResetPassword from './pages/Authentication/ResetPassword';
+import VerifyEmail from './pages/Authentication/VerifyEmail';
 
 
 function App() {
@@ -72,6 +73,16 @@ function App() {
             <>
               <PageTitle title="ResetPassword | EjusticeBharat" />
               <ResetPassword />
+            </>
+          }
+        />  
+
+          <Route
+          path="/auth/VerifyEmail"
+          element={
+            <>
+              <PageTitle title="VerifyEmail | EjusticeBharat" />
+              <VerifyEmail />
             </>
           }
         />  
