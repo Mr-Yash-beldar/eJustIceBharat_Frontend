@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{useState} from 'react';
 import { useNavigate } from "react-router-dom";
 import { Link } from 'react-router-dom';
 import LogoDark from '../../images/logo/logo_light.png';
@@ -6,11 +6,26 @@ import Logo from '../../images/logo/logo_dark.png';
 
 const ResetPassword: React.FC = () => {
 
+  const [formData, setFormData] = useState({
+    otp: '',
+    newPassword: ''
+  });
+
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = event.target;
+    setFormData((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
+  };
+
   const navigate = useNavigate();
 
-  const handleSubmit = () => {
-    // Directly redirect to the dashboard on form submission
+  const handleSubmit = (event: React.FormEvent) => {
+    event?.preventDefault();
     navigate("/auth/signin"); // Replace "/dashboard" with the actual dashboard route
+    console.log("Entered OTP:", formData.otp);
+    console.log("New Password:", formData.newPassword);
   };
 
   return (
@@ -167,8 +182,11 @@ const ResetPassword: React.FC = () => {
   <div className="relative">
     <input
       type="text"
+      name="otp"
       placeholder="Enter correct OTP"
       className="w-full rounded-lg border border-stroke bg-transparent py-4 pl-6 pr-10 text-black outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
+      value={formData.otp}
+      onChange={handleChange}
     />
 
     <span className="absolute right-4 top-4">
@@ -199,8 +217,11 @@ const ResetPassword: React.FC = () => {
                   <div className="relative">
                     <input
                       type="password"
+                      name="newPassword"
                       placeholder="Enter New Password"
                       className="w-full rounded-lg border border-stroke bg-transparent py-4 pl-6 pr-10 text-black outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
+                      value={formData.newPassword}
+                      onChange={handleChange}
                     />
 
                     <span className="absolute right-4 top-4">

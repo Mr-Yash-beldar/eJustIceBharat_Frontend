@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{useState}from 'react';
 import { Link } from 'react-router-dom';
 import { useNavigate } from "react-router-dom";
 import LogoDark from '../../images/logo/logo_light.png';
@@ -6,11 +6,30 @@ import Logo from '../../images/logo/logo_dark.png';
 
 const SignUp: React.FC = () => {
 
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    password: '',
+    mobile: ''
+  });
+
+  const inputChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = event.target;
+    setFormData((prevState) => ({
+      ...prevState,
+      [name]: value
+    }));
+  };
+
   const navigate = useNavigate();
 
-  const handleSubmit = () => {
-    // Directly redirect to the dashboard on form submission
+  const handleSubmit = (event: React.FormEvent) => {
+   event.preventDefault();
     navigate("/auth/VerifyEmail"); // Replace "/dashboard" with the actual dashboard route
+    console.log("Name:", formData.name);
+    console.log("Email:", formData.email);
+    console.log("Password:", formData.password);
+    console.log("Mobile No.:", formData.mobile);
   };
 
   return (
@@ -167,6 +186,9 @@ const SignUp: React.FC = () => {
                       type="text"
                       placeholder="Enter your full name"
                       className="w-full rounded-lg border border-stroke bg-transparent py-4 pl-6 pr-10 text-black outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
+                      name="name"
+                      onChange={inputChangeHandler}
+                      value={formData.name}
                     />
 
                     <span className="absolute right-4 top-4">
@@ -202,6 +224,9 @@ const SignUp: React.FC = () => {
                       type="email"
                       placeholder="Enter your email"
                       className="w-full rounded-lg border border-stroke bg-transparent py-4 pl-6 pr-10 text-black outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
+                      name="email"
+                      onChange={inputChangeHandler}
+                      value={formData.email}
                     />
 
                     <span className="absolute right-4 top-4">
@@ -233,6 +258,9 @@ const SignUp: React.FC = () => {
                       type="password"
                       placeholder="Enter your password"
                       className="w-full rounded-lg border border-stroke bg-transparent py-4 pl-6 pr-10 text-black outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
+                      name="password"
+                      onChange={inputChangeHandler}
+                      value={formData.password}
                     />
 
                     <span className="absolute right-4 top-4">
@@ -268,6 +296,9 @@ const SignUp: React.FC = () => {
                     type="text"
                     placeholder="Enter your Mobile Number"
                     className="w-full rounded-lg border border-stroke bg-transparent py-4 pl-6 pr-10 text-black outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
+                    name="mobile"
+                    onChange={inputChangeHandler}
+                    value={formData.mobile}
                   />
 
                   <span className="absolute right-4 top-4">
