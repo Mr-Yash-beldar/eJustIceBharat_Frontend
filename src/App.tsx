@@ -1,5 +1,5 @@
-import { useEffect, useState } from 'react';
-import {  Route, Routes, useLocation } from 'react-router-dom';
+import { useEffect } from 'react';
+import { Route, Routes, useLocation } from 'react-router-dom';
 
 import Loader from './common/Loader';
 import PageTitle from './components/PageTitle';
@@ -15,148 +15,47 @@ import AdvocateList from './pages/FindAdvocate/AdvocateList';
 import AddCase from './pages/Cases/AddCase';
 import ViewCaseTable from './pages/Cases/ViewCases';
 import ProtectedRoute from './components/ProtectedRoute';
-import { AuthProvider } from './context/AuthProvider';
+import ProfileCompletionRoute from './components/ProfileCompletionRoute';
+import { useAuth } from './context/AuthProvider';
 
 function App() {
-  const [loading, setLoading] = useState<boolean>(true);
   const { pathname } = useLocation();
-  
-
-
+  const { loading } = useAuth(); // Using loading from AuthProvider
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [pathname]);
 
-  useEffect(() => {
-    setTimeout(() => setLoading(false), 1000);
-  }, []);
+  // Show loader while loading
+  if (loading) {
+    return <Loader />;
+  }
 
-  return loading ? (
-    <Loader />
-  ) : (
-    <AuthProvider>
+  // Routes only render after loading completes
+  return (
     <>
-      {/* Routes outside of DefaultLayout */}
       <Routes>
-        <Route
-          path="/auth/signin"
-          element={
-            <>
-              <PageTitle title="Signin | EjusticeBharat" />
-              <SignIn />
-            </>
-          }
-        />
-        <Route
-          path="/auth/signup"
-          element={
-            <>
-              <PageTitle title="Signup | EjusticeBharat" />
-              <SignUp />
-            </>
-          }
-        />
-        <Route
-          path="/auth/ForgotPassword"
-          element={
-            <>
-              <PageTitle title="ForgotPassword | EjusticeBharat" />
-              <ForgotPassword />
-            </>
-          }
-        />
-        <Route
-          path="/auth/ResetPassword"
-          element={
-            <>
-              <PageTitle title="ResetPassword | EjusticeBharat" />
-              <ResetPassword />
-            </>
-          }
-        />
-        <Route
-          path="/auth/verifyemail/:id"
-          element={
-            <>  
-              <PageTitle title="VerifyEmail | EjusticeBharat" />
-              <VerifyEmail />
-            </>
-          }
-        />
-    
-        {/* Wrap only the necessary dashboard routes in DefaultLayout */}
-       
-        <Route
-          path="/dashboard/*"
-          element={
-            <ProtectedRoute>
+        <Route path="/auth/signin" element={<><PageTitle title="Signin | EjusticeBharat" /><SignIn /></>} />
+        <Route path="/auth/signup" element={<><PageTitle title="Signup | EjusticeBharat" /><SignUp /></>} />
+        <Route path="/auth/ForgotPassword" element={<><PageTitle title="ForgotPassword | EjusticeBharat" /><ForgotPassword /></>} />
+        <Route path="/auth/ResetPassword" element={<><PageTitle title="ResetPassword | EjusticeBharat" /><ResetPassword /></>} />
+        <Route path="/auth/verifyemail/:id" element={<><PageTitle title="VerifyEmail | EjusticeBharat" /><VerifyEmail /></>} />
+
+        <Route path="/dashboard/*" element={
+          <ProtectedRoute>
             <DefaultLayout>
-                
               <Routes>
-                {/* This will load the main dashboard */}
-                <Route
-                  path="dashboard"
-                  element={
-                  
-                    <>
-                      <PageTitle title="Dashboard | EjusticeBharat" />
-                      <DashBoard />
-                    </>
-                  }
-                />
-
-                {/* This will load the complete profile */}
-               
-                <Route
-                  path="CompleteProfile"
-                  element={
-                    
-                    <>
-                      <PageTitle title="CompleteProfile | EjusticeBharat" />
-                      <CompleteProfile />
-                    </>
-                  }
-                  />
-                 
-                <Route
-                  path="/FindAdvocates"
-                  element={
-                    <>
-                      <PageTitle title="FindAdvocates | EJusticeBharat" />
-                      <AdvocateList />
-                    </>
-                  }
-                />
-
-                <Route
-                  path="/addCase"
-                  element={
-                    <>
-                      <PageTitle title="AddCase | EJusticeBharat" />
-                      <AddCase />
-                    </>
-                  }
-                />
-
-                <Route
-                  path="/viewCase"
-                  element={
-                    <>
-                      <PageTitle title="ViewCases | EJusticeBharat" />
-                      <ViewCaseTable />
-                    </>
-                  }
-                />
+                <Route path="dashboard" element={<><PageTitle title="Dashboard | EjusticeBharat" /><DashBoard /></>} />
+                <Route path="CompleteProfile" element={<><PageTitle title="CompleteProfile | EjusticeBharat" /><CompleteProfile /></>} />
+                <Route path="FindAdvocates" element={<ProfileCompletionRoute><><PageTitle title="FindAdvocates | EJusticeBharat" /><AdvocateList /></></ProfileCompletionRoute>} />
+                <Route path="addCase" element={<ProfileCompletionRoute><><PageTitle title="AddCase | EJusticeBharat" /><AddCase /></></ProfileCompletionRoute>} />
+                <Route path="viewCase" element={<ProfileCompletionRoute><><PageTitle title="ViewCases | EJusticeBharat" /><ViewCaseTable /></></ProfileCompletionRoute>} />
               </Routes>
-           
             </DefaultLayout>
-            </ProtectedRoute>
-          }
-        />
+          </ProtectedRoute>
+        } />
       </Routes>
     </>
-    </AuthProvider>
   );
 }
 
