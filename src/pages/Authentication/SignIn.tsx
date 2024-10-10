@@ -5,13 +5,14 @@ import LogoDark from '../../images/logo/logo_light.png';
 import Logo from '../../images/logo/logo_dark.png';
 import axiosInstance from '../../utils/axiosInstance';
 import axios from 'axios';
+import { useAuth } from '../../context/AuthProvider';
 
 const SignIn: React.FC = () => {
   const [formData, setFormData] = useState({
     litigant_email: '',
     litigant_password: '',
   });
-
+  const { setIsAuthenticated } = useAuth();
   const inputChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
     setFormData((prevState) => ({
@@ -36,6 +37,7 @@ const SignIn: React.FC = () => {
 
       // Store token in local storage if verified and redirect to dashboard
       localStorage.setItem('token', token);
+      setIsAuthenticated(true);
       navigate('/dashboard');
 
     } catch (error: unknown) {
