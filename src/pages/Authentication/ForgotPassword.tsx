@@ -1,11 +1,10 @@
-import React,{useState} from 'react';
-import { useNavigate } from "react-router-dom";
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import LogoDark from '../../images/logo/logo_light.png';
 import Logo from '../../images/logo/logo_dark.png';
 
 const ForgotPassword: React.FC = () => {
-
   const [emailData, setEmailData] = useState({
     email: '',
   });
@@ -19,16 +18,32 @@ const ForgotPassword: React.FC = () => {
   };
 
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
-    navigate("/auth/ResetPassword"); // Replace "/dashboard" with the actual dashboard route
-    console.log("Entered Email:", emailData.email);
+    setLoading(true); // Start loading
+
+    // Simulate sending OTP
+    setTimeout(() => {
+      const data = {
+        email: emailData.email,
+      };
+
+      // Log the entered email
+      console.log('Entered Email:', data.email);
+
+      // Stop loading after the operation
+      setLoading(false);
+
+      // Redirect to the Reset Password page after OTP is sent
+      navigate('/auth/ResetPassword'); // Replace with the actual route
+    }, 2000);
   };
 
   return (
     <>
-    <div className="mb-13 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between"></div>
+      <div className="mb-13 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between"></div>
 
       <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
         <div className="flex flex-wrap items-center">
@@ -166,11 +181,12 @@ const ForgotPassword: React.FC = () => {
 
           <div className="w-full border-stroke dark:border-strokedark xl:w-1/2 xl:border-l-2">
             <div className="w-full p-4 sm:p-12.5 xl:p-17.5">
-              
               <h2 className="mb-9 text-2xl font-bold text-black dark:text-white sm:text-title-xl2">
                 Reset Password
               </h2>
-              <span className="mb-1.5 block font-medium">Enter your email address to receive a password reset link.</span>
+              <span className="mb-1.5 block font-medium">
+                Enter your email address to receive a password reset link.
+              </span>
 
               <form onSubmit={handleSubmit}>
                 <div className="mb-4">
@@ -208,11 +224,42 @@ const ForgotPassword: React.FC = () => {
                 </div>
 
                 <div className="mb-5">
-                  <input
+                  <button
+                    className={`w-full cursor-pointer rounded-lg border border-primary bg-primary p-4 text-white transition hover:bg-opacity-90 flex justify-center ${
+                      loading ? 'opacity-50 cursor-not-allowed' : ''
+                    }`}
                     type="submit"
-                    value="Send OTP"
-                    className="w-full cursor-pointer rounded-lg border border-primary bg-primary p-4 text-white transition hover:bg-opacity-90"
-                  />
+                    onClick={handleSubmit} // Attach the handleSubmit function
+                    disabled={loading} // Disable the button while loading
+                  >
+                    {loading ? (
+                      <>
+                        Sending OTP
+                        <svg
+                          className="animate-spin h-5 w-5 text-white ml-2"
+                          xmlns="http://www.w3.org/2000/svg"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                        >
+                          <circle
+                            className="opacity-25"
+                            cx="12"
+                            cy="12"
+                            r="10"
+                            stroke="currentColor"
+                            strokeWidth="4"
+                          ></circle>
+                          <path
+                            className="opacity-75"
+                            fill="currentColor"
+                            d="M4 12a8 8 0 018-8v8H4z"
+                          ></path>
+                        </svg>
+                      </>
+                    ) : (
+                      'Send OTP'
+                    )}
+                  </button>
                 </div>
               </form>
             </div>

@@ -1,37 +1,51 @@
-import React,{useState} from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
 import LogoDark from '../../images/logo/logo_light.png';
 import Logo from '../../images/logo/logo_dark.png';
 
 const SignIn: React.FC = () => {
-  
   const [formData, setFormData] = useState({
     email: '',
-    password: ''
+    password: '',
   });
 
   const inputChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
     setFormData((prevState) => ({
       ...prevState,
-      [name]: value
+      [name]: value,
     }));
   };
 
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = (event: React.FormEvent) => {
-    // Directly redirect to the dashboard on form submission
-    navigate("/dashboard"); // Replace "/dashboard" with the actual dashboard route
     event.preventDefault();
-    console.log("Email:", formData.email);
-    console.log("Password:", formData.password);
+    setLoading(true); // Enable loading
+
+    // Simulate an asynchronous operation (e.g., API call) with setTimeout
+    setTimeout(() => {
+      const data = {
+        email: formData.email,
+        password: formData.password,
+      };
+
+      // Log the form data
+      console.log('Saved data:', data);
+
+      // Disable loading after 2 seconds
+      setLoading(false);
+
+      // Redirect to the dashboard after form submission
+      navigate('/dashboard'); // Replace "/dashboard" with the actual dashboard route
+    }, 2000);
   };
 
   return (
     <>
-    <div className="mb-13 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between"></div>
+      <div className="mb-13 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between"></div>
 
       <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
         <div className="flex flex-wrap items-center">
@@ -173,7 +187,7 @@ const SignIn: React.FC = () => {
                 Sign In as Litigant
               </h2>
 
-              <form  onSubmit={handleSubmit}>
+              <form onSubmit={handleSubmit}>
                 <div className="mb-4">
                   <label className="mb-2.5 block font-medium text-black dark:text-white">
                     Email
@@ -186,7 +200,6 @@ const SignIn: React.FC = () => {
                       className="w-full rounded-lg border border-stroke bg-transparent py-4 pl-6 pr-10 text-black outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
                       onChange={inputChangeHandler}
                       value={formData.email}
-                      
                     />
 
                     <span className="absolute right-4 top-4">
@@ -211,7 +224,7 @@ const SignIn: React.FC = () => {
 
                 <div className="mb-6">
                   <label className="mb-2.5 block font-medium text-black dark:text-white">
-                     Password
+                    Password
                   </label>
                   <div className="relative">
                     <input
@@ -248,15 +261,49 @@ const SignIn: React.FC = () => {
                 </div>
 
                 <div className="mb-5">
-                  <input
+                  <button
+                    className={`w-full cursor-pointer rounded-lg border border-primary bg-primary p-4 text-white transition hover:bg-opacity-90 flex justify-center ${
+                      loading ? 'opacity-50 cursor-not-allowed' : ''
+                    }`}
                     type="submit"
-                    value="Sign In"
-                    className="w-full cursor-pointer rounded-lg border border-primary bg-primary p-4 text-white transition hover:bg-opacity-90"
-                  />
+                    onClick={handleSubmit}
+                    disabled={loading} // Disable the button while loading
+                  >
+                    {loading ? (
+                      <>
+                        Signing In
+                        <svg
+                          className="animate-spin h-5 w-5 text-white ml-2"
+                          xmlns="http://www.w3.org/2000/svg"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                        >
+                          <circle
+                            className="opacity-25"
+                            cx="12"
+                            cy="12"
+                            r="10"
+                            stroke="currentColor"
+                            strokeWidth="4"
+                          ></circle>
+                          <path
+                            className="opacity-75"
+                            fill="currentColor"
+                            d="M4 12a8 8 0 018-8v8H4z"
+                          ></path>
+                        </svg>
+                      </>
+                    ) : (
+                      'Sign In'
+                    )}
+                  </button>
                 </div>
 
                 <div className="mt-4 text-right">
-                  <Link to="/auth/ForgotPassword" className="text-primary hover:underline">
+                  <Link
+                    to="/auth/ForgotPassword"
+                    className="text-primary hover:underline"
+                  >
                     Forgot Password?
                   </Link>
                 </div>
