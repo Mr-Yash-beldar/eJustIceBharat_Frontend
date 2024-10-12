@@ -1,35 +1,50 @@
-import React,{useState}from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
 import LogoDark from '../../images/logo/logo_light.png';
 import Logo from '../../images/logo/logo_dark.png';
 
 const SignUp: React.FC = () => {
-
   const [formData, setFormData] = useState({
     name: '',
     email: '',
     password: '',
-    mobile: ''
+    mobile: '',
   });
 
   const inputChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
     setFormData((prevState) => ({
       ...prevState,
-      [name]: value
+      [name]: value,
     }));
   };
 
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = (event: React.FormEvent) => {
-   event.preventDefault();
-    navigate("/auth/VerifyEmail"); // Replace "/dashboard" with the actual dashboard route
-    console.log("Name:", formData.name);
-    console.log("Email:", formData.email);
-    console.log("Password:", formData.password);
-    console.log("Mobile No.:", formData.mobile);
+    event.preventDefault();
+    setLoading(true); // Enable loading
+
+    // Simulate an asynchronous operation (e.g., API call) with setTimeout
+    setTimeout(() => {
+      const data = {
+        name: formData.name,
+        email: formData.email,
+        password: formData.password,
+        mobile: formData.mobile,
+      };
+
+      // Log the form data
+      console.log('Saved data:', data);
+
+      // Disable loading after the operation is complete
+      setLoading(false);
+
+      // Redirect to the Verify Email page
+      navigate('/auth/VerifyEmail'); // Replace with the actual route
+    }, 2000);
   };
 
   return (
@@ -291,42 +306,71 @@ const SignUp: React.FC = () => {
                   <label className="mb-2.5 block font-medium text-black dark:text-white">
                     Mobile No.
                   </label>
-                <div className="relative">
-                  <input
-                    type="text"
-                    placeholder="Enter your Mobile Number"
-                    className="w-full rounded-lg border border-stroke bg-transparent py-4 pl-6 pr-10 text-black outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
-                    name="mobile"
-                    onChange={inputChangeHandler}
-                    value={formData.mobile}
-                  />
+                  <div className="relative">
+                    <input
+                      type="text"
+                      placeholder="Enter your Mobile Number"
+                      className="w-full rounded-lg border border-stroke bg-transparent py-4 pl-6 pr-10 text-black outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
+                      name="mobile"
+                      onChange={inputChangeHandler}
+                      value={formData.mobile}
+                    />
 
-                  <span className="absolute right-4 top-4">
-                    <svg
-                      className="fill-current"
-                      width="22"
-                      height="22"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        d="M17.707 12.293A1 1 0 0118 13v3a3 3 0 01-3 3c-5.523 0-10-4.477-10-10a3 3 0 013-3h3a1 1 0 01.707.293l2 2a1 1 0 01-.037 1.392l-1.457 1.364a1 1 0 00-.263.999c.35 1.052 1.466 2.168 2.518 2.518a1 1 0 00.999-.263l1.364-1.457a1 1 0 011.392-.037l2 2z"
-                        fill="#D1D5DB"  
-                      />
-                    </svg>
-                  </span>
+                    <span className="absolute right-4 top-4">
+                      <svg
+                        className="fill-current"
+                        width="22"
+                        height="22"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M17.707 12.293A1 1 0 0118 13v3a3 3 0 01-3 3c-5.523 0-10-4.477-10-10a3 3 0 013-3h3a1 1 0 01.707.293l2 2a1 1 0 01-.037 1.392l-1.457 1.364a1 1 0 00-.263.999c.35 1.052 1.466 2.168 2.518 2.518a1 1 0 00.999-.263l1.364-1.457a1 1 0 011.392-.037l2 2z"
+                          fill="#D1D5DB"
+                        />
+                      </svg>
+                    </span>
+                  </div>
                 </div>
-                </div>
-
-
 
                 <div className="mb-5">
-                  <input
+                  <button
+                    className={`w-full cursor-pointer rounded-lg border border-primary bg-primary p-4 text-white transition hover:bg-opacity-90 flex justify-center ${
+                      loading ? 'opacity-50 cursor-not-allowed' : ''
+                    }`}
                     type="submit"
-                    value="Create account"
-                    className="w-full cursor-pointer rounded-lg border border-primary bg-primary p-4 text-white transition hover:bg-opacity-90"
-                  />
+                    onClick={handleSubmit} // Attach the handleSubmit function
+                    disabled={loading} // Disable the button while loading
+                  >
+                    {loading ? (
+                      <>
+                        Creating account
+                        <svg
+                          className="animate-spin h-5 w-5 text-white ml-2"
+                          xmlns="http://www.w3.org/2000/svg"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                        >
+                          <circle
+                            className="opacity-25"
+                            cx="12"
+                            cy="12"
+                            r="10"
+                            stroke="currentColor"
+                            strokeWidth="4"
+                          ></circle>
+                          <path
+                            className="opacity-75"
+                            fill="currentColor"
+                            d="M4 12a8 8 0 018-8v8H4z"
+                          ></path>
+                        </svg>
+                      </>
+                    ) : (
+                      'Create account'
+                    )}
+                  </button>
                 </div>
 
                 <button className="flex w-full items-center justify-center gap-3.5 rounded-lg border border-stroke bg-gray p-4 hover:bg-opacity-50 dark:border-strokedark dark:bg-meta-4 dark:hover:bg-opacity-50">

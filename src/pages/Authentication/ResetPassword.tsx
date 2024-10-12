@@ -1,14 +1,13 @@
-import React,{useState} from 'react';
-import { useNavigate } from "react-router-dom";
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import LogoDark from '../../images/logo/logo_light.png';
 import Logo from '../../images/logo/logo_dark.png';
 
 const ResetPassword: React.FC = () => {
-
   const [formData, setFormData] = useState({
     otp: '',
-    newPassword: ''
+    newPassword: '',
   });
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -20,17 +19,34 @@ const ResetPassword: React.FC = () => {
   };
 
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = (event: React.FormEvent) => {
     event?.preventDefault();
-    navigate("/auth/signin"); // Replace "/dashboard" with the actual dashboard route
-    console.log("Entered OTP:", formData.otp);
-    console.log("New Password:", formData.newPassword);
+    setLoading(true); // Start loading
+
+    // Simulate an asynchronous operation (e.g., API call)
+    setTimeout(() => {
+      const data = {
+        otp: formData.otp,
+        newPassword: formData.newPassword,
+      };
+
+      // Log the entered OTP and new password
+      console.log('Entered OTP:', data.otp);
+      console.log('New Password:', data.newPassword);
+
+      // Stop loading after the operation
+      setLoading(false);
+
+      // Redirect to the sign-in page after the password change
+      navigate('/auth/signin'); // Replace with the actual route
+    }, 2000);
   };
 
   return (
     <>
-    <div className="mb-13 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between"></div>
+      <div className="mb-13 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between"></div>
 
       <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
         <div className="flex flex-wrap items-center">
@@ -168,51 +184,51 @@ const ResetPassword: React.FC = () => {
 
           <div className="w-full border-stroke dark:border-strokedark xl:w-1/2 xl:border-l-2">
             <div className="w-full p-4 sm:p-12.5 xl:p-17.5">
-              
               <h2 className="mb-9 text-2xl font-bold text-black dark:text-white sm:text-title-xl2">
                 Reset Password
               </h2>
-              <span className="mb-1.5 block font-medium">Enter OTP received on email and set new password</span>
+              <span className="mb-1.5 block font-medium">
+                Enter OTP received on email and set new password
+              </span>
 
               <form onSubmit={handleSubmit}>
-              <div className="mb-4">
-  <label className="mb-2.5 block font-medium text-black dark:text-white">
-    Enter OTP
-  </label>
-  <div className="relative">
-    <input
-      type="text"
-      name="otp"
-      placeholder="Enter correct OTP"
-      className="w-full rounded-lg border border-stroke bg-transparent py-4 pl-6 pr-10 text-black outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
-      value={formData.otp}
-      onChange={handleChange}
-    />
+                <div className="mb-4">
+                  <label className="mb-2.5 block font-medium text-black dark:text-white">
+                    Enter OTP
+                  </label>
+                  <div className="relative">
+                    <input
+                      type="text"
+                      name="otp"
+                      placeholder="Enter correct OTP"
+                      className="w-full rounded-lg border border-stroke bg-transparent py-4 pl-6 pr-10 text-black outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
+                      value={formData.otp}
+                      onChange={handleChange}
+                    />
 
-    <span className="absolute right-4 top-4">
-      <svg
-        className="fill-current"
-        width="22"
-        height="22"
-        viewBox="0 0 24 24"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <g opacity="0.5">
-          <path
-            d="M12 2C9.23858 2 7 4.23858 7 7V10C5.34315 10 4 11.3431 4 13V19C4 20.6569 5.34315 22 7 22H17C18.6569 22 20 20.6569 20 19V13C20 11.3431 18.6569 10 17 10V7C17 4.23858 14.7614 2 12 2ZM9 7C9 5.34315 10.3431 4 12 4C13.6569 4 15 5.34315 15 7V10H9V7ZM6 13H18V19C18 19.5523 17.5523 20 17 20H7C6.44772 20 6 19.5523 6 19V13Z"
-            fill="currentColor"
-          />
-        </g>
-      </svg>
-    </span>
-  </div>
-</div>
-
+                    <span className="absolute right-4 top-4">
+                      <svg
+                        className="fill-current"
+                        width="22"
+                        height="22"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <g opacity="0.5">
+                          <path
+                            d="M12 2C9.23858 2 7 4.23858 7 7V10C5.34315 10 4 11.3431 4 13V19C4 20.6569 5.34315 22 7 22H17C18.6569 22 20 20.6569 20 19V13C20 11.3431 18.6569 10 17 10V7C17 4.23858 14.7614 2 12 2ZM9 7C9 5.34315 10.3431 4 12 4C13.6569 4 15 5.34315 15 7V10H9V7ZM6 13H18V19C18 19.5523 17.5523 20 17 20H7C6.44772 20 6 19.5523 6 19V13Z"
+                            fill="currentColor"
+                          />
+                        </g>
+                      </svg>
+                    </span>
+                  </div>
+                </div>
 
                 <div className="mb-6">
                   <label className="mb-2.5 block font-medium text-black dark:text-white">
-                     New Password
+                    New Password
                   </label>
                   <div className="relative">
                     <input
@@ -249,11 +265,42 @@ const ResetPassword: React.FC = () => {
                 </div>
 
                 <div className="mb-5">
-                  <input
+                  <button
+                    className={`w-full cursor-pointer rounded-lg border border-primary bg-primary p-4 text-white transition hover:bg-opacity-90 flex justify-center ${
+                      loading ? 'opacity-50 cursor-not-allowed' : ''
+                    }`}
                     type="submit"
-                    value="Change Password"
-                    className="w-full cursor-pointer rounded-lg border border-primary bg-primary p-4 text-white transition hover:bg-opacity-90"
-                  />
+                    onClick={handleSubmit} // Attach the handleSubmit function
+                    disabled={loading} // Disable the button while loading
+                  >
+                    {loading ? (
+                      <>
+                        Changing Password
+                        <svg
+                          className="animate-spin h-5 w-5 text-white ml-2"
+                          xmlns="http://www.w3.org/2000/svg"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                        >
+                          <circle
+                            className="opacity-25"
+                            cx="12"
+                            cy="12"
+                            r="10"
+                            stroke="currentColor"
+                            strokeWidth="4"
+                          ></circle>
+                          <path
+                            className="opacity-75"
+                            fill="currentColor"
+                            d="M4 12a8 8 0 018-8v8H4z"
+                          ></path>
+                        </svg>
+                      </>
+                    ) : (
+                      'Change Password'
+                    )}
+                  </button>
                 </div>
               </form>
             </div>

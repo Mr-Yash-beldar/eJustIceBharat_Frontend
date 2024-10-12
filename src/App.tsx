@@ -9,7 +9,8 @@ import DashBoard from './Dashboard';
 import ForgotPassword from './pages/Authentication/ForgotPassword';
 import ResetPassword from './pages/Authentication/ResetPassword';
 import VerifyEmail from './pages/Authentication/VerifyEmail';
-
+import CompleteProfile from './pages/CompleteProfile';
+import DefaultLayout from './layout/DefaultLayout';
 
 function App() {
   const [loading, setLoading] = useState<boolean>(true);
@@ -56,18 +57,7 @@ function App() {
             </>
           }
         />
-
         <Route
-          path="/dashboard"
-          element={
-            <>
-              <PageTitle title="Dashboard | EjusticeBharat" />
-              <DashBoard />
-            </>
-          }
-        />
-
-          <Route
           path="/auth/ResetPassword"
           element={
             <>
@@ -75,9 +65,8 @@ function App() {
               <ResetPassword />
             </>
           }
-        />  
-
-          <Route
+        />
+        <Route
           path="/auth/VerifyEmail"
           element={
             <>
@@ -85,12 +74,41 @@ function App() {
               <VerifyEmail />
             </>
           }
-        />  
+        />
 
+        {/* Wrap only the necessary dashboard routes in DefaultLayout */}
+        <Route
+          path="/dashboard/*"
+          element={
+            <DefaultLayout>
+              <Routes>
+                {/* This will load the main dashboard */}
+                <Route
+                  path="dashboard"
+                  element={
+                    <>
+                      <PageTitle title="Dashboard | EjusticeBharat" />
+                      <DashBoard />
+                    </>
+                  }
+                />
+
+                {/* This will load the complete profile */}
+                <Route
+                  path="CompleteProfile"
+                  element={
+                    <>
+                      <PageTitle title="CompleteProfile | EjusticeBharat" />
+                      <CompleteProfile />
+                    </>
+                  }
+                />
+              </Routes>
+            </DefaultLayout>
+          }
+        />
       </Routes>
-
-      {/* Routes inside DefaultLayout */}
-         </>
+    </>
   );
 }
 
