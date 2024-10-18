@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import sign from '../../images/user/E-signature.png';
+import Aadhar from '../../images/user/AadharProof.png';
 import axiosInstance from '../../utils/axiosInstance';
 
 interface ESignatureUploadProps {
@@ -12,24 +13,29 @@ const FileUpload: React.FC<ESignatureUploadProps> = ({
   fileDoc,
   uploadFor,
   model,
-  
+
 }) => {
   const [file, setFile] = useState<File | null>(null);
   const [loading, setLoading] = useState(false);
   const [fileName, setFileName] = useState<string>('');
-  const [docName, setDocName]=useState<string>('');
+  const [docName, setDocName] = useState<string>('');
+  const [title, setTitle] = useState<string>('');
   const token = localStorage.getItem('token');
+  const demoProfile = "https://getillustrations.b-cdn.net//packs/purrity-illustrations/avatars/_1x/avatars%20and%20characters%20_%20uniform,%20suit,%20tie,%20blazer,%20formal,%20man,%20male,%20person,%20profile,%20avatar_demo.png";
 
-  const getDocument = (uplodedFile:string) => {
+  const getDocument = (uplodedFile: string) => {
     switch (uplodedFile) {
       case "profile":
         setDocName('profile_image');
+        setTitle('Profile Image');
         break;
       case "otherDocument":
         setDocName('other_document');
+        setTitle('E-signature');
         break;
       case "aadhar":
         setDocName('aadhar_document');
+        setTitle('Aadhar Proof');
         break;
       default:
         throw new Error("Invalid model type");
@@ -43,7 +49,7 @@ const FileUpload: React.FC<ESignatureUploadProps> = ({
       getDocument(uploadFor);
     }
   }, [uploadFor]);
- 
+
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFile = event.target.files?.[0]; // Optional chaining
     if (selectedFile) {
@@ -57,12 +63,12 @@ const FileUpload: React.FC<ESignatureUploadProps> = ({
 
   const handleUpload = async () => {
     if (!file) return;
-  
+
     setLoading(true);
-  
+
     const formData = new FormData();
     formData.append(docName, file);
-  
+
     if (token) {
       try {
         const response = await axiosInstance.put(
@@ -72,11 +78,11 @@ const FileUpload: React.FC<ESignatureUploadProps> = ({
             headers: { Authorization: `Bearer ${token}` },
           }
         );
-  
+
         if (response.status !== 200) { // Check if the response status is not 200 (OK)
           throw new Error('File upload failed');
         }
-  
+
         const result = response.data; // Get the data directly from the response
         alert(`File uploaded successfully: ${result.message}`);
         // Optionally handle the response further
@@ -97,36 +103,49 @@ const FileUpload: React.FC<ESignatureUploadProps> = ({
       setLoading(false);
     }
   };
-  
+
 
   return (
     <>
-    <div className="mb-5.5 flex items-center gap-3 mt-4">
-      {' '}
-      {/* Increase margin-top to mt-4 */}
-      <div className="h-14 w-14 rounded-full overflow-hidden mt-4">
-        {' '}
+      <div className="mb-5.5 flex items-center gap-3 mt-4">
+
         {/* Increase margin-top to mt-4 */}
-        <img src={sign} alt="User" className="object-cover h-full w-full" />
+        <div className="h-14 w-14 rounded-full overflow-hidden mt-4">
+
+          {/* Increase margin-top to mt-4 */}
+
+          {uploadFor === "otherDocument" || uploadFor === "aadhar" ? (
+            <img
+              src={uploadFor === "otherDocument" ? sign : Aadhar}
+              alt={title}
+              className="object-cover h-full w-full"
+            />
+          ) : (
+            <img
+              src={uploadFor === "profile" ? fileDoc : demoProfile}
+              alt={title}
+              className="object-cover h-full w-full"
+            />
+          )}
+
+        </div>
+        <div className="mt-4">
+          <h3 className="font-medium text-black dark:text-white">E-signature</h3>
+          <span className="flex gap-2.5 mt-1">
+            <button
+              className={`text-sm hover:text-primary ${loading ? 'opacity-50 cursor-not-allowed' : ''
+                }`}
+              onClick={handleUpload}
+              disabled={loading}
+            >
+              {loading ? 'Uploading...' : `Save ${title}`}
+            </button>
+          </span>
+        </div>
       </div>
-      <div className="mt-4">
-        <h3 className="font-medium text-black dark:text-white">E-signature</h3>
-        <span className="flex gap-2.5 mt-1">
-          <button
-            className={`text-sm hover:text-primary ${
-              loading ? 'opacity-50 cursor-not-allowed' : ''
-            }`}
-            onClick={handleUpload}
-            disabled={loading}
-          >
-            {loading ? 'Uploading...' : 'Save'}
-          </button>
-        </span>
-      </div>
-    </div>
 
       <div
-        id="ESignatureUpload"
+
         className="relative block w-full cursor-pointer appearance-none rounded border border-dashed border-primary bg-gray py-4 px-4 dark:bg-meta-4 sm:py-5"
       >
         <input
@@ -174,31 +193,31 @@ const FileUpload: React.FC<ESignatureUploadProps> = ({
           </span>
           {fileName && <span className="text-sm text-black">{fileName}</span>}
           {fileDoc ? (
-                        <>
-                          <span className="text-center text-sm text-primary">
-                            You Have Uploaded Your E-signature You can Update it
-                            Here
-                          </span>
-                          <span className="text-center text-sm text-primary">
-                            ?
-                          </span>
-                          <span className="text-center text-sm text-primary">
-                            Update
-                          </span>
-                        </>
-                      ) : (
-                        <>
-                          <span className="text-center text-sm text-primary">
-                            Drag and drop your E-signature here
-                          </span>
-                          <span className="text-center text-sm text-primary">
-                            or
-                          </span>
-                          <span className="text-center text-sm text-primary">
-                            Browse
-                          </span>
-                        </>
-                      )}
+            <>
+              <span className="text-center text-sm text-primary">
+                You Have Uploaded Your {title} You can Update it
+                Here
+              </span>
+              <span className="text-center text-sm text-primary">
+                ?
+              </span>
+              <span className="text-center text-sm text-primary">
+                Update {title}
+              </span>
+            </>
+          ) : (
+            <>
+              <span className="text-center text-sm text-primary">
+                Drag and drop your {title} here
+              </span>
+              <span className="text-center text-sm text-primary">
+                or
+              </span>
+              <span className="text-center text-sm text-primary">
+                Browse
+              </span>
+            </>
+          )}
         </div>
       </div>
     </>
