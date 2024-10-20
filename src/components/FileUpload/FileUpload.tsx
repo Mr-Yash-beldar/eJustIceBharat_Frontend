@@ -33,7 +33,7 @@ const FileUpload: React.FC<ESignatureUploadProps> = ({
         setDocName('other_document');
         setTitle('E-signature');
         break;
-      case "aadhar":
+      case "aadhaar":
         setDocName('aadhar_document');
         setTitle('Aadhar Proof');
         break;
@@ -114,7 +114,7 @@ const FileUpload: React.FC<ESignatureUploadProps> = ({
 
           {/* Increase margin-top to mt-4 */}
 
-          {uploadFor === "otherDocument" || uploadFor === "aadhar" ? (
+          {uploadFor === "otherDocument" || uploadFor === "aadhaar" ? (
             <img
               src={uploadFor === "otherDocument" ? sign : Aadhar}
               alt={title}
