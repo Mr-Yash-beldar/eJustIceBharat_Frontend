@@ -11,6 +11,7 @@ import ResetPassword from './pages/Authentication/ResetPassword';
 import VerifyEmail from './pages/Authentication/VerifyEmail';
 import CompleteProfile from './pages/CompleteProfile';
 import DefaultLayout from './layout/DefaultLayout';
+import AdvocateList from './pages/FindAdvocate/AdvocateList';
 
 function App() {
   const [loading, setLoading] = useState<boolean>(true);
@@ -100,6 +101,15 @@ function App() {
                     <>
                       <PageTitle title="CompleteProfile | EjusticeBharat" />
                       <CompleteProfile />
+                    </>
+                  }
+                />
+                <Route
+                  path="/FindAdvocates"
+                  element={
+                    <>
+                      <PageTitle title="FindAdvocates | EJusticeBharat" />
+                      <AdvocateList />
                     </>
                   }
                 />
