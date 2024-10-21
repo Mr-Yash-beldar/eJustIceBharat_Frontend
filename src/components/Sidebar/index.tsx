@@ -17,7 +17,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
 
   const storedSidebarExpanded = localStorage.getItem('sidebar-expanded');
   const [sidebarExpanded, setSidebarExpanded] = useState(
-    storedSidebarExpanded === null ? false : storedSidebarExpanded === 'true'
+    storedSidebarExpanded === null ? false : storedSidebarExpanded === 'true',
   );
 
   // close on click outside
@@ -365,39 +365,37 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
               {/* <!-- Menu Item Tables --> */}
               <li>
                 <NavLink
-                  to="/tables"
+                  to="/dashboard/FindAdvocates"
                   className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${
-                    pathname.includes('tables') && 'bg-graydark dark:bg-meta-4'
+                    pathname.includes('/dashboard/FindAdvocates') &&
+                    'bg-graydark dark:bg-meta-4'
                   }`}
                 >
                   <svg
                     className="fill-current"
-                    width="18"
-                    height="19"
-                    viewBox="0 0 18 19"
+                    width="20"
+                    height="20"
+                    viewBox="0 0 24 24"
                     fill="none"
                     xmlns="http://www.w3.org/2000/svg"
                   >
-                    <g clipPath="url(#clip0_130_9756)">
-                      <path
-                        d="M15.7501 0.55835H2.2501C1.29385 0.55835 0.506348 1.34585 0.506348 2.3021V15.8021C0.506348 16.7584 1.29385 17.574 2.27822 17.574H15.7782C16.7345 17.574 17.5501 16.7865 17.5501 15.8021V2.3021C17.522 1.34585 16.7063 0.55835 15.7501 0.55835ZM6.69385 10.599V6.4646H11.3063V10.5709H6.69385V10.599ZM11.3063 11.8646V16.3083H6.69385V11.8646H11.3063ZM1.77197 6.4646H5.45635V10.5709H1.77197V6.4646ZM12.572 6.4646H16.2563V10.5709H12.572V6.4646ZM2.2501 1.82397H15.7501C16.0313 1.82397 16.2563 2.04897 16.2563 2.33022V5.2271H1.77197V2.3021C1.77197 2.02085 1.96885 1.82397 2.2501 1.82397ZM1.77197 15.8021V11.8646H5.45635V16.3083H2.2501C1.96885 16.3083 1.77197 16.0834 1.77197 15.8021ZM15.7501 16.3083H12.572V11.8646H16.2563V15.8021C16.2563 16.0834 16.0313 16.3083 15.7501 16.3083Z"
-                        fill=""
-                      />
-                    </g>
-                    <defs>
-                      <clipPath id="clip0_130_9756">
-                        <rect
-                          width="18"
-                          height="18"
-                          fill="white"
-                          transform="translate(0 0.052124)"
-                        />
-                      </clipPath>
-                    </defs>
+                    <path
+                      d="M20.707 13.293a1 1 0 00-1.414 0l-5.086 5.086-1.414-1.414 5.086-5.086a1 1 0 10-1.414-1.414l-5.086 5.086-4.243-4.243 5.086-5.086a1 1 0 10-1.414-1.414L7.414 9.414 6 8 10.586 3.414a2 2 0 112.828 2.828L11.414 8l4.586 4.586a2 2 0 112.828 2.828l-2.121 2.121a1 1 0 001.414 1.414l2.121-2.121a2 2 0 000-2.828z"
+                      fill="currentColor"
+                    />
+                    <rect
+                      width="20"
+                      height="2"
+                      x="2"
+                      y="20"
+                      rx="1"
+                      fill="currentColor"
+                    />
                   </svg>
-                  Tables
+                  Find Advocates
                 </NavLink>
               </li>
+
               {/* <!-- Menu Item Tables --> */}
 
               {/* <!-- Menu Item Settings --> */}
@@ -410,22 +408,22 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                   }`}
                 >
                   <svg
-                  className="fill-current"
-                  width="22"
-                  height="22"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M12 2C9.243 2 7 4.243 7 7C7 9.757 9.243 12 12 12C14.757 12 17 9.757 17 7C17 4.243 14.757 2 12 2ZM12 10C10.346 10 9 8.654 9 7C9 5.346 10.346 4 12 4C13.654 4 15 5.346 15 7C15 8.654 13.654 10 12 10Z"
-                    fill=""
-                  />
-                  <path
-                    d="M12 14C9.34784 14 6.8043 15.0536 5 16.8787V19C5 19.5523 5.44772 20 6 20H18C18.5523 20 19 19.5523 19 19V16.8787C17.1957 15.0536 14.6522 14 12 14ZM7 18V17.3639C8.47121 16.0334 10.1981 15.3333 12 15.3333C13.8019 15.3333 15.5288 16.0334 17 17.3639V18H7Z"
-                    fill=""
-                  />
-                </svg>
+                    className="fill-current"
+                    width="22"
+                    height="22"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M12 2C9.243 2 7 4.243 7 7C7 9.757 9.243 12 12 12C14.757 12 17 9.757 17 7C17 4.243 14.757 2 12 2ZM12 10C10.346 10 9 8.654 9 7C9 5.346 10.346 4 12 4C13.654 4 15 5.346 15 7C15 8.654 13.654 10 12 10Z"
+                      fill=""
+                    />
+                    <path
+                      d="M12 14C9.34784 14 6.8043 15.0536 5 16.8787V19C5 19.5523 5.44772 20 6 20H18C18.5523 20 19 19.5523 19 19V16.8787C17.1957 15.0536 14.6522 14 12 14ZM7 18V17.3639C8.47121 16.0334 10.1981 15.3333 12 15.3333C13.8019 15.3333 15.5288 16.0334 17 17.3639V18H7Z"
+                      fill=""
+                    />
+                  </svg>
                   Complete Profile
                 </NavLink>
               </li>
