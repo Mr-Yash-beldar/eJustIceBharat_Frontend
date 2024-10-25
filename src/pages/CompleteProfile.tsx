@@ -50,7 +50,7 @@ const CompleteProfile: React.FC = () => {
         Language: formData.litigant_lang,
         pinCode: formData.litigant_pinCode,
         latitude: lat,
-        longitude: long
+        longitude: long,
       };
 
       console.log('Saved data', data); // make data object and print it overhere
@@ -314,6 +314,21 @@ const CompleteProfile: React.FC = () => {
                     <button
                       className="flex justify-center rounded border border-stroke py-2 px-6 font-medium text-black hover:shadow-1 dark:border-strokedark dark:text-white"
                       type="reset"
+                      onClick={() => {
+                        setFormData({
+                          litigant_name: '',
+                          litigant_email: '',
+                          litigant_state: '',
+                          litigant_district: '',
+                          litigant_gender: '',
+                          litigant_dob: '',
+                          litigant_mob: '',
+                          litigant_lang: '',
+                          litigant_pinCode: '',
+                          litigant_lat: '', // Initialize with empty string; you may update later with location
+                          litigant_long: '',
+                        });
+                      }}
                       disabled={loading} // Disable if loading
                     >
                       Cancel
