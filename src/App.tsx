@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Route, Routes, useLocation } from 'react-router-dom';
+import {  Route, Routes, useLocation } from 'react-router-dom';
 
 import Loader from './common/Loader';
 import PageTitle from './components/PageTitle';
@@ -14,10 +14,15 @@ import DefaultLayout from './layout/DefaultLayout';
 import AdvocateList from './pages/FindAdvocate/AdvocateList';
 import AddCase from './pages/Cases/AddCase';
 import ViewCaseTable from './pages/Cases/ViewCases';
+import ProtectedRoute from './components/ProtectedRoute';
+import { AuthProvider } from './context/AuthProvider';
 
 function App() {
   const [loading, setLoading] = useState<boolean>(true);
   const { pathname } = useLocation();
+  
+
+
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -30,6 +35,7 @@ function App() {
   return loading ? (
     <Loader />
   ) : (
+    <AuthProvider>
     <>
       {/* Routes outside of DefaultLayout */}
       <Routes>
@@ -70,25 +76,29 @@ function App() {
           }
         />
         <Route
-          path="/auth/VerifyEmail"
+          path="/auth/verifyemail/:id"
           element={
-            <>
+            <>  
               <PageTitle title="VerifyEmail | EjusticeBharat" />
               <VerifyEmail />
             </>
           }
         />
-
+    
         {/* Wrap only the necessary dashboard routes in DefaultLayout */}
+       
         <Route
           path="/dashboard/*"
           element={
+            <ProtectedRoute>
             <DefaultLayout>
+                
               <Routes>
                 {/* This will load the main dashboard */}
                 <Route
                   path="dashboard"
                   element={
+                  
                     <>
                       <PageTitle title="Dashboard | EjusticeBharat" />
                       <DashBoard />
@@ -97,15 +107,18 @@ function App() {
                 />
 
                 {/* This will load the complete profile */}
+               
                 <Route
                   path="CompleteProfile"
                   element={
+                    
                     <>
                       <PageTitle title="CompleteProfile | EjusticeBharat" />
                       <CompleteProfile />
                     </>
                   }
-                />
+                  />
+                 
                 <Route
                   path="/FindAdvocates"
                   element={
@@ -136,11 +149,14 @@ function App() {
                   }
                 />
               </Routes>
+           
             </DefaultLayout>
+            </ProtectedRoute>
           }
         />
       </Routes>
     </>
+    </AuthProvider>
   );
 }
 
