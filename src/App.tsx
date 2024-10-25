@@ -12,6 +12,7 @@ import VerifyEmail from './pages/Authentication/VerifyEmail';
 import CompleteProfile from './pages/CompleteProfile';
 import DefaultLayout from './layout/DefaultLayout';
 import AdvocateList from './pages/FindAdvocate/AdvocateList';
+import AddCase from './pages/AddCase';
 
 function App() {
   const [loading, setLoading] = useState<boolean>(true);
@@ -110,6 +111,16 @@ function App() {
                     <>
                       <PageTitle title="FindAdvocates | EJusticeBharat" />
                       <AdvocateList />
+                    </>
+                  }
+                />
+
+                <Route
+                  path="/addCase"
+                  element={
+                    <>
+                      <PageTitle title="AddCase | EJusticeBharat" />
+                      <AddCase />
                     </>
                   }
                 />
