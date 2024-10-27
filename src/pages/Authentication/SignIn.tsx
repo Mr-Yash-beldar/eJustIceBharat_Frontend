@@ -3,11 +3,13 @@ import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import LogoDark from '../../images/logo/logo_light.png';
 import Logo from '../../images/logo/logo_dark.png';
+import axiosInstance from '../../utils/axiosInstance';
+import axios from 'axios';
 
 const SignIn: React.FC = () => {
   const [formData, setFormData] = useState({
-    email: '',
-    password: '',
+    litigant_email: '',
+    litigant_password: '',
   });
 
   const inputChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -21,28 +23,55 @@ const SignIn: React.FC = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
 
-  const handleSubmit = (event: React.FormEvent) => {
+  const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     setLoading(true); // Enable loading
 
-    // Simulate an asynchronous operation (e.g., API call) with setTimeout
-    setTimeout(() => {
-      const data = {
-        email: formData.email,
-        password: formData.password,
-      };
+    try {
+      const response = await axiosInstance.post(
+        '/litigants/authenticate',
+        formData,
+      );
+      const { token } = response.data; // Adjust based on your API response
 
-      // Log the form data
-      console.log('Saved data:', data);
+      // Store token in local storage if verified and redirect to dashboard
+      localStorage.setItem('token', token);
+      navigate('/dashboard');
 
-      // Disable loading after 2 seconds
-      setLoading(false);
+    } catch (error: unknown) {
+      if (axios.isAxiosError(error) && error.response) {
+        // Handle AxiosError with specific status
+        if (error.response.status === 409) {
+          // User already exists
+          alert(error.response.data.message); // Show alert with the error message
+          const id = error.response.data.id;
 
-      // Redirect to the dashboard after form submission
-      navigate('/dashboard'); // Replace "/dashboard" with the actual dashboard route
-    }, 2000);
+          // Try sending OTP and redirect to Verify Email
+          const otpResponse = await axiosInstance.get(
+            `/email/sendOtp?id=${id}`,
+          );
+          if (otpResponse.status === 200) {
+            console.log(id);
+            navigate(`/auth/VerifyEmail/${id}`);
+          } else {
+            alert(otpResponse.data.error);
+          }
+        }
+        else if(error.response.status === 401){
+          // Unauthorized
+          alert('Invalid email or password. Please try again.');
+        } else {
+          // Handle other HTTP errors
+          alert('An error occurred. Please try again later.');
+        }
+      } else {
+        // Handle unknown or non-Axios errors
+        alert('An unexpected error occurred.');
+      }
+    } finally {
+      setLoading(false); // Disable loading
+    }
   };
-
   return (
     <>
       <div className="mb-13 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between"></div>
@@ -195,11 +224,11 @@ const SignIn: React.FC = () => {
                   <div className="relative">
                     <input
                       type="email"
-                      name="email"
+                      name="litigant_email"
                       placeholder="Enter your email"
                       className="w-full rounded-lg border border-stroke bg-transparent py-4 pl-6 pr-10 text-black outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
                       onChange={inputChangeHandler}
-                      value={formData.email}
+                      value={formData.litigant_email}
                     />
 
                     <span className="absolute right-4 top-4">
@@ -229,11 +258,11 @@ const SignIn: React.FC = () => {
                   <div className="relative">
                     <input
                       type="password"
-                      name="password"
+                      name="litigant_password"
                       placeholder="Enter your password"
                       className="w-full rounded-lg border border-stroke bg-transparent py-4 pl-6 pr-10 text-black outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
                       onChange={inputChangeHandler}
-                      value={formData.password}
+                      value={formData.litigant_password}
                     />
 
                     <span className="absolute right-4 top-4">
