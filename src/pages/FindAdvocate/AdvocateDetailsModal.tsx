@@ -1,4 +1,6 @@
-import React from 'react';
+// AdvocateDetailsModal.tsx
+import React, { useState } from 'react';
+import SendRequest from './CaseList';
 
 interface AdvocateProps {
   advocate: {
@@ -24,23 +26,27 @@ const AdvocateDetailsModal: React.FC<AdvocateProps> = ({
   advocate,
   onClose,
 }) => {
+  const [showSendRequest, setShowSendRequest] = useState(false);
+
   return (
-    <div className="fixed inset-0 flex justify-center items-center bg-black bg-opacity-50 z-50">
+    <div
+      className="fixed inset-0 flex justify-center items-start bg-black bg-opacity-50 z-50"
+      style={{ paddingTop: '100px' }} // Shifts modal further down
+    >
       <div
-        className="rounded-2xl shadow-2xl w-full max-w-2xl p-8 relative"
+        className="rounded-2xl shadow-2xl w-full max-w-3xl p-8 relative"
         style={{
           backgroundColor: '#e0f7fa',
-          height: '600px',
-          marginTop: '40px',
-          marginLeft: '20px',
+          maxHeight: '85vh', // Adjusted height
+          overflowY: 'auto',
         }}
       >
-        <div className="flex justify-between items-start mb-4">
-          <h2 className="text-3xl font-semibold text-gray-800">
+        <div className="flex justify-center items-start mb-4">
+          <h2 className="text-3xl font-semibold text-gray-800 text-center">
             {advocate.name}
           </h2>
           <button
-            className="text-gray-400 hover:text-gray-900 text-2xl transition-colors duration-200"
+            className="absolute top-4 right-4 text-gray-400 hover:text-gray-900 text-2xl transition-colors duration-200"
             onClick={onClose}
           >
             &times;
@@ -110,9 +116,13 @@ const AdvocateDetailsModal: React.FC<AdvocateProps> = ({
           </div>
         </div>
 
-        <div className="text-center mt-4">
-          {' '}
-          {/* Reduced margin for the button */}
+        <div className="flex justify-end mt-4 space-x-4">
+          <button
+            onClick={() => setShowSendRequest(true)}
+            className="px-6 py-3 bg-green-600 text-white font-semibold rounded-lg shadow-lg hover:bg-green-700 transition-colors duration-300"
+          >
+            Send Request
+          </button>
           <button
             onClick={onClose}
             className="px-6 py-3 bg-blue-600 text-white font-semibold rounded-lg shadow-lg hover:bg-blue-700 transition-colors duration-300"
@@ -120,6 +130,8 @@ const AdvocateDetailsModal: React.FC<AdvocateProps> = ({
             Close
           </button>
         </div>
+
+        {showSendRequest && <SendRequest advocateName={advocate.name} />}
       </div>
     </div>
   );

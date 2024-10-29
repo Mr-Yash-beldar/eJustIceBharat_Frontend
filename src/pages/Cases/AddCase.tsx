@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import Breadcrumb from '../components/Breadcrumbs/Breadcrumb';
+import Breadcrumb from '../../components/Breadcrumbs/Breadcrumb';
 import { useNavigate } from 'react-router-dom';
 
 const AddCase: React.FC = () => {
@@ -62,7 +62,7 @@ const AddCase: React.FC = () => {
 
       console.log('Saved data', data);
       setLoading(false);
-      navigate('/dashboard/CompleteProfile');
+      navigate('/dashboard/viewCase');
     }, 2000);
   };
 
@@ -208,93 +208,6 @@ const AddCase: React.FC = () => {
                         <option value="Medium">Medium</option>
                         <option value="High">High</option>
                       </select>
-                    </div>
-
-                    {/* Plaintiff Section */}
-                    <div className="col-span-2">
-                      <h3 className="font-semibold text-lg">
-                        Plaintiff Information
-                      </h3>
-                    </div>
-
-                    {/* Plaintiff Name */}
-                    <div>
-                      <label
-                        className="mb-3 block text-sm font-medium text-black dark:text-white"
-                        htmlFor="plaintiffName"
-                      >
-                        Plaintiff Name
-                      </label>
-                      <input
-                        className="w-full rounded border border-stroke bg-gray py-3 px-4 text-black"
-                        type="text"
-                        name="plaintiffName"
-                        id="plaintiffName"
-                        placeholder="Enter Plaintiff Full Name"
-                        onChange={inputChangeHandler}
-                        value={formData.plaintiffName}
-                        required
-                      />
-                    </div>
-
-                    {/* Plaintiff Email */}
-                    <div>
-                      <label
-                        className="mb-3 block text-sm font-medium text-black dark:text-white"
-                        htmlFor="plaintiffEmail"
-                      >
-                        Plaintiff Email
-                      </label>
-                      <input
-                        className="w-full rounded border border-stroke bg-gray py-3 px-4 text-black"
-                        type="email"
-                        name="plaintiffContactEmail"
-                        id="plaintiffEmail"
-                        placeholder="Enter Plaintiff Email"
-                        onChange={inputChangeHandler}
-                        value={formData.plaintiffContactEmail}
-                        required
-                      />
-                    </div>
-
-                    {/* Plaintiff Contact Number */}
-                    <div>
-                      <label
-                        className="mb-3 block text-sm font-medium text-black dark:text-white"
-                        htmlFor="plaintiffPhone"
-                      >
-                        Plaintiff Contact Number
-                      </label>
-                      <input
-                        className="w-full rounded border border-stroke bg-gray py-3 px-4 text-black"
-                        type="text"
-                        name="plaintiffContactPhone"
-                        id="plaintiffPhone"
-                        placeholder="Enter Plaintiff Phone"
-                        onChange={inputChangeHandler}
-                        value={formData.plaintiffContactPhone}
-                        required
-                      />
-                    </div>
-
-                    {/* Plaintiff Address */}
-                    <div>
-                      <label
-                        className="mb-3 block text-sm font-medium text-black dark:text-white"
-                        htmlFor="plaintiffAddress"
-                      >
-                        Plaintiff Address
-                      </label>
-                      <input
-                        className="w-full rounded border border-stroke bg-gray py-3 px-4 text-black"
-                        type="text"
-                        name="plaintiffAddress"
-                        id="plaintiffAddress"
-                        placeholder="Enter Plaintiff Address"
-                        onChange={inputChangeHandler}
-                        value={formData.plaintiffAddress}
-                        required
-                      />
                     </div>
 
                     {/* Defendant Section */}
