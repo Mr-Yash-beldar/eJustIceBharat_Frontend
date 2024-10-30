@@ -14,6 +14,8 @@ import DefaultLayout from './layout/DefaultLayout';
 import AdvocateList from './pages/FindAdvocate/AdvocateList';
 import AddCase from './pages/Cases/AddCase';
 import ViewCaseTable from './pages/Cases/ViewCases';
+import ViewCasesAdv from './pages/Cases/ViewCasesAdv';
+import AdvocateDefaultLayout from './layout/AdvocateDefaultLayout';
 
 function App() {
   const [loading, setLoading] = useState<boolean>(true);
@@ -22,6 +24,8 @@ function App() {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [pathname]);
+
+  
 
   useEffect(() => {
     setTimeout(() => setLoading(false), 1000);
@@ -139,8 +143,85 @@ function App() {
             </DefaultLayout>
           }
         />
+
+
+
+
+   {/* for advocate */}
+   <Route
+          path="/advocate-dashboard/*"
+          element={
+            <AdvocateDefaultLayout>
+              <Routes>
+                {/* This will load the main advocate dashboard */}
+                <Route
+                  path="dashboard"
+                  element={
+                    <>
+                      <PageTitle title="Dashboard | EjusticeBharat" />
+                      <DashBoard />
+                    </>
+                  }
+                />
+
+                {/* This will load the complete profile */}
+                <Route
+                  path="CompleteProfile"
+                  element={
+                    <>
+                      <PageTitle title="CompleteProfile | EjusticeBharat" />
+                      <CompleteProfile />
+                    </>
+                  }
+                />
+                <Route
+                  path="/viewAdvocates"
+                  element={
+                    <>
+                      <PageTitle title="viewAdvocates | EJusticeBharat" />
+                      <AdvocateList />
+                    </>
+                  }
+                />
+
+                <Route
+                  path="/addCase"
+                  element={
+                    <>
+                      <PageTitle title="AddCase | EJusticeBharat" />
+                      <AddCase />
+                    </>
+                  }
+                />
+
+                <Route
+                  path="/viewCase"
+                  element={
+                    <>
+                      <PageTitle title="ViewCases | EJusticeBharat" />
+                      <ViewCaseTable />
+                    </>
+                  }
+                />
+
+                <Route
+                  path="/viewRequests"
+                  element={
+                    <>
+                      <PageTitle title="ViewRequests | EJusticeBharat" />
+                      <ViewCasesAdv />
+                    </>
+                  }
+                />
+              </Routes>
+            </AdvocateDefaultLayout>
+          }
+        />
+
+
       </Routes>
     </>
+
   );
 }
 

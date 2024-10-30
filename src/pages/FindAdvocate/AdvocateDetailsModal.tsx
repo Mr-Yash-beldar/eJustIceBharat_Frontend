@@ -1,5 +1,5 @@
-// AdvocateDetailsModal.tsx
 import React, { useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import SendRequest from './CaseList';
 
 interface AdvocateProps {
@@ -27,6 +27,10 @@ const AdvocateDetailsModal: React.FC<AdvocateProps> = ({
   onClose,
 }) => {
   const [showSendRequest, setShowSendRequest] = useState(false);
+  const location = useLocation();
+
+  // Check if the current path matches the advocate viewing page
+  const isViewingAdvocate = location.pathname === '/advocate-dashboard/viewAdvocates';
 
   return (
     <div
@@ -117,12 +121,14 @@ const AdvocateDetailsModal: React.FC<AdvocateProps> = ({
         </div>
 
         <div className="flex justify-end mt-4 space-x-4">
-          <button
-            onClick={() => setShowSendRequest(true)}
-            className="px-6 py-3 bg-green-600 text-white font-semibold rounded-lg shadow-lg hover:bg-green-700 transition-colors duration-300"
-          >
-            Send Request
-          </button>
+          {!isViewingAdvocate && (
+            <button
+              onClick={() => setShowSendRequest(true)}
+              className="px-6 py-3 bg-green-600 text-white font-semibold rounded-lg shadow-lg hover:bg-green-700 transition-colors duration-300"
+            >
+              Send Request
+            </button>
+          )}
           <button
             onClick={onClose}
             className="px-6 py-3 bg-blue-600 text-white font-semibold rounded-lg shadow-lg hover:bg-blue-700 transition-colors duration-300"
