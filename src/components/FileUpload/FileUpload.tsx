@@ -130,7 +130,7 @@ const FileUpload: React.FC<ESignatureUploadProps> = ({
 
         </div>
         <div className="mt-4">
-          <h3 className="font-medium text-black dark:text-white">E-signature</h3>
+          <h3 className="font-medium text-black dark:text-white">{title}</h3>
           <span className="flex gap-2.5 mt-1">
             <button
               className={`text-sm hover:text-primary ${loading ? 'opacity-50 cursor-not-allowed' : ''
