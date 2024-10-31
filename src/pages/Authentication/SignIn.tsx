@@ -8,6 +8,7 @@ const SignIn: React.FC = () => {
   const [formData, setFormData] = useState({
     email: '',
     password: '',
+    role: 'advocate', // default role
   });
 
   const inputChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -30,6 +31,7 @@ const SignIn: React.FC = () => {
       const data = {
         email: formData.email,
         password: formData.password,
+        role: formData.role, // include role in the submitted data
       };
 
       // Log the form data
@@ -39,7 +41,11 @@ const SignIn: React.FC = () => {
       setLoading(false);
 
       // Redirect to the dashboard after form submission
-      navigate('/dashboard'); // Replace "/dashboard" with the actual dashboard route
+      if (data.role === 'advocate') {
+        navigate('/adv_dashboard');
+      } else {
+        navigate('/dashboard');
+      }
     }, 2000);
   };
 
@@ -184,10 +190,39 @@ const SignIn: React.FC = () => {
           <div className="w-full border-stroke dark:border-strokedark xl:w-1/2 xl:border-l-2">
             <div className="w-full p-4 sm:p-12.5 xl:p-17.5">
               <h2 className="mb-9 text-2xl font-bold text-black dark:text-white sm:text-title-xl2">
-                Sign In as Litigant
+                Sign In
               </h2>
 
               <form onSubmit={handleSubmit}>
+                <div className="mb-4">
+                  <label className="mb-2.5 block font-medium text-black dark:text-white">
+                    Role
+                  </label>
+                  <div className="flex gap-4">
+                    <label className="flex items-center">
+                      <input
+                        type="radio"
+                        name="role"
+                        value="advocate"
+                        checked={formData.role === 'advocate'}
+                        onChange={inputChangeHandler}
+                        className="mr-2"
+                      />
+                      Advocate
+                    </label>
+                    <label className="flex items-center">
+                      <input
+                        type="radio"
+                        name="role"
+                        value="litigant"
+                        checked={formData.role === 'litigant'}
+                        onChange={inputChangeHandler}
+                        className="mr-2"
+                      />
+                      Litigant
+                    </label>
+                  </div>
+                </div>
                 <div className="mb-4">
                   <label className="mb-2.5 block font-medium text-black dark:text-white">
                     Email
