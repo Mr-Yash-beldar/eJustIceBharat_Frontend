@@ -30,7 +30,8 @@ const AdvocateDetailsModal: React.FC<AdvocateProps> = ({
   const location = useLocation();
 
   // Check if the current path matches the advocate viewing page
-  const isViewingAdvocate = location.pathname === '/advocate-dashboard/viewAdvocates';
+  const isViewingAdvocate =
+    location.pathname === '/adv_dashboard/viewAdvocates';
 
   return (
     <div

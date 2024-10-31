@@ -6,9 +6,10 @@ import Logo from '../../images/logo/logo_dark.png';
 interface SidebarProps {
   sidebarOpen: boolean;
   setSidebarOpen: (arg: boolean) => void;
+  isAdvocate?: boolean; // Define isAdvocate as optional
 }
 
-const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
+const Sidebar = ({ sidebarOpen, setSidebarOpen, isAdvocate }: SidebarProps) => {
   const location = useLocation();
   const { pathname } = location;
 
@@ -157,11 +158,36 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                 }}
               </SidebarLinkGroup>
 
+              {/* Advocate specific */}
+              {isAdvocate && (
+                <li>
+                  <NavLink
+                    to="/adv_dashboard/viewRequests"
+                    className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${
+                      pathname.includes('viewRequests') &&
+                      'bg-graydark dark:bg-meta-4'
+                    }`}
+                  >
+                    <svg
+                      viewBox="0 0 24 24"
+                      fill="currentColor"
+                      height="1em"
+                      width="1em"
+                    >
+                      <path d="M20 2H4c-1.103 0-2 .897-2 2v18l4-4h14c1.103 0 2-.897 2-2V4c0-1.103-.897-2-2-2zm-3 9h-4v4h-2v-4H7V9h4V5h2v4h4v2z" />
+                    </svg>
+                    View Requests
+                  </NavLink>
+                </li>
+              )}
+
               {/* <!-- Menu Item AddCase --> */}
 
               <li>
                 <NavLink
-                  to="/dashboard/addCase"
+                  to={
+                    isAdvocate ? '/adv_dashboard/addCase' : '/dashboard/addCase'
+                  }
                   className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${
                     pathname.includes('profile') && 'bg-graydark dark:bg-meta-4'
                   }`}
@@ -186,7 +212,11 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
               {/* <!-- Menu Item viewCase --> */}
               <li>
                 <NavLink
-                  to="/dashboard/viewCase"
+                  to={
+                    isAdvocate
+                      ? '/adv_dashboard/viewCase'
+                      : '/dashboard/viewCase'
+                  }
                   className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${
                     pathname.includes('profile') && 'bg-graydark dark:bg-meta-4'
                   }`}
@@ -211,7 +241,11 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
               {/* <!-- Menu Item FindAdvocate --> */}
               <li>
                 <NavLink
-                  to="/dashboard/FindAdvocates"
+                  to={
+                    isAdvocate
+                      ? '/adv_dashboard/viewAdvocates'
+                      : '/dashboard/FindAdvocates'
+                  }
                   className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${
                     pathname.includes('/dashboard/FindAdvocates') &&
                     'bg-graydark dark:bg-meta-4'
@@ -245,7 +279,11 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
               {/* <!-- Menu Item CompleteProfile --> */}
               <li>
                 <NavLink
-                  to="/dashboard/CompleteProfile"
+                  to={
+                    isAdvocate
+                      ? '/adv_dashboard/CompleteProfile'
+                      : '/dashboard/CompleteProfile'
+                  }
                   className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${
                     pathname.includes('settings') &&
                     'bg-graydark dark:bg-meta-4'
@@ -271,7 +309,6 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                   Complete Profile
                 </NavLink>
               </li>
-              {/* <!-- Menu Item Settings --> */}
             </ul>
           </div>
 
