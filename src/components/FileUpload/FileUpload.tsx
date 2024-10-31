@@ -1,19 +1,23 @@
 import React, { useState } from 'react';
 import sign from '../../images/user/E-signature.png';
-
+import axiosInstance from '../../utils/axiosInstance';
 
 interface ESignatureUploadProps {
   otherDocument?: string;
-  file?: File;
+  uploadFor?: string;
+  model: string;
 }
 
 const ESignatureUpload: React.FC<ESignatureUploadProps> = ({
   otherDocument,
+  uploadFor,
+  model,
   
 }) => {
   const [file, setFile] = useState<File | null>(null);
   const [loading, setLoading] = useState(false);
   const [fileName, setFileName] = useState<string>('');
+  const token = localStorage.getItem('token');
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFile = event.target.files?.[0]; // Optional chaining
@@ -28,38 +32,47 @@ const ESignatureUpload: React.FC<ESignatureUploadProps> = ({
 
   const handleUpload = async () => {
     if (!file) return;
-
+  
     setLoading(true);
-
+  
     const formData = new FormData();
     formData.append('other_document', file);
-
-    try {
-      const response = await fetch('litigant/upload/${profile}', {
-        method: 'POST',
-        body: formData,
-      });
-
-      if (!response.ok) {
-        throw new Error('File upload failed');
+  
+    if (token) {
+      try {
+        const response = await axiosInstance.put(
+          `/files/upload/${model}/${uploadFor}`,
+          formData,
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          }
+        );
+  
+        if (response.status !== 200) { // Check if the response status is not 200 (OK)
+          throw new Error('File upload failed');
+        }
+  
+        const result = response.data; // Get the data directly from the response
+        alert(`File uploaded successfully: ${result.message}`);
+        // Optionally handle the response further
+      } catch (error: unknown) {
+        // Type assertion for error
+        if (error instanceof Error) {
+          alert(`Error: ${error.message}`);
+        } else {
+          alert('An unknown error occurred');
+        }
+      } finally {
+        setLoading(false);
+        setFile(null); // Reset the file after upload if needed
+        setFileName('');
       }
-
-      const result = await response.json();
-      alert(`File uploaded successfully: ${result.message}`);
-      // Optionally handle the response further
-    } catch (error: unknown) {
-      // Type assertion for error
-      if (error instanceof Error) {
-        alert(`Error: ${error.message}`);
-      } else {
-        alert('An unknown error occurred');
-      }
-    } finally {
+    } else {
+      alert('No token found');
       setLoading(false);
-      setFile(null); // Reset the file after upload if needed
-      setFileName('');
     }
   };
+  
 
   return (
     <>

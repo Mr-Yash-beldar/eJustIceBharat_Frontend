@@ -728,13 +728,8 @@ const CompleteProfile: React.FC = () => {
                 </div>
 
                   {/* E-signature Upload Section */}
-                  <ESignatureUpload otherDocument={LitigantDetails.other_document}/>
-                  
-              
-                
-                 
-              
-                 
+                  <ESignatureUpload otherDocument={LitigantDetails.other_document} uploadFor={"otherDocument"} model={"litigant"}/>
+                    
               </div>
             </div>
           </div>
