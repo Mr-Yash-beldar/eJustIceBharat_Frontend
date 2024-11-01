@@ -38,8 +38,7 @@ const SignIn: React.FC = () => {
       // Store token in local storage if verified and redirect to dashboard
       localStorage.setItem('token', token);
       setIsAuthenticated(true);
-      navigate('/dashboard');
-
+      navigate('/dashboard/CompleteProfile');
     } catch (error: unknown) {
       if (axios.isAxiosError(error) && error.response) {
         // Handle AxiosError with specific status
@@ -58,8 +57,7 @@ const SignIn: React.FC = () => {
           } else {
             alert(otpResponse.data.error);
           }
-        }
-        else if(error.response.status === 401){
+        } else if (error.response.status === 401) {
           // Unauthorized
           alert('Invalid email or password. Please try again.');
         } else {
