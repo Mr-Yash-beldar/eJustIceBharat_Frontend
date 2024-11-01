@@ -16,6 +16,9 @@ import AddCase from './pages/Cases/AddCase';
 import ViewCaseTable from './pages/Cases/ViewCases';
 import ProtectedRoute from './components/ProtectedRoute';
 import ProfileCompletionRoute from './components/ProfileCompletionRoute';
+import AdvocateFeedbackPage from './pages/FeedbackAdvocate/AdvocateFeedbackPage';
+import PreTrialConferencingPage from './pages/PreTrialConferencing';
+import PayFees from './pages/PayFess';
 import { useAuth } from './context/AuthProvider';
 
 function App() {
@@ -33,81 +36,147 @@ function App() {
   return (
     <>
       <Routes>
-        <Route path="/auth/signin" element={
-          <div>
-            <PageTitle title="Signin | EjusticeBharat" />
-            <SignIn />
-          </div>
-        } />
-        <Route path="/auth/signup" element={
-          <div>
-            <PageTitle title="Signup | EjusticeBharat" />
-            <SignUp />
-          </div>
-        } />
-        <Route path="/auth/ForgotPassword" element={
-          <div>
-            <PageTitle title="ForgotPassword | EjusticeBharat" />
-            <ForgotPassword />
-          </div>
-        } />
-        <Route path="/auth/ResetPassword" element={
-          <div>
-            <PageTitle title="ResetPassword | EjusticeBharat" />
-            <ResetPassword />
-          </div>
-        } />
-        <Route path="/auth/verifyemail/:id" element={
-          <div>
-            <PageTitle title="VerifyEmail | EjusticeBharat" />
-            <VerifyEmail />
-          </div>
-        } />
+        <Route
+          path="/auth/signin"
+          element={
+            <div>
+              <PageTitle title="Signin | EjusticeBharat" />
+              <SignIn />
+            </div>
+          }
+        />
+        <Route
+          path="/auth/signup"
+          element={
+            <div>
+              <PageTitle title="Signup | EjusticeBharat" />
+              <SignUp />
+            </div>
+          }
+        />
+        <Route
+          path="/auth/ForgotPassword"
+          element={
+            <div>
+              <PageTitle title="ForgotPassword | EjusticeBharat" />
+              <ForgotPassword />
+            </div>
+          }
+        />
+        <Route
+          path="/auth/ResetPassword"
+          element={
+            <div>
+              <PageTitle title="ResetPassword | EjusticeBharat" />
+              <ResetPassword />
+            </div>
+          }
+        />
+        <Route
+          path="/auth/verifyemail/:id"
+          element={
+            <div>
+              <PageTitle title="VerifyEmail | EjusticeBharat" />
+              <VerifyEmail />
+            </div>
+          }
+        />
 
-        <Route path="/dashboard/*" element={
-          <ProtectedRoute>
-            <DefaultLayout>
-              <Routes>
-                <Route path="dashboard" element={
-                  <div>
-                    <PageTitle title="Dashboard | EjusticeBharat" />
-                    <DashBoard />
-                  </div>
-                } />
-                <Route path="CompleteProfile" element={
-                  <div>
-                    <PageTitle title="CompleteProfile | EjusticeBharat" />
-                    <CompleteProfile />
-                  </div>
-                } />
-                <Route path="FindAdvocates" element={
-                  <>
-                    <PageTitle title="FindAdvocates | EJusticeBharat" />
-                    <ProfileCompletionRoute>
-                      <AdvocateList />
-                    </ProfileCompletionRoute>
-                  </>
-                } />
-                <Route path="addCase" element={
-                  <>
-                    <PageTitle title="AddCase | EJusticeBharat" />
-                    <ProfileCompletionRoute>
-                      <AddCase />
-                    </ProfileCompletionRoute>
-                  </>
-                } />
-                <Route path="viewCase" element={
-                  <>
-                    <PageTitle title="ViewCases | EJusticeBharat" />
-                    <ProfileCompletionRoute>
-                      <ViewCaseTable />
-                    </ProfileCompletionRoute>
-                  </>
-                } />
-              </Routes>
-            </DefaultLayout>
-          </ProtectedRoute>
-        } />
+        <Route
+          path="/dashboard/*"
+          element={
+            <ProtectedRoute>
+              <DefaultLayout>
+                <Routes>
+                  <Route
+                    path="dashboard"
+                    element={
+                      <div>
+                        <PageTitle title="Dashboard | EjusticeBharat" />
+                        <DashBoard />
+                      </div>
+                    }
+                  />
+                  <Route
+                    path="CompleteProfile"
+                    element={
+                      <div>
+                        <PageTitle title="CompleteProfile | EjusticeBharat" />
+                        <CompleteProfile />
+                      </div>
+                    }
+                  />
+                  <Route
+                    path="FindAdvocates"
+                    element={
+                      <>
+                        <PageTitle title="FindAdvocates | EJusticeBharat" />
+                        <ProfileCompletionRoute>
+                          <AdvocateList />
+                        </ProfileCompletionRoute>
+                      </>
+                    }
+                  />
+                  <Route
+                    path="addCase"
+                    element={
+                      <>
+                        <PageTitle title="AddCase | EJusticeBharat" />
+                        <ProfileCompletionRoute>
+                          <AddCase />
+                        </ProfileCompletionRoute>
+                      </>
+                    }
+                  />
+                  <Route
+                    path="viewCase"
+                    element={
+                      <>
+                        <PageTitle title="ViewCases | EJusticeBharat" />
+                        <ProfileCompletionRoute>
+                          <ViewCaseTable />
+                        </ProfileCompletionRoute>
+                      </>
+                    }
+                  />
+                  <Route
+                    path="feedbackAdvocate"
+                    element={
+                      <>
+                        <PageTitle title="FeedBack Advocates | EJusticeBharat" />
+                        <ProfileCompletionRoute>
+                          <AdvocateFeedbackPage />
+                        </ProfileCompletionRoute>
+                      </>
+                    }
+                  />
+                  <Route
+                    path="preTrial"
+                    element={
+                      <>
+                        <PageTitle title="PreTrial Conferencing | EJusticeBharat" />
+                        <ProfileCompletionRoute>
+                          <PreTrialConferencingPage />
+                        </ProfileCompletionRoute>
+                      </>
+                    }
+                  />
+                  <Route
+                    path="payFees"
+                    element={
+                      <>
+                        <PageTitle title="Pay Fees| EJusticeBharat" />
+                        <ProfileCompletionRoute>
+                          <PayFees />
+                        </ProfileCompletionRoute>
+                      </>
+                    }
+                  />
+                </Routes>
+              </DefaultLayout>
+            </ProtectedRoute>
+          }
+        />
       </Routes>
     </>
   );
