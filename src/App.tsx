@@ -20,36 +20,90 @@ import { useAuth } from './context/AuthProvider';
 
 function App() {
   const { pathname } = useLocation();
-  const { loading } = useAuth(); // Using loading from AuthProvider
+  const { loading } = useAuth();
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [pathname]);
 
-  // Show loader while loading
   if (loading) {
     return <Loader />;
   }
 
-  // Routes only render after loading completes
   return (
     <>
       <Routes>
-        <Route path="/auth/signin" element={<><PageTitle title="Signin | EjusticeBharat" /><SignIn /></>} />
-        <Route path="/auth/signup" element={<><PageTitle title="Signup | EjusticeBharat" /><SignUp /></>} />
-        <Route path="/auth/ForgotPassword" element={<><PageTitle title="ForgotPassword | EjusticeBharat" /><ForgotPassword /></>} />
-        <Route path="/auth/ResetPassword" element={<><PageTitle title="ResetPassword | EjusticeBharat" /><ResetPassword /></>} />
-        <Route path="/auth/verifyemail/:id" element={<><PageTitle title="VerifyEmail | EjusticeBharat" /><VerifyEmail /></>} />
+        <Route path="/auth/signin" element={
+          <div>
+            <PageTitle title="Signin | EjusticeBharat" />
+            <SignIn />
+          </div>
+        } />
+        <Route path="/auth/signup" element={
+          <div>
+            <PageTitle title="Signup | EjusticeBharat" />
+            <SignUp />
+          </div>
+        } />
+        <Route path="/auth/ForgotPassword" element={
+          <div>
+            <PageTitle title="ForgotPassword | EjusticeBharat" />
+            <ForgotPassword />
+          </div>
+        } />
+        <Route path="/auth/ResetPassword" element={
+          <div>
+            <PageTitle title="ResetPassword | EjusticeBharat" />
+            <ResetPassword />
+          </div>
+        } />
+        <Route path="/auth/verifyemail/:id" element={
+          <div>
+            <PageTitle title="VerifyEmail | EjusticeBharat" />
+            <VerifyEmail />
+          </div>
+        } />
 
         <Route path="/dashboard/*" element={
           <ProtectedRoute>
             <DefaultLayout>
               <Routes>
-                <Route path="dashboard" element={<><PageTitle title="Dashboard | EjusticeBharat" /><DashBoard /></>} />
-                <Route path="CompleteProfile" element={<><PageTitle title="CompleteProfile | EjusticeBharat" /><CompleteProfile /></>} />
-                <Route path="FindAdvocates" element={<ProfileCompletionRoute><><PageTitle title="FindAdvocates | EJusticeBharat" /><AdvocateList /></></ProfileCompletionRoute>} />
-                <Route path="addCase" element={<ProfileCompletionRoute><><PageTitle title="AddCase | EJusticeBharat" /><AddCase /></></ProfileCompletionRoute>} />
-                <Route path="viewCase" element={<ProfileCompletionRoute><><PageTitle title="ViewCases | EJusticeBharat" /><ViewCaseTable /></></ProfileCompletionRoute>} />
+                <Route path="dashboard" element={
+                  <div>
+                    <PageTitle title="Dashboard | EjusticeBharat" />
+                    <DashBoard />
+                  </div>
+                } />
+                <Route path="CompleteProfile" element={
+                  <div>
+                    <PageTitle title="CompleteProfile | EjusticeBharat" />
+                    <CompleteProfile />
+                  </div>
+                } />
+                <Route path="FindAdvocates" element={
+                  <>
+                    <PageTitle title="FindAdvocates | EJusticeBharat" />
+                    <ProfileCompletionRoute>
+                      <AdvocateList />
+                    </ProfileCompletionRoute>
+                  </>
+                } />
+                <Route path="addCase" element={
+                  <>
+                    <PageTitle title="AddCase | EJusticeBharat" />
+                    <ProfileCompletionRoute>
+                      <AddCase />
+                    </ProfileCompletionRoute>
+                  </>
+                } />
+                <Route path="viewCase" element={
+                  <>
+                    <PageTitle title="ViewCases | EJusticeBharat" />
+                    <ProfileCompletionRoute>
+                      <ViewCaseTable />
+                    </ProfileCompletionRoute>
+                  </>
+                } />
               </Routes>
             </DefaultLayout>
           </ProtectedRoute>
