@@ -41,7 +41,7 @@ const SignUp: React.FC = () => {
         `/email/sendOtp?id=${userId}`,
       );
       if (otpResponse.status === 200) {
-        navigate('/auth/VerifyEmail/${userId}'); // Redirect to the email verification page
+        navigate(`/auth/VerifyEmail/${userId}`); // Redirect to the email verification page
       } else {
         alert(otpResponse.data.error);
       }
