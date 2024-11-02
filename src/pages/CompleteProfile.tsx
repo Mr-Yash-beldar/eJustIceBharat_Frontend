@@ -4,7 +4,7 @@ import Aadhar from '../images/user/AadharProof.png';
 import { useNavigate } from 'react-router-dom';
 import axiosInstance from '../utils/axiosInstance';
 import axios from 'axios';
-import ESignatureUpload from '../components/FileUpload/FileUpload';
+import FileUpload from '../components/FileUpload/FileUpload';
 
 const CompleteProfile: React.FC = () => {
   //define the type for LitigantLocation
@@ -728,13 +728,8 @@ const CompleteProfile: React.FC = () => {
                 </div>
 
                   {/* E-signature Upload Section */}
-                  <ESignatureUpload otherDocument={LitigantDetails.other_document}/>
-                  
-              
-                
-                 
-              
-                 
+                  <FileUpload fileDoc={LitigantDetails.other_document} uploadFor={"otherDocument"} model={"litigant"}/>
+                    
               </div>
             </div>
           </div>

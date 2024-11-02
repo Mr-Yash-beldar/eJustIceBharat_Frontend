@@ -1,20 +1,49 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import sign from '../../images/user/E-signature.png';
-
+import axiosInstance from '../../utils/axiosInstance';
 
 interface ESignatureUploadProps {
-  otherDocument?: string;
-  file?: File;
+  fileDoc?: string;
+  uploadFor?: string;
+  model: string;
 }
 
-const ESignatureUpload: React.FC<ESignatureUploadProps> = ({
-  otherDocument,
+const FileUpload: React.FC<ESignatureUploadProps> = ({
+  fileDoc,
+  uploadFor,
+  model,
   
 }) => {
   const [file, setFile] = useState<File | null>(null);
   const [loading, setLoading] = useState(false);
   const [fileName, setFileName] = useState<string>('');
+  const [docName, setDocName]=useState<string>('');
+  const token = localStorage.getItem('token');
 
+  const getDocument = (uplodedFile:string) => {
+    switch (uplodedFile) {
+      case "profile":
+        setDocName('profile_image');
+        break;
+      case "otherDocument":
+        setDocName('other_document');
+        break;
+      case "aadhar":
+        setDocName('aadhar_document');
+        break;
+      default:
+        throw new Error("Invalid model type");
+    }
+  };
+
+
+  // Use useEffect to set docName when uploadFor changes
+  useEffect(() => {
+    if (uploadFor) {
+      getDocument(uploadFor);
+    }
+  }, [uploadFor]);
+ 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFile = event.target.files?.[0]; // Optional chaining
     if (selectedFile) {
@@ -28,38 +57,47 @@ const ESignatureUpload: React.FC<ESignatureUploadProps> = ({
 
   const handleUpload = async () => {
     if (!file) return;
-
+  
     setLoading(true);
-
+  
     const formData = new FormData();
-    formData.append('other_document', file);
-
-    try {
-      const response = await fetch('litigant/upload/${profile}', {
-        method: 'POST',
-        body: formData,
-      });
-
-      if (!response.ok) {
-        throw new Error('File upload failed');
+    formData.append(docName, file);
+  
+    if (token) {
+      try {
+        const response = await axiosInstance.put(
+          `/files/upload/${model}/${uploadFor}`,
+          formData,
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          }
+        );
+  
+        if (response.status !== 200) { // Check if the response status is not 200 (OK)
+          throw new Error('File upload failed');
+        }
+  
+        const result = response.data; // Get the data directly from the response
+        alert(`File uploaded successfully: ${result.message}`);
+        // Optionally handle the response further
+      } catch (error: unknown) {
+        // Type assertion for error
+        if (error instanceof Error) {
+          alert(`Error: ${error.message}`);
+        } else {
+          alert('An unknown error occurred');
+        }
+      } finally {
+        setLoading(false);
+        setFile(null); // Reset the file after upload if needed
+        setFileName('');
       }
-
-      const result = await response.json();
-      alert(`File uploaded successfully: ${result.message}`);
-      // Optionally handle the response further
-    } catch (error: unknown) {
-      // Type assertion for error
-      if (error instanceof Error) {
-        alert(`Error: ${error.message}`);
-      } else {
-        alert('An unknown error occurred');
-      }
-    } finally {
+    } else {
+      alert('No token found');
       setLoading(false);
-      setFile(null); // Reset the file after upload if needed
-      setFileName('');
     }
   };
+  
 
   return (
     <>
@@ -100,7 +138,7 @@ const ESignatureUpload: React.FC<ESignatureUploadProps> = ({
         />
         <div className="flex flex-col items-center justify-center space-y-2">
           <span className="flex h-10 w-10 items-center justify-center rounded-full border border-stroke bg-white dark:border-strokedark dark:bg-boxdark">
-            {otherDocument ? (
+            {fileDoc ? (
               <img
                 src="https://cdn-icons-png.flaticon.com/512/14090/14090371.png"
                 alt="Uploaded Document"
@@ -135,7 +173,7 @@ const ESignatureUpload: React.FC<ESignatureUploadProps> = ({
             )}
           </span>
           {fileName && <span className="text-sm text-black">{fileName}</span>}
-          {otherDocument ? (
+          {fileDoc ? (
                         <>
                           <span className="text-center text-sm text-primary">
                             You Have Uploaded Your E-signature You can Update it
@@ -151,7 +189,7 @@ const ESignatureUpload: React.FC<ESignatureUploadProps> = ({
                       ) : (
                         <>
                           <span className="text-center text-sm text-primary">
-                            Drag and drop your e-signature here
+                            Drag and drop your E-signature here
                           </span>
                           <span className="text-center text-sm text-primary">
                             or
@@ -167,4 +205,4 @@ const ESignatureUpload: React.FC<ESignatureUploadProps> = ({
   );
 };
 
-export default ESignatureUpload;
+export default FileUpload;
