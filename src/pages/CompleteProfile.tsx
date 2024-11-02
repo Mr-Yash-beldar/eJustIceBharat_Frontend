@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
 import Breadcrumb from '../components/Breadcrumbs/Breadcrumb';
 import Aadhar from '../images/user/AadharProof.png';
-import sign from '../images/user/E-signature.png';
 import { useNavigate } from 'react-router-dom';
 import axiosInstance from '../utils/axiosInstance';
 import axios from 'axios';
+import ESignatureUpload from '../components/FileUpload/FileUpload';
 
 const CompleteProfile: React.FC = () => {
   //define the type for LitigantLocation
@@ -732,6 +732,10 @@ const CompleteProfile: React.FC = () => {
                   </div>
                 </div>
 
+                  {/* E-signature Upload Section */}
+                  <ESignatureUpload otherDocument={LitigantDetails.other_document}/>
+                  
+              
                 {/* E-signature Upload Section */}
                 <div className="mb-5.5 flex items-center gap-3 mt-4">
                   {' '}
