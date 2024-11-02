@@ -38,7 +38,7 @@ const SignIn: React.FC = () => {
       // Store token in local storage if verified and redirect to dashboard
       localStorage.setItem('token', token);
       setIsAuthenticated(true);
-      navigate('/dashboard/CompleteProfile');
+      navigate('/dashboard/Home');
     } catch (error: unknown) {
       if (axios.isAxiosError(error) && error.response) {
         // Handle AxiosError with specific status
