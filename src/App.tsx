@@ -17,9 +17,10 @@ import ViewCaseTable from './pages/Cases/ViewCases';
 import ProtectedRoute from './components/ProtectedRoute';
 import ProfileCompletionRoute from './components/ProfileCompletionRoute';
 import AdvocateFeedbackPage from './pages/FeedbackAdvocate/AdvocateFeedbackPage';
-import PreTrialConferencingPage from './pages/PreTrialConferencing';
-import PayFees from './pages/PayFess';
+import PreTrialConferencingPage from './pages/PreTrial/PreTrailConferencingPage';
+import PayFees from './pages/PayFees/PayFees';
 import { useAuth } from './context/AuthProvider';
+import HomeCard from './pages/Home/HomeCard';
 
 function App() {
   const { pathname } = useLocation();
@@ -168,6 +169,18 @@ function App() {
                         <PageTitle title="Pay Fees| EJusticeBharat" />
                         <ProfileCompletionRoute>
                           <PayFees />
+                        </ProfileCompletionRoute>
+                      </>
+                    }
+                  />
+
+                  <Route
+                    path="Home"
+                    element={
+                      <>
+                        <PageTitle title="Home| EJusticeBharat" />
+                        <ProfileCompletionRoute>
+                          <HomeCard />
                         </ProfileCompletionRoute>
                       </>
                     }

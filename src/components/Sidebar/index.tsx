@@ -73,7 +73,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
             <ul className="mb-6 flex flex-col gap-1.5">
               <li>
                 <NavLink
-                  to="/dashboard/CompleteProfile"
+                  to="/dashboard/Home"
                   className={({ isActive }) =>
                     `group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out ${
                       isActive ? 'bg-graydark dark:bg-meta-4' : ''
@@ -270,6 +270,33 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                   Contact Advocate
                 </NavLink>
               </li>
+
+              <li>
+                <NavLink
+                  to="/chart"
+                  className={({ isActive }) =>
+                    `group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out ${
+                      isActive ? 'bg-graydark dark:bg-meta-4' : ''
+                    } hover:bg-graydark dark:hover:bg-meta-4`
+                  }
+                >
+                  <svg
+                    className="fill-current"
+                    width="18"
+                    height="19"
+                    viewBox="0 0 18 19"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M9 1.5C6.23858 1.5 4 3.73858 4 6.5V8.92439C4 10.1439 3.625 11.1879 2.875 12.0146L2.10765 12.8559C1.42016 13.6387 1.9137 14.75 2.94491 14.75H15.0551C16.0863 14.75 16.5798 13.6387 15.8924 12.8559L15.125 12.0146C14.375 11.1879 14 10.1439 14 8.92439V6.5C14 3.73858 11.7614 1.5 9 1.5ZM6.81818 15.75C6.81818 16.9926 7.82554 18 9.06818 18C10.3108 18 11.3182 16.9926 11.3182 15.75H6.81818Z"
+                      fill="currentColor"
+                    />
+                  </svg>
+                  Notifications
+                </NavLink>
+              </li>
+
               {/* <!-- Menu Item CompleteProfile --> */}
               <li>
                 <NavLink
