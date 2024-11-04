@@ -5,6 +5,7 @@ import LogoDark from '../../images/logo/logo_light.png';
 import Logo from '../../images/logo/logo_dark.png';
 import axiosInstance from '../../utils/axiosInstance';
 import { AxiosError } from 'axios';
+import { toast } from 'react-toastify';
 
 const SignUp: React.FC = () => {
   const location = useLocation();
@@ -35,9 +36,11 @@ const SignUp: React.FC = () => {
     setLoading(true); // Enable loading
 
     try {
-      console.log('Form data:', formData);
+      // console.log('Form data:', formData);
+      toast.success("Form Data");
       const response = await axiosInstance.post('/litigants/signup', formData);
-      console.log('Sign up successful:', response.data);
+      // console.log('Sign up successful:', response.data);
+      toast.success("Sign up successful");
       const userId = response.data.id; // Access user ID from the response
 
       // Send OTP to the user's email
@@ -47,21 +50,23 @@ const SignUp: React.FC = () => {
       if (otpResponse.status === 200) {
         navigate(`/auth/VerifyEmail/${userId}`, { state: { role: role } }); // Redirect to the email verification page
       } else {
-        alert(otpResponse.data.error);
+        toast.error(otpResponse.data.error);
       }
     } catch (error) {
       if (error instanceof AxiosError) {
-        if (error.response && error.response.status === 409) {
-          // User already exists, handle accordingly
-          alert(error.response.data.error); // Show alert with the error message
-          navigate('/auth/signin'); // Redirect to the signin page
-        } else {
-          alert(error); // General error alert
-        }
+
+      if (error.response && error.response.status === 409) {
+        // User already exists, handle accordingly
+        toast.error(error.response.data.error); // Show alert with the error message
+        navigate('/auth/signin'); // Redirect to the signin page
       } else {
-        // Handle non-Axios errors if needed
-        alert(`Unexpected error: ${error}`);
+        toast.error(error.message || "An unexpected error occurred."); // General error alert
       }
+    }
+    else {
+      // Handle non-Axios errors if needed
+      toast.error(`Unexpected error: ${error}`);
+    }
     } finally {
       setLoading(false); // Disable loading
     }
