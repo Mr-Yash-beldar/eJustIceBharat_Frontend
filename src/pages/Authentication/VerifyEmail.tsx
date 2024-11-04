@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import LogoDark from '../../images/logo/logo_light.png';
 import Logo from '../../images/logo/logo_dark.png';
 import axiosInstance from '../../utils/axiosInstance';
+import { toast } from 'react-toastify';
 
 const VerifyEmail: React.FC = () => {
   const {id}=useParams();
@@ -38,13 +39,14 @@ const VerifyEmail: React.FC = () => {
       // Check the response from the API
       if (response.status === 200) {
         // Redirect to the login page if the verification is successful
+        toast.success("Email Verify Successfully")
         navigate('/auth/signin');
       } else {
-        alert('OTP verification failed. Please try again.'); // Handle failed verification
+        toast.error('OTP verification failed. Please try again.'); // Handle failed verification
       }
     } catch (error) {
       console.error('Error verifying OTP:', error);
-      alert('An error occurred while verifying OTP. Please try again later.');
+      toast.error('An error occurred while verifying OTP. Please try again later.');
     } finally {
       setLoading(false); // Disable loading
     }
