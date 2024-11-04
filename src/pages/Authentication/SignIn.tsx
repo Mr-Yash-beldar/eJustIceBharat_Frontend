@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import LogoDark from '../../images/logo/logo_light.png';
 import Logo from '../../images/logo/logo_dark.png';
 import axiosInstance from '../../utils/axiosInstance';
@@ -9,6 +9,9 @@ import { useAuth } from '../../context/AuthProvider';
 import { toast } from 'react-toastify';
 
 const SignIn: React.FC = () => {
+  const location = useLocation();
+  const { role } = location.state || { role: 'litigant' };
+
   const [formData, setFormData] = useState({
     litigant_email: '',
     litigant_password: '',
@@ -25,24 +28,32 @@ const SignIn: React.FC = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
 
- 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     setLoading(true); // Enable loading
 
+    // Determine the role endpoint
+    const endpoint =
+      role === 'advocate'
+        ? '/litigants/authenticate'
+        : '/litigants/authenticate';
+
     try {
-      const response = await axiosInstance.post(
-        '/litigants/authenticate',
-        formData,
-      );
+      const response = await axiosInstance.post(endpoint, formData);
       const { token } = response.data; // Adjust based on your API response
 
-      // Store token in local storage if verified and redirect to dashboard
+      // Store token in local storage if verified and set as authenticated
       localStorage.setItem('token', token);
       setIsAuthenticated(true);
-      toast.success("Login Successful");
-      navigate('/dashboard/Home');
-      
+
+         toast.success("Login Successful");
+      // Redirect to the appropriate dashboard based on role
+      const dashboardPath =
+        role === 'advocate'
+          ? '/dashboard/advocateHome'
+          : '/dashboard/LitigantHome';
+      navigate(dashboardPath);
+
     } catch (error: unknown) {
       if (axios.isAxiosError(error) && error.response) {
         // Handle AxiosError with specific status
@@ -57,9 +68,9 @@ const SignIn: React.FC = () => {
             `/email/sendOtp?id=${id}`,
           );
           if (otpResponse.status === 200) {
-            // console.log(id);
-            toast.success("OTP Send Successful")
-            navigate(`/auth/VerifyEmail/${id}`);
+
+                toast.success("OTP Send Successful")
+            navigate(`/auth/VerifyEmail/${id}`, { state: { role } });
           } else {
             toast.error(otpResponse.data.error);
           }
@@ -79,7 +90,6 @@ const SignIn: React.FC = () => {
       setLoading(false); // Disable loading
     }
   };
-
 
   return (
     <>
@@ -222,7 +232,7 @@ const SignIn: React.FC = () => {
           <div className="w-full border-stroke dark:border-strokedark xl:w-1/2 xl:border-l-2">
             <div className="w-full p-4 sm:p-12.5 xl:p-17.5">
               <h2 className="mb-9 text-2xl font-bold text-black dark:text-white sm:text-title-xl2">
-                Sign In as Litigant
+                Sign In as {role.charAt(0).toUpperCase() + role.slice(1)}
               </h2>
 
               <form onSubmit={handleSubmit}>
@@ -340,6 +350,7 @@ const SignIn: React.FC = () => {
                 <div className="mt-4 text-right">
                   <Link
                     to="/auth/ForgotPassword"
+                    state={{ role: role }}
                     className="text-primary hover:underline"
                   >
                     Forgot Password?
@@ -386,7 +397,11 @@ const SignIn: React.FC = () => {
                 <div className="mt-6 text-center">
                   <p>
                     Don’t have any account?{' '}
-                    <Link to="/auth/signup" className="text-primary">
+                    <Link
+                      to="/auth/SignUp"
+                      state={{ role: role }}
+                      className="text-primary"
+                    >
                       Sign Up
                     </Link>
                   </p>

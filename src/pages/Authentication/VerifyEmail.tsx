@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams, useLocation } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import LogoDark from '../../images/logo/logo_light.png';
 import Logo from '../../images/logo/logo_dark.png';
@@ -7,7 +7,10 @@ import axiosInstance from '../../utils/axiosInstance';
 import { toast } from 'react-toastify';
 
 const VerifyEmail: React.FC = () => {
-  const {id}=useParams();
+  const location = useLocation();
+  const { role } = location.state || { role: 'litigant' };
+
+  const { id } = useParams();
   const [otpData, setOtpData] = useState({
     otp: '',
   });
@@ -38,9 +41,11 @@ const VerifyEmail: React.FC = () => {
 
       // Check the response from the API
       if (response.status === 200) {
-        // Redirect to the login page if the verification is successful
-        toast.success("Email Verify Successfully")
-        navigate('/auth/signin');
+
+         toast.success("Email Verify Successfully")
+        // Redirect to the common sign-in page with role in state
+        navigate('/auth/signin', { state: { role:  role } });
+
       } else {
         toast.error('OTP verification failed. Please try again.'); // Handle failed verification
       }

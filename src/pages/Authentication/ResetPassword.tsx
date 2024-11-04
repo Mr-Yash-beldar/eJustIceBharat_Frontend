@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import LogoDark from '../../images/logo/logo_light.png';
 import Logo from '../../images/logo/logo_dark.png';
 
 const ResetPassword: React.FC = () => {
+  const location = useLocation();
+  const { role } = location.state || { role: 'litigant' };
+
   const [formData, setFormData] = useState({
     otp: '',
     newPassword: '',
@@ -40,7 +43,8 @@ const ResetPassword: React.FC = () => {
       setLoading(false);
 
       // Redirect to the sign-in page after the password change
-      navigate('/auth/signin'); // Replace with the actual route
+      navigate('/auth/signin', { state: { role: role } });
+      // Replace with the actual route
     }, 2000);
   };
 

@@ -19,6 +19,7 @@ import ProfileCompletionRoute from './components/ProfileCompletionRoute';
 import AdvocateFeedbackPage from './pages/FeedbackAdvocate/AdvocateFeedbackPage';
 import PreTrialConferencingPage from './pages/PreTrial/PreTrailConferencingPage';
 import PayFees from './pages/PayFees/PayFees';
+import LandingPage from './pages/LandingPage/LandingPage';
 import { useAuth } from './context/AuthProvider';
 import HomeCard from './pages/Home/HomeCard';
 
@@ -37,6 +38,16 @@ function App() {
   return (
     <>
       <Routes>
+        <Route
+          path="/"
+          element={
+            <div>
+              <PageTitle title="Welcome | EjusticeBharat" />
+              <LandingPage />
+            </div>
+          }
+        />
+
         <Route
           path="/auth/signin"
           element={
@@ -175,10 +186,22 @@ function App() {
                   />
 
                   <Route
-                    path="Home"
+                    path="LitigantHome"
                     element={
                       <>
-                        <PageTitle title="Home| EJusticeBharat" />
+                        <PageTitle title="HomeLitigant| EJusticeBharat" />
+                        <ProfileCompletionRoute>
+                          <HomeCard />
+                        </ProfileCompletionRoute>
+                      </>
+                    }
+                  />
+
+                  <Route
+                    path="advocateHome"
+                    element={
+                      <>
+                        <PageTitle title="AdvocateHome| EJusticeBharat" />
                         <ProfileCompletionRoute>
                           <HomeCard />
                         </ProfileCompletionRoute>
