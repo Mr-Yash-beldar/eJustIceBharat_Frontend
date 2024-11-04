@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import LogoDark from '../../images/logo/logo_light.png';
 import Logo from '../../images/logo/logo_dark.png';
 
 const ForgotPassword: React.FC = () => {
+  const location = useLocation();
+  const { role } = location.state || { role: 'litigant' };
+
   const [emailData, setEmailData] = useState({
     email: '',
   });
@@ -37,7 +40,7 @@ const ForgotPassword: React.FC = () => {
       setLoading(false);
 
       // Redirect to the Reset Password page after OTP is sent
-      navigate('/auth/ResetPassword'); // Replace with the actual route
+      navigate('/auth/ResetPassword', { state: { role: role } }); // Replace with the actual route
     }, 2000);
   };
 

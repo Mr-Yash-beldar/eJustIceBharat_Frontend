@@ -16,6 +16,7 @@ const SignUp: React.FC = () => {
     litigant_password: '',
     litigant_mob: '',
     litigant_confirm_password: '',
+    licenseNumber: '',
   });
 
   const inputChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -44,7 +45,7 @@ const SignUp: React.FC = () => {
         `/email/sendOtp?id=${userId}`,
       );
       if (otpResponse.status === 200) {
-        navigate(`/auth/VerifyEmail/${userId}`); // Redirect to the email verification page
+        navigate(`/auth/VerifyEmail/${userId}`, { state: { role: role } }); // Redirect to the email verification page
       } else {
         alert(otpResponse.data.error);
       }
@@ -315,6 +316,41 @@ const SignUp: React.FC = () => {
                   </div>
                 </div>
 
+                {role === 'advocate' && (
+                  <div className="mb-4">
+                    <label className="mb-2.5 block font-medium text-black dark:text-white">
+                      License Number
+                    </label>
+                    <div className="relative">
+                      <input
+                        type="text"
+                        id="licenseNumber"
+                        name="licenseNumber"
+                        placeholder="Enter your valid license number"
+                        value={formData.licenseNumber}
+                        onChange={inputChangeHandler}
+                        className="w-full rounded-lg border border-stroke bg-transparent py-4 pl-6 pr-10 text-black outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
+                        required={role === 'advocate'}
+                      />
+                      <span className="absolute right-4 top-4">
+                        <svg
+                          className="fill-current"
+                          width="22"
+                          height="22"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M14.4 4.6l1.9 1.9L8.8 14H6.9v-1.9l7.5-7.5zM18.3 7.2L16.2 5.1l1.6-1.6a1 1 0 011.4 0l.8.8a1 1 0 010 1.4l-1.7 1.7zm-2.7 2.8L5 20h5v-2h4v-4h2v-2h2v-5l-.4-.4z"
+                            fill="#D1D5DB"
+                          />
+                        </svg>
+                      </span>
+                    </div>
+                  </div>
+                )}
+
                 <div className="mb-4">
                   <label className="mb-2.5 block font-medium text-black dark:text-white">
                     Password
@@ -355,12 +391,12 @@ const SignUp: React.FC = () => {
 
                 <div className="mb-4">
                   <label className="mb-2.5 block font-medium text-black dark:text-white">
-                    Password
+                    Confirm Password
                   </label>
                   <div className="relative">
                     <input
                       type="password"
-                      placeholder="Enter your password"
+                      placeholder="Enter your confirm password"
                       className="w-full rounded-lg border border-stroke bg-transparent py-4 pl-6 pr-10 text-black outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
                       name="litigant_confirm_password"
                       onChange={inputChangeHandler}
