@@ -6,6 +6,7 @@ import Logo from '../../images/logo/logo_dark.png';
 import axiosInstance from '../../utils/axiosInstance';
 
 const VerifyEmail: React.FC = () => {
+  
   const {id}=useParams();
   const [otpData, setOtpData] = useState({
     otp: '',

@@ -186,10 +186,22 @@ function App() {
                   />
 
                   <Route
-                    path="Home"
+                    path="LitigantHome"
                     element={
                       <>
-                        <PageTitle title="Home| EJusticeBharat" />
+                        <PageTitle title="HomeLitigant| EJusticeBharat" />
+                        <ProfileCompletionRoute>
+                          <HomeCard />
+                        </ProfileCompletionRoute>
+                      </>
+                    }
+                  />
+
+                  <Route
+                    path="advocateHome"
+                    element={
+                      <>
+                        <PageTitle title="AdvocateHome| EJusticeBharat" />
                         <ProfileCompletionRoute>
                           <HomeCard />
                         </ProfileCompletionRoute>

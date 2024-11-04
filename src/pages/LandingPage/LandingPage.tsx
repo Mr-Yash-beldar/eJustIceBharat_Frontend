@@ -5,12 +5,8 @@ import { useNavigate } from 'react-router-dom';
 const LandingPage: React.FC = () => {
   const navigate = useNavigate();
 
-  const handleLitigantSignIn = () => {
-    navigate('/auth/signin'); // Update with the actual route for litigant sign-in
-  };
-
-  const handleAdvocateSignIn = () => {
-    navigate('/auth/signin'); // Update with the actual route for advocate sign-in
+  const handleSignIn = (role: 'litigant' | 'advocate') => {
+    navigate('/auth/signin', { state: { role } });
   };
 
   return (
@@ -23,13 +19,13 @@ const LandingPage: React.FC = () => {
 
         <div className="space-x-4">
           <button
-            onClick={handleLitigantSignIn}
+            onClick={() => handleSignIn('litigant')}
             className="px-6 py-3 bg-white text-blue-600 rounded-md shadow-lg hover:bg-gray-200 transition duration-300"
           >
             Sign in as Litigant
           </button>
           <button
-            onClick={handleAdvocateSignIn}
+            onClick={() => handleSignIn('advocate')}
             className="px-6 py-3 bg-white text-blue-600 rounded-md shadow-lg hover:bg-gray-200 transition duration-300"
           >
             Sign in as Advocate

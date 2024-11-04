@@ -1,12 +1,15 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import LogoDark from '../../images/logo/logo_light.png';
 import Logo from '../../images/logo/logo_dark.png';
 import axiosInstance from '../../utils/axiosInstance';
 import { AxiosError } from 'axios';
 
 const SignUp: React.FC = () => {
+  const location = useLocation();
+  const { role } = location.state || { role: 'litigant' };
+
   const [formData, setFormData] = useState({
     litigant_name: '',
     litigant_email: '',
@@ -47,18 +50,17 @@ const SignUp: React.FC = () => {
       }
     } catch (error) {
       if (error instanceof AxiosError) {
-      if (error.response && error.response.status === 409) {
-        // User already exists, handle accordingly
-        alert(error.response.data.error); // Show alert with the error message
-        navigate('/auth/signin'); // Redirect to the signin page
+        if (error.response && error.response.status === 409) {
+          // User already exists, handle accordingly
+          alert(error.response.data.error); // Show alert with the error message
+          navigate('/auth/signin'); // Redirect to the signin page
+        } else {
+          alert(error); // General error alert
+        }
       } else {
-        alert(error); // General error alert
+        // Handle non-Axios errors if needed
+        alert(`Unexpected error: ${error}`);
       }
-    }
-    else {
-      // Handle non-Axios errors if needed
-      alert(`Unexpected error: ${error}`);
-    }
     } finally {
       setLoading(false); // Disable loading
     }
@@ -205,7 +207,7 @@ const SignUp: React.FC = () => {
           <div className="w-full border-stroke dark:border-strokedark xl:w-1/2 xl:border-l-2">
             <div className="w-full p-4 sm:p-12.5 xl:p-17.5">
               <h2 className="mb-9 text-2xl font-bold text-black dark:text-white sm:text-title-xl2">
-                Sign Up as Litigant
+                Sign Up as {role.charAt(0).toUpperCase() + role.slice(1)}
               </h2>
 
               <form onSubmit={handleSubmit}>
@@ -468,7 +470,11 @@ const SignUp: React.FC = () => {
                 <div className="mt-6 text-center">
                   <p>
                     Already have an account?{' '}
-                    <Link to="/auth/signin" className="text-primary">
+                    <Link
+                      to="/auth/signin"
+                      state={{ role: role }}
+                      className="text-primary"
+                    >
                       Sign in
                     </Link>
                   </p>
