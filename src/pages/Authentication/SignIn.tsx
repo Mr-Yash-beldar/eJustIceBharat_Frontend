@@ -6,6 +6,7 @@ import Logo from '../../images/logo/logo_dark.png';
 import axiosInstance from '../../utils/axiosInstance';
 import axios from 'axios';
 import { useAuth } from '../../context/AuthProvider';
+import { toast } from 'react-toastify';
 
 const SignIn: React.FC = () => {
   const location = useLocation();
@@ -27,6 +28,7 @@ const SignIn: React.FC = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
 
+ 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     setLoading(true); // Enable loading
@@ -44,6 +46,7 @@ const SignIn: React.FC = () => {
       // Store token in local storage if verified and set as authenticated
       localStorage.setItem('token', token);
       setIsAuthenticated(true);
+<<<<<<< HEAD
 
       // Redirect to the appropriate dashboard based on role
       const dashboardPath =
@@ -51,12 +54,17 @@ const SignIn: React.FC = () => {
           ? '/dashboard/advocateHome'
           : '/dashboard/LitigantHome';
       navigate(dashboardPath);
+=======
+      navigate('/dashboard/Home');
+      
+>>>>>>> 1dc1daaef67d50297e4496dcd69cd2546480cac4
     } catch (error: unknown) {
       if (axios.isAxiosError(error) && error.response) {
         // Handle AxiosError with specific status
         if (error.response.status === 409) {
           // User already exists
-          alert(error.response.data.message); // Show alert with the error message
+          toast.error(error.response.data.message);
+          // alert(error.response.data.message); // Show alert with the error message
           const id = error.response.data.id;
 
           // Try sending OTP and redirect to Verify Email
@@ -71,7 +79,8 @@ const SignIn: React.FC = () => {
           }
         } else if (error.response.status === 401) {
           // Unauthorized
-          alert('Invalid email or password. Please try again.');
+          toast.error(error.response.data.message);
+          // alert('Invalid email or password. Please try again.');
         } else {
           // Handle other HTTP errors
           alert('An error occurred. Please try again later.');
@@ -85,6 +94,10 @@ const SignIn: React.FC = () => {
     }
   };
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 1dc1daaef67d50297e4496dcd69cd2546480cac4
   return (
     <>
       <div className="mb-13 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between"></div>

@@ -89,14 +89,8 @@ const AdvocateDetailsModal: React.FC<AdvocateProps> = ({
               <strong>Language:</strong>{' '}
               <span className="text-gray-800">{advocate.language}</span>
             </p>
-            <p className="text-lg">
-              <strong>Aadhar Proof:</strong>{' '}
-              <span className="text-gray-800">{advocate.aadharProof}</span>
-            </p>
-            <p className="text-lg">
-              <strong>Pincode:</strong>{' '}
-              <span className="text-gray-800">{advocate.pincode}</span>
-            </p>
+            
+            
             <p className="text-lg">
               <strong>Location:</strong>{' '}
               <span className="text-gray-800">{advocate.location}</span>
