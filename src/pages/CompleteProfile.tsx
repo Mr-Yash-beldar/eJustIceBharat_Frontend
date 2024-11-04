@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import axiosInstance from '../utils/axiosInstance';
 import axios from 'axios';
 import FileUpload from '../components/FileUpload/FileUpload';
+import { toast } from 'react-toastify';
 
 const CompleteProfile: React.FC = () => {
   //define the type for LitigantLocation
@@ -54,7 +55,7 @@ const CompleteProfile: React.FC = () => {
         litigant_long: longitude, // Set longitude
       }));
     } else {
-      console.log('No coordinates found');
+      // console.log('No coordinates found');
     }
   };
 
@@ -75,17 +76,17 @@ const CompleteProfile: React.FC = () => {
           // Handle AxiosError with specific status
           if (error.response.status === 404) {
             // Litigant not found
-            alert(error.response.data.error); // Show alert with the error message
+            toast.error(error.response.data.error); // Show alert with the error message
           } else if (error.response.status === 400) {
             // email cannot update
             alert(error.response.data.error);
           } else {
             // Handle other HTTP errors
-            alert('An error occurred. Please try again later.');
+            toast.error('An error occurred. Please try again later.');
           }
         } else {
           // Handle unknown or non-Axios errors
-          alert('An unexpected error occurred. ');
+          toast.error('An unexpected error occurred. ');
         }
       } finally {
         setLoading(false); // Disable loading
@@ -148,35 +149,36 @@ const CompleteProfile: React.FC = () => {
             headers: { Authorization: `Bearer ${token}` },
           },
         );
-        console.log('Data ', data);
-        alert(response.data.message);
+        // console.log('Data ', data);
+        toast.success(response.data.message);
         navigate('/dashboard/CompleteProfile');
       } catch (error: unknown) {
         if (axios.isAxiosError(error) && error.response) {
           // Handle AxiosError with specific status
           if (error.response.status === 404) {
             // Litigant not found
-            alert(error.response.data.error); // Show alert with the error message
+            toast.error(error.response.data.error); // Show alert with the error message
           } else if (error.response.status === 400) {
             // email cannot update
-            alert(error.response.data.error);
+            toast.error(error.response.data.error);
           } else {
             // Handle other HTTP errors
-            alert('An error occurred. Please try again later.');
+            toast.error('An error occurred. Please try again later.');
           }
         } else {
           // Handle unknown or non-Axios errors
-          alert('An unexpected error occurred.');
+          toast.error('An unexpected error occurred.');
         }
       } finally {
         setLoading(false); // Disable loading
       }
     } else {
       setLoading(false);
-      console.log('No token found');
+      toast.error('No token found');
     }
 
     setLoading(false);
+    toast.success("Profile is Completed");
     navigate('/dashboard/CompleteProfile');
   };
 
@@ -196,25 +198,25 @@ const CompleteProfile: React.FC = () => {
           );
         },
         (error) => {
-          console.error('Error fetching location', error.message); // Log the error message
+          toast.error('Error fetching location'); // Log the error message
           switch (error.code) {
             case error.PERMISSION_DENIED:
-              console.error('User denied the request for Geolocation.');
+              toast.error('User denied the request for Geolocation.');
               break;
             case error.POSITION_UNAVAILABLE:
-              console.error('Location information is unavailable.');
+              toast.error('Location information is unavailable.');
               break;
             case error.TIMEOUT:
-              console.error('The request to get user location timed out.');
+              toast.error('The request to get user location timed out.');
               break;
             case 3: // This corresponds to UNKNOWN_ERROR
-              console.error('An unknown error occurred.');
+              toast.error('An unknown error occurred.');
               break;
           }
         },
       );
     } else {
-      console.error('Geolocation is not supported by this browser.');
+      toast.error('Geolocation is not supported by this browser.');
     }
   };
 

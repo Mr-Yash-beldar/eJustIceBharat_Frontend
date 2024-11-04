@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import sign from '../../images/user/E-signature.png';
 import Aadhar from '../../images/user/AadharProof.png';
 import axiosInstance from '../../utils/axiosInstance';
+import { toast } from 'react-toastify';
 
 interface ESignatureUploadProps {
   fileDoc?: string;
@@ -80,18 +81,18 @@ const FileUpload: React.FC<ESignatureUploadProps> = ({
         );
 
         if (response.status !== 200) { // Check if the response status is not 200 (OK)
-          throw new Error('File upload failed');
+          toast.error('File upload failed');
         }
 
         const result = response.data; // Get the data directly from the response
-        alert(`File uploaded successfully: ${result.message}`);
+        toast.success(result.message);
         // Optionally handle the response further
       } catch (error: unknown) {
         // Type assertion for error
         if (error instanceof Error) {
-          alert(`Error: ${error.message}`);
+          toast.error(`Error: ${error.message}`);
         } else {
-          alert('An unknown error occurred');
+          toast.error('An unknown error occurred');
         }
       } finally {
         setLoading(false);
@@ -99,7 +100,7 @@ const FileUpload: React.FC<ESignatureUploadProps> = ({
         setFileName('');
       }
     } else {
-      alert('No token found');
+      toast.error('No token found');
       setLoading(false);
     }
   };
@@ -132,14 +133,14 @@ const FileUpload: React.FC<ESignatureUploadProps> = ({
         <div className="mt-4">
           <h3 className="font-medium text-black dark:text-white">{title}</h3>
           <span className="flex gap-2.5 mt-1">
-            <button
-              className={`text-sm hover:text-primary ${loading ? 'opacity-50 cursor-not-allowed' : ''
-                }`}
+          <button
+              className={`text-sm text-white bg-green-500 hover:bg-green-600 px-2 py-1 rounded ${loading ? 'opacity-50 cursor-not-allowed' : ''}`}
               onClick={handleUpload}
               disabled={loading}
             >
               {loading ? 'Uploading...' : `Save ${title}`}
-            </button>
+          </button>
+
           </span>
         </div>
       </div>

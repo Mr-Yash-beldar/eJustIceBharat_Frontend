@@ -40,6 +40,7 @@ const SignIn: React.FC = () => {
       // Store token in local storage if verified and redirect to dashboard
       localStorage.setItem('token', token);
       setIsAuthenticated(true);
+      toast.success("Login Successful");
       navigate('/dashboard/Home');
       
     } catch (error: unknown) {
@@ -56,10 +57,11 @@ const SignIn: React.FC = () => {
             `/email/sendOtp?id=${id}`,
           );
           if (otpResponse.status === 200) {
-            console.log(id);
+            // console.log(id);
+            toast.success("OTP Send Successful")
             navigate(`/auth/VerifyEmail/${id}`);
           } else {
-            alert(otpResponse.data.error);
+            toast.error(otpResponse.data.error);
           }
         } else if (error.response.status === 401) {
           // Unauthorized
@@ -67,11 +69,11 @@ const SignIn: React.FC = () => {
           // alert('Invalid email or password. Please try again.');
         } else {
           // Handle other HTTP errors
-          alert('An error occurred. Please try again later.');
+          toast.error('An error occurred. Please try again later.');
         }
       } else {
         // Handle unknown or non-Axios errors
-        alert('An unexpected error occurred.');
+        toast.error('An unexpected error occurred.');
       }
     } finally {
       setLoading(false); // Disable loading
