@@ -27,6 +27,7 @@ function App() {
   const { pathname } = useLocation();
   const { loading } = useAuth();
 
+
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [pathname]);
