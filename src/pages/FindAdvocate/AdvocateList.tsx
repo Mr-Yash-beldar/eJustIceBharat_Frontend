@@ -15,6 +15,9 @@ const AdvocateList: React.FC = () => {
   });
 
   const [filteredAdvocates, setFilteredAdvocates] = useState(Advocates); // Filtered advocate list
+  const [visibleCount, setVisibleCount] = useState(3); // Initial number of visible advocates
+  const maxVisibleCount = Advocates.length; // Set a maximum count based on the total number of advocates
+  const [maxLimitMessage, setMaxLimitMessage] = useState(''); // State for max limit message
 
   // Function to handle "View More" click
   const handleViewMore = (advocate: any) => {
@@ -64,7 +67,25 @@ const AdvocateList: React.FC = () => {
     }
 
     setFilteredAdvocates(filtered);
+    setVisibleCount(3); // Reset visible count whenever the filter or search changes
+    setMaxLimitMessage(''); // Clear the max limit message on new search or filter
   }, [searchInput, filterCriteria]);
+
+  // Function to handle "Load More" button
+  const handleLoadMore = () => {
+    const newVisibleCount = visibleCount + 3;
+    setVisibleCount(newVisibleCount);
+    console.log(newVisibleCount);
+
+    if (newVisibleCount >= maxVisibleCount) {
+      setMaxLimitMessage('Maximum limit of advocates has been reached.');
+    }
+  };
+
+  // Calculate advocates to display based on current count
+  const advocatesToDisplay = filteredAdvocates.slice(0, visibleCount);
+  const currentPage = Math.ceil(visibleCount / 3); // Calculate the current page based on visible count
+  console.log(currentPage);
 
   return (
     <div className="p-6">
@@ -172,17 +193,26 @@ const AdvocateList: React.FC = () => {
                 <label className="inline-flex items-center">
                   <input
                     type="checkbox"
-                    className="form-checkbox h-5 w-5 text-blue-500 rounded transition duration-200 ease-in-out"
+                    className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
                     checked={filterCriteria.nearMe}
-                    onChange={(e) =>
-                      setFilterCriteria({
-                        ...filterCriteria,
-                        nearMe: e.target.checked,
-                      })
+                    onChange={() =>
+                      setFilterCriteria((prev) => ({
+                        ...prev,
+                        nearMe: !prev.nearMe,
+                      }))
                     }
                   />
-                  <span className="ml-2 text-sm text-gray-700">Near Me</span>
+                  <span className="ml-2 text-gray-700">Near Me</span>
                 </label>
+              </div>
+
+              <div className="px-4 py-2">
+                <button
+                  className="bg-blue-500 hover:bg-blue-600 text-white font-semibold rounded-full px-6 py-2 shadow-lg transition duration-200 ease-in-out"
+                  onClick={() => setFilterDropdownOpen(false)}
+                >
+                  Apply Filters
+                </button>
               </div>
             </div>
           )}
@@ -190,15 +220,42 @@ const AdvocateList: React.FC = () => {
       </div>
 
       {/* Advocate Grid */}
-      <AdvocateGrid advocates={filteredAdvocates} onViewMore={handleViewMore} />
+      <AdvocateGrid
+        advocates={advocatesToDisplay}
+        onViewMore={handleViewMore}
+      />
 
-      {/* Modal for detailed advocate information */}
+      {/* Load More Button */}
+      {visibleCount < maxVisibleCount && (
+        <div className="text-center my-6">
+          <button
+            onClick={handleLoadMore}
+            className="bg-blue-500 hover:bg-blue-600 text-white font-semibold rounded-full px-6 py-2 shadow-lg transition duration-200 ease-in-out"
+          >
+            Load More
+          </button>
+        </div>
+      )}
+
+      {/* Maximum limit message */}
+      {maxLimitMessage && (
+        <div className="text-red-500 text-center">{maxLimitMessage}</div>
+      )}
+
+      {/* Modal for Advocate Details */}
       {selectedAdvocate && (
         <AdvocateDetailsModal
           advocate={selectedAdvocate}
           onClose={handleCloseModal}
         />
       )}
+
+      {/* Current Page Display */}
+      <div className="text-center mt-4">
+        <span>
+          Page {currentPage} of {Math.ceil(filteredAdvocates.length / 3)}
+        </span>
+      </div>
     </div>
   );
 };
