@@ -62,10 +62,10 @@ const ViewCasesAdvocate: React.FC = () => {
 
   const handleFeeChargeSubmit = (amount: number) => {
     console.log(
-      `Fee charged for case "${chargeFeeCase?.case_title}": $${amount}`,
+      `Fee charged for case "${chargeFeeCase?.case_title}": Rs.${amount}`,
     );
     setFeedbackMessage(
-      `Amount of $${amount} charged successfully for case: ${chargeFeeCase?.case_title}`,
+      `Amount of Rs.${amount} charged successfully for case: ${chargeFeeCase?.case_title}`,
     );
     setMessageType('success');
     setChargeFeeCase(null);
