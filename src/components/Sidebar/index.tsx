@@ -380,6 +380,35 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                   FeedBack Advocates
                 </NavLink>
               </li>
+
+              <li>
+                <NavLink
+                  to="/dashboard/requestedCases"
+                  className={({ isActive }) =>
+                    `group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out ${
+                      isActive ? 'bg-graydark dark:bg-meta-4' : ''
+                    } hover:bg-graydark dark:hover:bg-meta-4`
+                  }
+                >
+                  {/* New Feedback Icon */}
+                  <svg
+                    className="fill-current"
+                    width="18"
+                    height="18"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M20 4H4C2.9 4 2 4.9 2 6v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 2v.01L12 13 4 6.01V6h16zM4 18V8.74l7.29 6.54a1 1 0 0 0 1.42 0L20 8.74V18H4z"
+                      fill="currentColor"
+                    />
+                    <circle cx="19" cy="7" r="3" fill="currentColor" />
+                  </svg>
+                  Requested Cases
+                </NavLink>
+              </li>
+
               <li>
                 <NavLink
                   to="/auth/signin"

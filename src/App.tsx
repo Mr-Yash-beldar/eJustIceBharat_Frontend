@@ -2,10 +2,10 @@ import { useEffect } from 'react';
 import { Route, Routes, useLocation } from 'react-router-dom';
 
 import Loader from './common/Loader';
+import DashBoard from './Dashboard';
 import PageTitle from './components/PageTitle';
 import SignIn from './pages/Authentication/SignIn';
 import SignUp from './pages/Authentication/SignUp';
-import DashBoard from './Dashboard';
 import ForgotPassword from './pages/Authentication/ForgotPassword';
 import ResetPassword from './pages/Authentication/ResetPassword';
 import VerifyEmail from './pages/Authentication/VerifyEmail';
@@ -22,6 +22,7 @@ import PayFees from './pages/PayFees/PayFees';
 import LandingPage from './pages/LandingPage/LandingPage';
 import { useAuth } from './context/AuthProvider';
 import HomeCard from './pages/Home/HomeCard';
+import CaseList from './AdvocatePages/RequestedCases/CaseList';
 
 function App() {
   const { pathname } = useLocation();
@@ -204,6 +205,18 @@ function App() {
                         <PageTitle title="AdvocateHome| EJusticeBharat" />
                         <ProfileCompletionRoute>
                           <HomeCard />
+                        </ProfileCompletionRoute>
+                      </>
+                    }
+                  />
+
+                  <Route
+                    path="requestedCases"
+                    element={
+                      <>
+                        <PageTitle title="RequestedCases| EJusticeBharat" />
+                        <ProfileCompletionRoute>
+                          <CaseList />
                         </ProfileCompletionRoute>
                       </>
                     }
