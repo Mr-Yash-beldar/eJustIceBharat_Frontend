@@ -1,31 +1,11 @@
 import React, { useEffect, useState } from 'react';
-// import cases from '../Cases/Cases';
+import {Case} from '../Cases/Cases';
 import { FaPaperPlane, FaSpinner } from 'react-icons/fa'; // Paper plane icon for "send" and spinner for loading
 import Loader from '../../common/Loader';
 import axiosInstance from '../../utils/axiosInstance';
 
 interface SendRequestProps {
   advocateName: string;
-}
-
-interface Case {
-  case_title: string;
-  case_description: string;
-  case_type: string;
-  filing_date: string; // Format: YYYY-MM-DD
-  causeOfAction: string;
-  urgency_level: string; // E.g., 'High', 'Medium', 'Low'
-  plaintiffName: string;
-  plaintiffContactEmail: string;
-  plaintiffContactPhone: string;
-  plaintiffAddress: string;
-  defendantName: string;
-  defendantContactEmail: string;
-  defendantContactPhone: string;
-  defendantAddress: string;
-  evidence_provided: string;
-  witness_details: string;
-  case_status: 'Filed' | 'Requested' | 'Accepted' | 'Registered' | 'Closed'; // New attribute
 }
 
 const SendRequest: React.FC<SendRequestProps> = ({ advocateName }) => {
