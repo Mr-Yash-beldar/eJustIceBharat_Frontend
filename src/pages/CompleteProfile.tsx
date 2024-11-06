@@ -7,6 +7,7 @@ import FileUpload from '../components/FileUpload/FileUpload';
 import { toast } from 'react-toastify';
 
 const CompleteProfile: React.FC = () => {
+  const [updated, setUpdated] = useState(false);
   //define the type for LitigantLocation
   interface LitigantLocation {
     coordinates: [string, string]; // [latitude, longitude]
@@ -55,7 +56,7 @@ const CompleteProfile: React.FC = () => {
         litigant_long: longitude, // Set longitude
       }));
     } else {
-      // console.log('No coordinates found');
+      toast.error('No coordinates found');
     }
   };
 
@@ -79,7 +80,7 @@ const CompleteProfile: React.FC = () => {
             toast.error(error.response.data.error); // Show alert with the error message
           } else if (error.response.status === 400) {
             // email cannot update
-            alert(error.response.data.error);
+            toast.error(error.response.data.error);
           } else {
             // Handle other HTTP errors
             toast.error('An error occurred. Please try again later.');
@@ -93,7 +94,7 @@ const CompleteProfile: React.FC = () => {
       }
     } else {
       setLoading(false);
-      console.log('No token found');
+      toast.error('No token found');
     }
 
     setLoading(false);
@@ -101,7 +102,7 @@ const CompleteProfile: React.FC = () => {
 
   useEffect(() => {
     getLitigantData();
-  }, []);
+  }, [updated]);
 
   const inputChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
@@ -157,7 +158,8 @@ const CompleteProfile: React.FC = () => {
           // Handle AxiosError with specific status
           if (error.response.status === 404) {
             // Litigant not found
-            toast.error(error.response.data.error); // Show alert with the error message
+            toast.error(error.response.data.error); 
+            // Show alert with the error message
           } else if (error.response.status === 400) {
             // email cannot update
             toast.error(error.response.data.error);
@@ -179,7 +181,8 @@ const CompleteProfile: React.FC = () => {
 
     setLoading(false);
     toast.success("Profile is Completed");
-    navigate('/dashboard/CompleteProfile');
+    setUpdated(!updated);
+    window.location.reload();
   };
 
   const getLocation = () => {

@@ -1,15 +1,16 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import LogoDark from '../../images/logo/logo_light.png';
 import Logo from '../../images/logo/logo_dark.png';
 import axiosInstance from '../../utils/axiosInstance';
-import { AxiosError } from 'axios';
+import axios from 'axios';
 import { toast } from 'react-toastify';
+import { useAuth } from '../../context/AuthProvider';
 
 const SignUp: React.FC = () => {
-  const location = useLocation();
-  const { role } = location.state || { role: 'litigant' };
+  const {role}=useAuth();
+  
 
   const [formData, setFormData] = useState({
     litigant_name: '',
@@ -36,10 +37,8 @@ const SignUp: React.FC = () => {
     setLoading(true); // Enable loading
 
     try {
-      // console.log('Form data:', formData);
-      toast.success("Form Data");
       const response = await axiosInstance.post('/litigants/signup', formData);
-      // console.log('Sign up successful:', response.data);
+     
       toast.success("Sign up successful");
       const userId = response.data.id; // Access user ID from the response
 
@@ -48,19 +47,20 @@ const SignUp: React.FC = () => {
         `/email/sendOtp?id=${userId}`,
       );
       if (otpResponse.status === 200) {
-        navigate(`/auth/VerifyEmail/${userId}`, { state: { role: role } }); // Redirect to the email verification page
+        navigate(`/auth/VerifyEmail/${userId}`); // Redirect to the email verification page
+        toast.info("OTP sent to your email");
       } else {
         toast.error(otpResponse.data.error);
       }
-    } catch (error) {
-      if (error instanceof AxiosError) {
+    } catch (error:unknown) {
+      if (axios.isAxiosError(error) && error.response) {
 
       if (error.response && error.response.status === 409) {
         // User already exists, handle accordingly
         toast.error(error.response.data.error); // Show alert with the error message
         navigate('/auth/signin'); // Redirect to the signin page
       } else {
-        toast.error(error.message || "An unexpected error occurred."); // General error alert
+        toast.error(error.response.data.error || "An unexpected error occurred."); // General error alert
       }
     }
     else {
