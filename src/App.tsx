@@ -23,11 +23,11 @@ import LandingPage from './pages/LandingPage/LandingPage';
 import { useAuth } from './context/AuthProvider';
 import HomeCard from './pages/Home/HomeCard';
 import CaseList from './AdvocatePages/RequestedCases/CaseList';
+import ViewCasesAdvocate from './AdvocatePages/ViewCasesAdvocate/ViewCasesAdvocate';
 
 function App() {
   const { pathname } = useLocation();
   const { loading } = useAuth();
-
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -218,6 +218,18 @@ function App() {
                         <PageTitle title="RequestedCases| EJusticeBharat" />
                         <ProfileCompletionRoute>
                           <CaseList />
+                        </ProfileCompletionRoute>
+                      </>
+                    }
+                  />
+
+                  <Route
+                    path="ViewMyAcceptedCases"
+                    element={
+                      <>
+                        <PageTitle title="AcceptedCases| EJusticeBharat" />
+                        <ProfileCompletionRoute>
+                          <ViewCasesAdvocate />
                         </ProfileCompletionRoute>
                       </>
                     }
