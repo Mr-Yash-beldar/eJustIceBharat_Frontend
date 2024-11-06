@@ -11,8 +11,6 @@ interface AdvocateProps {
     gender: string;
     mobile: string;
     language: string;
-    aadharProof: string;
-    pincode: string;
     location: string;
     distance: string;
     specialization: string;
