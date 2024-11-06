@@ -1,14 +1,15 @@
 import React, { useState } from 'react';
-import { useNavigate, useParams, useLocation } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import LogoDark from '../../images/logo/logo_light.png';
 import Logo from '../../images/logo/logo_dark.png';
 import axiosInstance from '../../utils/axiosInstance';
 import { toast } from 'react-toastify';
+import axios from 'axios';
+// import { useAuth } from '../../context/AuthProvider';
 
 const VerifyEmail: React.FC = () => {
-  const location = useLocation();
-  const { role } = location.state || { role: 'litigant' };
+  // const { role } = useAuth();
 
   const { id } = useParams();
   const [otpData, setOtpData] = useState({
@@ -44,14 +45,30 @@ const VerifyEmail: React.FC = () => {
 
          toast.success("Email Verify Successfully")
         // Redirect to the common sign-in page with role in state
-        navigate('/auth/signin', { state: { role:  role } });
+        navigate('/auth/signin');
 
-      } else {
-        toast.error('OTP verification failed. Please try again.'); // Handle failed verification
+      // } else if (response.status === 402) {
+      //     toast.error("Invalid OTP");
+      // }
+      // else if (response.status === 405) {
+      //     toast.error("OTP has Expired");
+      // }
       }
-    } catch (error) {
-      console.error('Error verifying OTP:', error);
-      toast.error('An error occurred while verifying OTP. Please try again later.');
+      else {
+        toast.error('An error occurred while verifying OTP. Please try again later.');
+      }
+
+    }  catch (error:unknown) {
+      if (axios.isAxiosError(error) && error.response) {
+
+      if (error.response && error.response.status === 402) {
+        // User already exists, handle accordingly
+        toast.error(error.response.data.error); // Show alert with the error message
+      } else {
+        toast.error(error.response.data.error || "An unexpected error occurred."); // General error alert
+      }
+    }
+  
     } finally {
       setLoading(false); // Disable loading
     }
