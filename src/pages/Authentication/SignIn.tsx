@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import LogoDark from '../../images/logo/logo_light.png';
 import Logo from '../../images/logo/logo_dark.png';
 import axiosInstance from '../../utils/axiosInstance';
@@ -9,8 +9,7 @@ import { useAuth } from '../../context/AuthProvider';
 import { toast } from 'react-toastify';
 
 const SignIn: React.FC = () => {
-  const location = useLocation();
-  const { role } = location.state || { role: 'litigant' };
+  const { role } = useAuth();
 
   const [formData, setFormData] = useState({
     litigant_email: '',
@@ -70,7 +69,7 @@ const SignIn: React.FC = () => {
           if (otpResponse.status === 200) {
 
                 toast.success("OTP Send Successful")
-            navigate(`/auth/VerifyEmail/${id}`, { state: { role } });
+            navigate(`/auth/VerifyEmail/${id}`);
           } else {
             toast.error(otpResponse.data.error);
           }
@@ -399,7 +398,6 @@ const SignIn: React.FC = () => {
                     Don’t have any account?{' '}
                     <Link
                       to="/auth/SignUp"
-                      state={{ role: role }}
                       className="text-primary"
                     >
                       Sign Up
