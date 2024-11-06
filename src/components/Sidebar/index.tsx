@@ -420,6 +420,36 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
               <ul className="mb-6 flex flex-col gap-1.5">
                 <li>
                   <NavLink
+                    to="/dashboard/AdvocateCompleteProfile"
+                    className={({ isActive }) =>
+                      `group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out ${
+                        isActive ? 'bg-graydark dark:bg-meta-4' : ''
+                      } hover:bg-graydark dark:hover:bg-meta-4`
+                    }
+                  >
+                    <svg
+                      className="fill-current"
+                      width="22"
+                      height="22"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M12 2C9.243 2 7 4.243 7 7C7 9.757 9.243 12 12 12C14.757 12 17 9.757 17 7C17 4.243 14.757 2 12 2ZM12 10C10.346 10 9 8.654 9 7C9 5.346 10.346 4 12 4C13.654 4 15 5.346 15 7C15 8.654 13.654 10 12 10Z"
+                        fill=""
+                      />
+                      <path
+                        d="M12 14C9.34784 14 6.8043 15.0536 5 16.8787V19C5 19.5523 5.44772 20 6 20H18C18.5523 20 19 19.5523 19 19V16.8787C17.1957 15.0536 14.6522 14 12 14ZM7 18V17.3639C8.47121 16.0334 10.1981 15.3333 12 15.3333C13.8019 15.3333 15.5288 16.0334 17 17.3639V18H7Z"
+                        fill=""
+                      />
+                    </svg>
+                    Complete Profile
+                  </NavLink>
+                </li>
+
+                <li>
+                  <NavLink
                     to="/dashboard/requestedCases"
                     className={({ isActive }) =>
                       `group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out ${

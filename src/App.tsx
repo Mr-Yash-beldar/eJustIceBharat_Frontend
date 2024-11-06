@@ -24,6 +24,7 @@ import { useAuth } from './context/AuthProvider';
 import HomeCard from './pages/Home/HomeCard';
 import CaseList from './AdvocatePages/RequestedCases/CaseList';
 import ViewCasesAdvocate from './AdvocatePages/ViewCasesAdvocate/ViewCasesAdvocate';
+import CompleteProfileAdvocate from './AdvocatePages/CompleteProfileAdvocate.tsx/CompleteProfileAdvocate';
 
 function App() {
   const { pathname } = useLocation();
@@ -230,6 +231,18 @@ function App() {
                         <PageTitle title="AcceptedCases| EJusticeBharat" />
                         <ProfileCompletionRoute>
                           <ViewCasesAdvocate />
+                        </ProfileCompletionRoute>
+                      </>
+                    }
+                  />
+
+                  <Route
+                    path="AdvocateCompleteProfile"
+                    element={
+                      <>
+                        <PageTitle title="CompleteProfileAdvocate| EJusticeBharat" />
+                        <ProfileCompletionRoute>
+                          <CompleteProfileAdvocate />
                         </ProfileCompletionRoute>
                       </>
                     }
