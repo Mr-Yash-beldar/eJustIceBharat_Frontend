@@ -503,6 +503,50 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
 
                 <li>
                   <NavLink
+                    to="/dashboard/CaseRegistrationToCourt"
+                    className={({ isActive }) =>
+                      `group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out ${
+                        isActive ? 'bg-graydark dark:bg-meta-4' : ''
+                      } hover:bg-graydark dark:hover:bg-meta-4`
+                    }
+                  >
+                    <svg
+                      className="fill-current"
+                      width="18"
+                      height="18"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path d="M12 2L4 6V8H20V6L12 2Z" fill="currentColor" />
+                      <path
+                        d="M5 9H6V20H5V9ZM18 9H19V20H18V9Z"
+                        fill="currentColor"
+                      />
+
+                      <rect
+                        x="7"
+                        y="10"
+                        width="10"
+                        height="10"
+                        rx="1"
+                        fill="currentColor"
+                      />
+
+                      <path
+                        d="M10 14L12 16L15 13"
+                        stroke="white"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                    </svg>
+                    Register Case To Court
+                  </NavLink>
+                </li>
+
+                <li>
+                  <NavLink
                     to="/chart"
                     className={({ isActive }) =>
                       `group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out ${
