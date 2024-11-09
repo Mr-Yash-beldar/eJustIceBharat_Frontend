@@ -1,9 +1,13 @@
 import { useState } from 'react';
 import Breadcrumb from '../../components/Breadcrumbs/Breadcrumb';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import axiosInstance from '../../utils/axiosInstance';
+import { toast } from 'react-toastify';
 
 const AddCase: React.FC = () => {
   const [loading, setLoading] = useState(false); // Add loading state
+  const token = localStorage.getItem('token');
 
   const [formData, setFormData] = useState({
     case_title: '',
@@ -12,10 +16,6 @@ const AddCase: React.FC = () => {
     filing_date: '',
     causeOfAction: '',
     urgency_level: '',
-    plaintiffName: '',
-    plaintiffContactEmail: '',
-    plaintiffContactPhone: '',
-    plaintiffAddress: '',
     defendantName: '',
     defendantContactEmail: '',
     defendantContactPhone: '',
@@ -36,34 +36,48 @@ const AddCase: React.FC = () => {
 
   const navigate = useNavigate();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     setLoading(true);
     e.preventDefault();
+    const data = {
+      case_title: formData.case_title,
+      case_description: formData.case_description,
+      case_type: formData.case_type,
+      filing_date: formData.filing_date,
+      causeOfAction: formData.causeOfAction,
+      urgency_level: formData.urgency_level,
+      defendantName: formData.defendantName,
+      defendantContactEmail: formData.defendantContactEmail,
+      defendantContactPhone: formData.defendantContactPhone,
+      defendantAddress: formData.defendantAddress,
+      evidence_provided: formData.evidence_provided,
+      witness_details: formData.witness_details,
+    };
 
-    setTimeout(() => {
-      const data = {
-        case_title: formData.case_title,
-        case_description: formData.case_description,
-        case_type: formData.case_type,
-        filing_date: formData.filing_date,
-        causeOfAction: formData.causeOfAction,
-        urgency_level: formData.urgency_level,
-        plaintiffName: formData.plaintiffName,
-        plaintiffContactEmail: formData.plaintiffContactEmail,
-        plaintiffContactPhone: formData.plaintiffContactPhone,
-        plaintiffAddress: formData.plaintiffAddress,
-        defendantName: formData.defendantName,
-        defendantContactEmail: formData.defendantContactEmail,
-        defendantContactPhone: formData.defendantContactPhone,
-        defendantAddress: formData.defendantAddress,
-        evidence_provided: formData.evidence_provided,
-        witness_details: formData.witness_details,
-      };
+    if (token) {
+      try {
+        const response = await axiosInstance.post('/cases/add', data, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        toast.success(response.data.message);
+        navigate('/dashboard/viewCase');
+      } catch (error: unknown) {
+        if (axios.isAxiosError(error) && error.response) {
+          // Handle AxiosError with specific status
 
-      console.log('Saved data', data);
+          toast.error(error.response.data.error);
+        } else {
+          // Handle other HTTP errors
+          toast.error('An error occurred. Please try again later.');
+        }
+      } finally {
+        setLoading(false);
+      }
+    } else {
       setLoading(false);
-      navigate('/dashboard/viewCase');
-    }, 2000);
+      toast.error('An unexpected error occurred.');
+    }
+    setLoading(false);
   };
 
   return (
@@ -352,10 +366,6 @@ const AddCase: React.FC = () => {
                           filing_date: '',
                           causeOfAction: '',
                           urgency_level: '',
-                          plaintiffName: '',
-                          plaintiffContactEmail: '',
-                          plaintiffContactPhone: '',
-                          plaintiffAddress: '',
                           defendantName: '',
                           defendantContactEmail: '',
                           defendantContactPhone: '',
