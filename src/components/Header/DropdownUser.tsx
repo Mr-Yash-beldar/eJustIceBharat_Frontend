@@ -13,7 +13,7 @@ const DropdownUser = () => {
   const [litigantProfile, setlitigantProfile] = useState<any>();
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const { role } = useAuth();
-  
+
   const getLitigantData = async () => {
     if (token) {
       try {
@@ -65,13 +65,17 @@ const DropdownUser = () => {
       >
         <span className="hidden text-right lg:block">
           <span className="block text-sm font-medium text-black dark:text-white">
-            {loading? 'Loading...' : litigantProfile?.litigant_name}
+            {loading ? 'Loading...' : litigantProfile?.litigant_name}
           </span>
           <span className="block text-xs">{role}</span>
         </span>
 
         <span className="h-12 w-12 rounded-full overflow-hidden">
-          <img src=  {loading? UserOne : litigantProfile?.profile_image} alt="User" className="h-full w-full object-cover" />
+          <img
+            src={loading ? UserOne : litigantProfile?.profile_image}
+            alt="User"
+            className="h-full w-full object-cover"
+          />
         </span>
 
         <svg
@@ -212,7 +216,7 @@ const DropdownUser = () => {
 
             <li>
               <Link
-                to="/dashboard/CompleteProfile"
+                to="/dashboard/AdvocateCompleteProfile"
                 className="flex items-center gap-3.5 text-sm font-medium duration-300 ease-in-out hover:text-primary lg:text-base"
               >
                 <svg

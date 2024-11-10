@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
-import Breadcrumb from '../components/Breadcrumbs/Breadcrumb';
+import Breadcrumb from '../../components/Breadcrumbs/Breadcrumb';
 import { useNavigate } from 'react-router-dom';
-import axiosInstance from '../utils/axiosInstance';
+import axiosInstance from '../../utils/axiosInstance';
 import axios from 'axios';
-import FileUpload from '../components/FileUpload/FileUpload';
+import FileUpload from '../../components/FileUpload/FileUpload';
 import { toast } from 'react-toastify';
 
 const CompleteProfile: React.FC = () => {
@@ -40,8 +40,6 @@ const CompleteProfile: React.FC = () => {
   const [loading, setLoading] = useState(false); // Add loading state
   const navigate = useNavigate();
   const token = localStorage.getItem('token');
-
-
 
   // Example of a function to set latitude and longitude
   const setLatLong = (litigantLocation: LitigantLocation) => {
@@ -158,7 +156,7 @@ const CompleteProfile: React.FC = () => {
           // Handle AxiosError with specific status
           if (error.response.status === 404) {
             // Litigant not found
-            toast.error(error.response.data.error); 
+            toast.error(error.response.data.error);
             // Show alert with the error message
           } else if (error.response.status === 400) {
             // email cannot update
@@ -180,7 +178,7 @@ const CompleteProfile: React.FC = () => {
     }
 
     setLoading(false);
-    toast.success("Profile is Completed");
+    toast.success('Profile is Completed');
     setUpdated(!updated);
     window.location.reload();
   };
@@ -478,8 +476,9 @@ const CompleteProfile: React.FC = () => {
                       Cancel
                     </button>
                     <button
-                      className={`flex justify-center rounded bg-primary py-2 px-6 font-medium text-gray hover:bg-opacity-90 ${loading ? 'opacity-50 cursor-not-allowed' : ''
-                        }`}
+                      className={`flex justify-center rounded bg-primary py-2 px-6 font-medium text-gray hover:bg-opacity-90 ${
+                        loading ? 'opacity-50 cursor-not-allowed' : ''
+                      }`}
                       type="submit"
                       onClick={handleSubmit}
                       disabled={loading} // Disable if loading
@@ -522,16 +521,26 @@ const CompleteProfile: React.FC = () => {
             <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
               <div className="border-b border-stroke py-3 px-7 dark:border-strokedark"></div>
               <div className="p-5">
-                
                 {/* Profile Image Upload Section */}
-                <FileUpload fileDoc={LitigantDetails.profile_image} uploadFor={"profile"} model={"litigant"} />
+                <FileUpload
+                  fileDoc={LitigantDetails.profile_image}
+                  uploadFor={'profile'}
+                  model={'litigant'}
+                />
 
                 {/* New Aadhaar Proof Upload Section */}
-                <FileUpload fileDoc={LitigantDetails.aadhar_document} uploadFor={"aadhaar"} model={"litigant"} />
+                <FileUpload
+                  fileDoc={LitigantDetails.aadhar_document}
+                  uploadFor={'aadhaar'}
+                  model={'litigant'}
+                />
 
                 {/* E-signature Upload Section */}
-                <FileUpload fileDoc={LitigantDetails.other_document} uploadFor={"otherDocument"} model={"litigant"} />
-
+                <FileUpload
+                  fileDoc={LitigantDetails.other_document}
+                  uploadFor={'otherDocument'}
+                  model={'litigant'}
+                />
               </div>
             </div>
           </div>
