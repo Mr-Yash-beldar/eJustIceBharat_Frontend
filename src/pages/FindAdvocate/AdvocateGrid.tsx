@@ -2,7 +2,7 @@ import React from 'react';
 import AdvocateCard from './AdvocateCard'; // Corrected import for AdvocateCard
 
 interface Advocate {
-  id: number;
+  id: string;
   name: string;
   email: string;
   state: string;
@@ -10,8 +10,6 @@ interface Advocate {
   gender: string;
   mobile: string;
   language: string;
-  aadharProof: string;
-  pincode: string;
   location: string;
   distance: string;
   specialization: string;

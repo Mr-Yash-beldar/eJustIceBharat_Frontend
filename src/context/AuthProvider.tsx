@@ -43,7 +43,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         
         if (data.valid) {
           setIsAuthenticated(true);
-          setRole(data.litigant.role || 'litigant');
+          setRole(data.litigant.role);
 
           const profileResponse = await axiosInstance.get(
             '/litigants/getDetails',
@@ -51,6 +51,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
               headers: { Authorization: `Bearer ${token}` },
             },
           );
+          // toast.success('Refreshed');
 
           const { isCompleted, completionPercentage } = profileResponse.data;
           setProfileCompleted(isCompleted);

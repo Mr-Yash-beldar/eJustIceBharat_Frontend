@@ -1,6 +1,6 @@
 // cases.ts
 
-interface Case {
+export interface Case {
     case_title: string;
     case_description: string;
     case_type: string;

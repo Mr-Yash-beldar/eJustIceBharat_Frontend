@@ -16,7 +16,7 @@ import AddCase from './pages/Cases/AddCase';
 import ViewCaseTable from './pages/Cases/ViewCases';
 import ProtectedRoute from './components/ProtectedRoute';
 import ProfileCompletionRoute from './components/ProfileCompletionRoute';
-import AdvocateFeedbackPage from './pages/FeedbackAdvocate/AdvocateFeedbackPage';
+// import AdvocateFeedbackPage from './pages/FeedbackAdvocate/AdvocateFeedbackPage';
 import PreTrialConferencingPage from './pages/PreTrial/PreTrailConferencingPage';
 import PayFees from './pages/PayFees/PayFees';
 import LandingPage from './pages/LandingPage/LandingPage';
@@ -26,6 +26,8 @@ import CaseList from './AdvocatePages/RequestedCases/CaseList';
 import ViewCasesAdvocate from './AdvocatePages/ViewCasesAdvocate/ViewCasesAdvocate';
 import CompleteProfileAdvocate from './AdvocatePages/CompleteProfileAdvocate.tsx/CompleteProfileAdvocate';
 import RegistrationTable from './AdvocatePages/CaseRegistrationCourt/RegistrationTable';
+import AdvocateFeedbackPage from './pages/FeedbackAdvocate/AdvocateFeedbackPage';
+
 
 function App() {
   const { pathname } = useLocation();

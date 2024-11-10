@@ -1,13 +1,61 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import ClickOutside from '../ClickOutside';
 import UserOne from '../../images/user/user-01.png';
 import { useAuth } from '../../context/AuthProvider';
+import axiosInstance from '../../utils/axiosInstance';
+import axios from 'axios';
+import { toast } from 'react-toastify';
 
 const DropdownUser = () => {
+  const token = localStorage.getItem('token');
+  const [loading, setLoading] = useState(false);
+  const [litigantProfile, setlitigantProfile] = useState<any>();
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const { role } = useAuth();
+  
+  const getLitigantData = async () => {
+    if (token) {
+      try {
+        const litigantDetails = await axiosInstance.get(
+          '/litigants/getDetails',
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          },
+        );
+        setlitigantProfile(litigantDetails.data.litigant);
+        // console.log(litigantDetails.data.litigant);
+      } catch (error: unknown) {
+        if (axios.isAxiosError(error) && error.response) {
+          // Handle AxiosError with specific status
+          if (error.response.status === 404) {
+            // Litigant not found
+            toast.error(error.response.data.error); // Show alert with the error message
+          } else if (error.response.status === 400) {
+            // email cannot update
+            toast.error(error.response.data.error);
+          } else {
+            // Handle other HTTP errors
+            toast.error('An error occurred. Please try again later.');
+          }
+        } else {
+          // Handle unknown or non-Axios errors
+          toast.error('An unexpected error occurred. ');
+        }
+      } finally {
+        setLoading(false); // Disable loading
+      }
+    } else {
+      setLoading(false);
+      toast.error('No token found');
+    }
 
+    setLoading(false);
+  };
+
+  useEffect(() => {
+    getLitigantData();
+  }, []);
   return (
     <ClickOutside onClick={() => setDropdownOpen(false)} className="relative">
       <Link
@@ -17,13 +65,13 @@ const DropdownUser = () => {
       >
         <span className="hidden text-right lg:block">
           <span className="block text-sm font-medium text-black dark:text-white">
-            Thomas Anree
+            {loading? 'Loading...' : litigantProfile?.litigant_name}
           </span>
           <span className="block text-xs">{role}</span>
         </span>
 
-        <span className="h-12 w-12 rounded-full">
-          <img src={UserOne} alt="User" />
+        <span className="h-12 w-12 rounded-full overflow-hidden">
+          <img src=  {loading? UserOne : litigantProfile?.profile_image} alt="User" className="h-full w-full object-cover" />
         </span>
 
         <svg

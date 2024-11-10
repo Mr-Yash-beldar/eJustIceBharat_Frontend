@@ -2,7 +2,7 @@ import React from 'react';
 
 interface AdvocateProps {
   advocate: {
-    id: number;
+    id: string;
     name: string;
     email: string;
     state: string;
@@ -10,8 +10,6 @@ interface AdvocateProps {
     gender: string;
     mobile: string;
     language: string;
-    aadharProof: string;
-    pincode: string;
     location: string;
     distance: string;
     specialization: string;
