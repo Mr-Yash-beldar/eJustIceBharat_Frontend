@@ -2,21 +2,19 @@ import { useEffect } from 'react';
 import { Route, Routes, useLocation } from 'react-router-dom';
 
 import Loader from './common/Loader';
-import DashBoard from './Dashboard';
 import PageTitle from './components/PageTitle';
 import SignIn from './pages/Authentication/SignIn';
 import SignUp from './pages/Authentication/SignUp';
 import ForgotPassword from './pages/Authentication/ForgotPassword';
 import ResetPassword from './pages/Authentication/ResetPassword';
 import VerifyEmail from './pages/Authentication/VerifyEmail';
-import CompleteProfile from './pages/CompleteProfile';
+import CompleteProfile from './pages/CompleteProfile/CompleteProfile';
 import DefaultLayout from './layout/DefaultLayout';
 import AdvocateList from './pages/FindAdvocate/AdvocateList';
 import AddCase from './pages/Cases/AddCase';
 import ViewCaseTable from './pages/Cases/ViewCases';
-import ProtectedRoute from './components/ProtectedRoute';
-import ProfileCompletionRoute from './components/ProfileCompletionRoute';
-// import AdvocateFeedbackPage from './pages/FeedbackAdvocate/AdvocateFeedbackPage';
+import ProtectedRoute from './ProtectedRoutes/ProtectedRoute';
+import ProfileCompletionRoute from './ProtectedRoutes/ProfileCompletionRoute';
 import PreTrialConferencingPage from './pages/PreTrial/PreTrailConferencingPage';
 import PayFees from './pages/PayFees/PayFees';
 import LandingPage from './pages/LandingPage/LandingPage';
@@ -27,7 +25,6 @@ import ViewCasesAdvocate from './AdvocatePages/ViewCasesAdvocate/ViewCasesAdvoca
 import CompleteProfileAdvocate from './AdvocatePages/CompleteProfileAdvocate.tsx/CompleteProfileAdvocate';
 import RegistrationTable from './AdvocatePages/CaseRegistrationCourt/RegistrationTable';
 import AdvocateFeedbackPage from './pages/FeedbackAdvocate/AdvocateFeedbackPage';
-
 
 function App() {
   const { pathname } = useLocation();
@@ -106,15 +103,6 @@ function App() {
             <ProtectedRoute>
               <DefaultLayout>
                 <Routes>
-                  <Route
-                    path="dashboard"
-                    element={
-                      <div>
-                        <PageTitle title="Dashboard | EjusticeBharat" />
-                        <DashBoard />
-                      </div>
-                    }
-                  />
                   <Route
                     path="CompleteProfile"
                     element={
