@@ -25,7 +25,9 @@ import HomeCard from './pages/Home/HomeCard';
 import CaseList from './AdvocatePages/RequestedCases/CaseList';
 import ViewCasesAdvocate from './AdvocatePages/ViewCasesAdvocate/ViewCasesAdvocate';
 import CompleteProfileAdvocate from './AdvocatePages/CompleteProfileAdvocate.tsx/CompleteProfileAdvocate';
+import RegistrationTable from './AdvocatePages/CaseRegistrationCourt/RegistrationTable';
 import AdvocateFeedbackPage from './pages/FeedbackAdvocate/AdvocateFeedbackPage';
+
 
 function App() {
   const { pathname } = useLocation();
@@ -244,6 +246,18 @@ function App() {
                         <PageTitle title="CompleteProfileAdvocate| EJusticeBharat" />
                         <ProfileCompletionRoute>
                           <CompleteProfileAdvocate />
+                        </ProfileCompletionRoute>
+                      </>
+                    }
+                  />
+
+                  <Route
+                    path="CaseRegistrationToCourt"
+                    element={
+                      <>
+                        <PageTitle title="CaseRegistrationToCourt| EJusticeBharat" />
+                        <ProfileCompletionRoute>
+                          <RegistrationTable />
                         </ProfileCompletionRoute>
                       </>
                     }
