@@ -420,7 +420,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
               <ul className="mb-6 flex flex-col gap-1.5">
                 <li>
                   <NavLink
-                    to="/dashboard/LitigantHome"
+                    to="/dashboard/advocateHome"
                     className={({ isActive }) =>
                       `group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out ${
                         isActive ? 'bg-graydark dark:bg-meta-4' : ''
@@ -585,6 +585,32 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
 
                 <li>
                   <NavLink
+                    to="/dashboard/EvidencePresentation"
+                    className={({ isActive }) =>
+                      `group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out ${
+                        isActive ? 'bg-graydark dark:bg-meta-4' : ''
+                      } hover:bg-graydark dark:hover:bg-meta-4`
+                    }
+                  >
+                    <svg
+                      className="fill-current"
+                      width="18"
+                      height="19"
+                      viewBox="0 0 18 19"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M4 1.5C3.44772 1.5 3 1.94772 3 2.5V16.5C3 17.0523 3.44772 17.5 4 17.5H14C14.5523 17.5 15 17.0523 15 16.5V6.5L11 2.5H4ZM12 12C12 13.6569 10.6569 15 9 15C7.34315 15 6 13.6569 6 12C6 10.3431 7.34315 9 9 9C10.6569 9 12 10.3431 12 12ZM13 12C13 9.79086 11.2091 8 9 8C6.79086 8 5 9.79086 5 12C5 14.2091 6.79086 16 9 16C10.0244 16 11.0035 15.6486 11.7574 15.0503L14.7071 18L16 16.7071L13.0503 13.7574C13.6486 13.0035 14 12.0244 14 11H13Z"
+                        fill="currentColor"
+                      />
+                    </svg>
+                    Evidence Presentation
+                  </NavLink>
+                </li>
+
+                <li>
+                  <NavLink
                     to="/chart"
                     className={({ isActive }) =>
                       `group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out ${
@@ -632,6 +658,32 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                       />
                     </svg>
                     PreTrial Conferencing
+                  </NavLink>
+                </li>
+
+                <li>
+                  <NavLink
+                    to="/dashboard/ViewFeedback"
+                    className={({ isActive }) =>
+                      `group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out ${
+                        isActive ? 'bg-graydark dark:bg-meta-4' : ''
+                      } hover:bg-graydark dark:hover:bg-meta-4`
+                    }
+                  >
+                    <svg
+                      className="fill-current"
+                      width="18"
+                      height="18"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M2 4a2 2 0 012-2h16a2 2 0 012 2v16a2 2 0 01-2 2H6l-4 4V4zm14 4h-8a1 1 0 000 2h8a1 1 0 000-2zm0 4h-8a1 1 0 000 2h8a1 1 0 000-2z"
+                        fill="currentColor"
+                      />
+                    </svg>
+                    View Feedbacks
                   </NavLink>
                 </li>
 

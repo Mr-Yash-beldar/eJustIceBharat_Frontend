@@ -1,15 +1,14 @@
 // home.ts
 
 // Define and export the CardData type
-export type CardData = {
+export type CardDataAdvocate = {
     cardTitle: string;
     value: number;
 };
 
 // Define the homeData array
-const homeData: CardData[] = [
+const homeDataAdvocate: CardDataAdvocate[] = [
     { cardTitle: "All Cases", value: 150 },
-    { cardTitle: "Filed Cases", value: 30 },
     { cardTitle: "Accepted Cases", value: 25 },
     { cardTitle: "Rejected Cases", value: 10 },
     { cardTitle: "Registered Cases", value: 50 },
@@ -18,4 +17,4 @@ const homeData: CardData[] = [
 ];
 
 // Export homeData as the default export
-export default homeData;
+export default homeDataAdvocate;
