@@ -25,6 +25,9 @@ import ViewCasesAdvocate from './AdvocatePages/ViewCasesAdvocate/ViewCasesAdvoca
 import CompleteProfileAdvocate from './AdvocatePages/CompleteProfileAdvocate.tsx/CompleteProfileAdvocate';
 import RegistrationTable from './AdvocatePages/CaseRegistrationCourt/RegistrationTable';
 import AdvocateFeedbackPage from './pages/FeedbackAdvocate/AdvocateFeedbackPage';
+import HomeCardAdvocate from './AdvocatePages/HomeAdvocate/HomeCardAdvocate';
+import Evidence from './AdvocatePages/EvidencePresentation/EvidencePresentation';
+import FeedbackPage from './AdvocatePages/ViewFeedbacks/FeedbackPage';
 
 function App() {
   const { pathname } = useLocation();
@@ -197,7 +200,7 @@ function App() {
                       <>
                         <PageTitle title="AdvocateHome| EJusticeBharat" />
                         <ProfileCompletionRoute>
-                          <HomeCard />
+                          <HomeCardAdvocate />
                         </ProfileCompletionRoute>
                       </>
                     }
@@ -245,6 +248,30 @@ function App() {
                         <PageTitle title="CaseRegistrationToCourt| EJusticeBharat" />
                         <ProfileCompletionRoute>
                           <RegistrationTable />
+                        </ProfileCompletionRoute>
+                      </>
+                    }
+                  />
+
+                  <Route
+                    path="EvidencePresentation"
+                    element={
+                      <>
+                        <PageTitle title="EvidencePresentation| EJusticeBharat" />
+                        <ProfileCompletionRoute>
+                          <Evidence />
+                        </ProfileCompletionRoute>
+                      </>
+                    }
+                  />
+
+                  <Route
+                    path="ViewFeedback"
+                    element={
+                      <>
+                        <PageTitle title="ViewFeedbacks| EJusticeBharat" />
+                        <ProfileCompletionRoute>
+                          <FeedbackPage />
                         </ProfileCompletionRoute>
                       </>
                     }
