@@ -1,14 +1,14 @@
 // LandingPage.tsx
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../../context/AuthProvider';
+
+
 
 const LandingPage: React.FC = () => {
-  const { setRole } = useAuth();
   const navigate = useNavigate();
 
   const handleSignIn = (role: 'litigant' | 'advocate') => {
-    setRole(role);
+    localStorage.setItem('role',role);
     navigate('/auth/signin');
   };
 
