@@ -9,64 +9,98 @@ import { toast } from 'react-toastify';
 import { useAuth } from '../../context/AuthProvider';
 
 const SignUp: React.FC = () => {
-  const {role}=useAuth();
-  
+  const { role: authRole } = useAuth();
+  const navigate = useNavigate();
+  const userRole = localStorage.getItem('role');
+  var role = '';
 
-  const [formData, setFormData] = useState({
-    litigant_name: '',
-    litigant_email: '',
-    litigant_password: '',
-    litigant_mob: '',
-    litigant_confirm_password: '',
-    licenseNumber: '',
+    if (authRole) {
+      role=authRole;
+    } else if (userRole) {
+      role=userRole;
+    } else {
+       //redirect to landing page without nevigate
+       window.location.href = '/';
+    }
+ 
+  console.log(role);
+
+  const [formData, setFormData] = useState<any>({
   });
 
   const inputChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
-    setFormData((prevState) => ({
+    setFormData((prevState: any) => ({
       ...prevState,
       [name]: value,
-    }));
+    }));  
   };
 
-  const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     setLoading(true); // Enable loading
+    let requestData = {};
+
+    // Determine the role endpoint
+    const endpoint = `/${role}s/signup`;
+
+    if (role === 'advocate') {
+      requestData = {
+        fullName: formData.litigant_name,
+        email: formData.litigant_email,
+        password: formData.litigant_password,
+        mobileNumber: formData.litigant_mob,
+        confirmPassword: formData.litigant_confirm_password,
+        barLicenseNumber: formData.licenseNumber,
+      };
+    } else if (role === 'litigant') {
+      requestData = {
+        litigant_name: formData.litigant_name,
+        litigant_email: formData.litigant_email,
+        litigant_password: formData.litigant_password,
+        litigant_mob: formData.litigant_mob,
+        litigant_confirm_password: formData.litigant_confirm_password,
+      };
+    }
 
     try {
-      const response = await axiosInstance.post('/litigants/signup', formData);
-     
-      toast.success("Sign up successful");
-      const userId = response.data.id; // Access user ID from the response
+      console.log("Sending request:", requestData);
+        const response = await axiosInstance.post(endpoint, requestData);
+    
+   
 
+      toast.success('Sign up successful');
+      const userId = response.data.id; // Access user ID from the response
+      console.log(userId);
+      const url = role === 'advocate' ? 'sendAdvocateOtp' : 'sendOtp';
+      console.log(url); {
+        
+      }
       // Send OTP to the user's email
-      const otpResponse = await axiosInstance.get(
-        `/email/sendOtp?id=${userId}`,
-      );
+      const otpResponse = await axiosInstance.get(`/email/${url}?id=${userId}`);
       if (otpResponse.status === 200) {
         navigate(`/auth/VerifyEmail/${userId}`); // Redirect to the email verification page
-        toast.info("OTP sent to your email");
+        toast.info('OTP sent to your email');
       } else {
         toast.error(otpResponse.data.error);
       }
-    } catch (error:unknown) {
+    } catch (error: unknown) {
       if (axios.isAxiosError(error) && error.response) {
-
-      if (error.response && error.response.status === 409) {
-        // User already exists, handle accordingly
-        toast.error(error.response.data.error); // Show alert with the error message
-        navigate('/auth/signin'); // Redirect to the signin page
+        if (error.response && error.response.status === 409) {
+          // User already exists, handle accordingly
+          toast.error(error.response.data.error); // Show alert with the error message
+          navigate('/auth/signin'); // Redirect to the signin page
+        } else {
+          toast.error(
+            error.response.data.error || 'An unexpected error occurred.',
+          ); // General error alert
+        }
       } else {
-        toast.error(error.response.data.error || "An unexpected error occurred."); // General error alert
+        // Handle non-Axios errors if needed
+        toast.error(`Unexpected error: ${error}`);
       }
-    }
-    else {
-      // Handle non-Axios errors if needed
-      toast.error(`Unexpected error: ${error}`);
-    }
     } finally {
       setLoading(false); // Disable loading
     }
