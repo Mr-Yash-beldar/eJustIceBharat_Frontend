@@ -10,21 +10,21 @@ import { toast } from 'react-toastify';
 const DropdownUser = () => {
   const token = localStorage.getItem('token');
   const [loading, setLoading] = useState(false);
-  const [litigantProfile, setlitigantProfile] = useState<any>();
+  const [Profile, setProfile] = useState<any>();
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const { role } = useAuth();
 
-  const getLitigantData = async () => {
+  const getData = async () => {
     if (token) {
       try {
-        const litigantDetails = await axiosInstance.get(
-          '/litigants/getDetails',
+        const Details = await axiosInstance.get(
+          `/${role}s/getDetails`,
           {
             headers: { Authorization: `Bearer ${token}` },
           },
         );
-        setlitigantProfile(litigantDetails.data.litigant);
-        // console.log(litigantDetails.data.litigant);
+        setProfile(Details.data.user);
+       
       } catch (error: unknown) {
         if (axios.isAxiosError(error) && error.response) {
           // Handle AxiosError with specific status
@@ -54,8 +54,10 @@ const DropdownUser = () => {
   };
 
   useEffect(() => {
-    getLitigantData();
+    getData();
   }, []);
+
+  const userName=role==='litigant'?Profile?.litigant_name:Profile?.fullName;
   return (
     <ClickOutside onClick={() => setDropdownOpen(false)} className="relative">
       <Link
@@ -65,14 +67,14 @@ const DropdownUser = () => {
       >
         <span className="hidden text-right lg:block">
           <span className="block text-sm font-medium text-black dark:text-white">
-            {loading ? 'Loading...' : litigantProfile?.litigant_name}
+            {loading ? 'Loading...' : userName}
           </span>
           <span className="block text-xs">{role}</span>
         </span>
 
         <span className="h-12 w-12 rounded-full overflow-hidden">
           <img
-            src={loading ? UserOne : litigantProfile?.profile_image}
+            src={loading ? UserOne : Profile?.profile_image}
             alt="User"
             className="h-full w-full object-cover"
           />
