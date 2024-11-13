@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {  useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import LogoDark from '../../images/logo/logo_light.png';
@@ -9,50 +9,76 @@ import { useAuth } from '../../context/AuthProvider';
 import { toast } from 'react-toastify';
 
 const SignIn: React.FC = () => {
-  const { role } = useAuth();
+  const { role: authRole } = useAuth();
+  const navigate = useNavigate();
+  const userRole = localStorage.getItem('role');
+  var role = '';
 
-  const [formData, setFormData] = useState({
+    if (authRole) {
+      role=authRole;
+    } else if (userRole) {
+      role=userRole;
+    } else {
+       //redirect to landing page without nevigate
+       window.location.href = '/';
+    }
+ 
+  console.log(role);
+
+  const [formData, setFormData] = useState<any>({
     litigant_email: '',
     litigant_password: '',
   });
   const { setIsAuthenticated } = useAuth();
   const inputChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
-    setFormData((prevState) => ({
+    setFormData((prevState: any) => ({
       ...prevState,
       [name]: value,
     }));
   };
-
-  const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     setLoading(true); // Enable loading
-
+    let requestData={};
     // Determine the role endpoint
     const endpoint =
       role === 'advocate'
-        ? '/litigants/authenticate'
+        ? '/advocates/authenticate'
         : '/litigants/authenticate';
 
+        if (role === 'advocate') {
+          requestData = {
+            email: formData.litigant_email,
+            password: formData.litigant_password,
+ 
+          };
+        } else if (role === 'litigant') {
+          requestData = {
+            litigant_name: formData.litigant_name,
+            litigant_email: formData.litigant_email,
+          };
+        }
+
     try {
-      const response = await axiosInstance.post(endpoint, formData);
+      console.log(requestData);
+      const response = await axiosInstance.post(endpoint, requestData);
       const { token } = response.data; // Adjust based on your API response
 
       // Store token in local storage if verified and set as authenticated
       localStorage.setItem('token', token);
+      localStorage.removeItem('role');
       setIsAuthenticated(true);
 
-         toast.success("Login Successful");
+      toast.success('Login Successful');
       // Redirect to the appropriate dashboard based on role
       const dashboardPath =
         role === 'advocate'
           ? '/dashboard/advocateHome'
           : '/dashboard/LitigantHome';
       navigate(dashboardPath);
-
     } catch (error: unknown) {
       if (axios.isAxiosError(error) && error.response) {
         // Handle AxiosError with specific status
@@ -61,14 +87,12 @@ const SignIn: React.FC = () => {
           toast.error(error.response.data.message);
           // alert(error.response.data.message); // Show alert with the error message
           const id = error.response.data.id;
+          const url = role === 'advocate' ? 'sendAdvocateOtp' : 'sendOtp';
 
           // Try sending OTP and redirect to Verify Email
-          const otpResponse = await axiosInstance.get(
-            `/email/sendOtp?id=${id}`,
-          );
+          const otpResponse = await axiosInstance.get(`/email/${url}?id=${id}`);
           if (otpResponse.status === 200) {
-
-                toast.success("OTP Send Successful")
+            toast.success('OTP Send Successful');
             navigate(`/auth/VerifyEmail/${id}`);
           } else {
             toast.error(otpResponse.data.error);
@@ -83,7 +107,7 @@ const SignIn: React.FC = () => {
         }
       } else {
         // Handle unknown or non-Axios errors
-        toast.error('An unexpected error occurred.');
+        toast.error(`An unexpected error occurred: ${error}`);
       }
     } finally {
       setLoading(false); // Disable loading
@@ -396,10 +420,7 @@ const SignIn: React.FC = () => {
                 <div className="mt-6 text-center">
                   <p>
                     Don’t have any account?{' '}
-                    <Link
-                      to="/auth/SignUp"
-                      className="text-primary"
-                    >
+                    <Link to="/auth/SignUp" className="text-primary">
                       Sign Up
                     </Link>
                   </p>
