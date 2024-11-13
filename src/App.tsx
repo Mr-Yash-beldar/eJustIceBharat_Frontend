@@ -232,9 +232,8 @@ function App() {
                     element={
                       <>
                         <PageTitle title="CompleteProfileAdvocate| EJusticeBharat" />
-                        <ProfileCompletionRoute>
-                          <CompleteProfileAdvocate />
-                        </ProfileCompletionRoute>
+
+                        <CompleteProfileAdvocate />
                       </>
                     }
                   />
