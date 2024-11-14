@@ -57,7 +57,7 @@ const SignIn: React.FC = () => {
           };
         } else if (role === 'litigant') {
           requestData = {
-            litigant_name: formData.litigant_name,
+            litigant_password: formData.litigant_password,
             litigant_email: formData.litigant_email,
           };
         }
