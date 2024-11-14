@@ -68,8 +68,9 @@ const CompleteProfile: React.FC = () => {
             headers: { Authorization: `Bearer ${token}` },
           },
         );
-        setLatLong(litigantDetails.data.litigant.litigant_location);
-        setLitigantDetails(litigantDetails.data.litigant);
+        setLatLong(litigantDetails.data.user.litigant_location);
+        setLitigantDetails(litigantDetails.data.user);
+        // console.log('Litigant Details ', litigantDetails.data.user);  
       } catch (error: unknown) {
         if (axios.isAxiosError(error) && error.response) {
           // Handle AxiosError with specific status
