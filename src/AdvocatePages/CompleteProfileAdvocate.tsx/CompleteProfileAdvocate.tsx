@@ -1,25 +1,24 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Breadcrumb from '../../components/Breadcrumbs/Breadcrumb';
 import { useNavigate } from 'react-router-dom';
-// import axiosInstance from '../../utils/axiosInstance';
-// import axios from 'axios';
+import axiosInstance from '../../utils/axiosInstance';
+import axios from 'axios';
 import FileUpload from '../../components/FileUpload/FileUpload';
 import { toast } from 'react-toastify';
 
 const CompleteProfileAdvocate: React.FC = () => {
-  // const [updated, setUpdated] = useState(false);
-  //define the type for LitigantLocation
-  // interface LitigantLocation {
-  //   coordinates: [string, string]; // [latitude, longitude]
-  //   type: string; // "Point"
-  // }
+  // define the type for LitigantLocation
+  interface AdvocateLocation {
+    coordinates: [string, string]; // [latitude, longitude]
+    type: string; // "Point"
+  }
 
   // Define a type for LitigantDetails
   interface AdvocateDetailsType {
     fullName?: string;
     state?: string;
     email?: string;
-    district?: string;
+    place?: string;
     gender?: string;
     dateOfBirth?: string;
     mobileNumber?: string;
@@ -40,68 +39,70 @@ const CompleteProfileAdvocate: React.FC = () => {
   );
   const [loading, setLoading] = useState(false); // Add loading state
   const navigate = useNavigate();
-  //const token = localStorage.getItem('token');
+  const token = localStorage.getItem('token');
 
   // Example of a function to set latitude and longitude
-  // const setLatLong = (litigantLocation: LitigantLocation) => {
-  //   const { coordinates } = litigantLocation; // Destructure coordinates array
-  //   if (coordinates && coordinates.length === 2) {
-  //     // console.log('Coordinates ', coordinates);
-  //     // Check if the coordinates array has both latitude and longitude
-  //     const [longitude, latitude] = coordinates; // Destructure the coordinates array
-  //     setLitigantDetails((prevDetails) => ({
-  //       ...prevDetails,
-  //       litigant_lat: latitude, // Set latitude
-  //       litigant_long: longitude, // Set longitude
-  //     }));
-  //   } else {
-  //     toast.error('No coordinates found');
-  //   }
-  // };
+  const setLatLong = (advocateLocation: AdvocateLocation) => {
+    // console.log('Advocate Location ',);
+    const { coordinates } = advocateLocation; // Destructure coordinates array
+    if (coordinates && coordinates.length === 2) {
+      // console.log('Coordinates ', coordinates);
+      // Check if the coordinates array has both latitude and longitude
+      const [longitude, latitude] = coordinates; // Destructure the coordinates array
+      setAdvocateDetails((prevDetails) => ({
+        ...prevDetails,
+        advocate_lat: latitude, // Set latitude
+        advocate_long: longitude, // Set longitude
+      }));
+    } else {
+      console.log('No coordinates found');
+    }
+  };
 
   //get data for litigant
-  // const getLitigantData = async () => {
-  //   if (token) {
-  //     try {
-  //       const litigantDetails = await axiosInstance.get(
-  //         '/litigants/getDetails',
-  //         {
-  //           headers: { Authorization: `Bearer ${token}` },
-  //         },
-  //       );
-  //       setLatLong(litigantDetails.data.litigant.litigant_location);
-  //       setLitigantDetails(litigantDetails.data.litigant);
-  //     } catch (error: unknown) {
-  //       if (axios.isAxiosError(error) && error.response) {
-  //         // Handle AxiosError with specific status
-  //         if (error.response.status === 404) {
-  //           // Litigant not found
-  //           toast.error(error.response.data.error); // Show alert with the error message
-  //         } else if (error.response.status === 400) {
-  //           // email cannot update
-  //           toast.error(error.response.data.error);
-  //         } else {
-  //           // Handle other HTTP errors
-  //           toast.error('An error occurred. Please try again later.');
-  //         }
-  //       } else {
-  //         // Handle unknown or non-Axios errors
-  //         toast.error('An unexpected error occurred. ');
-  //       }
-  //     } finally {
-  //       setLoading(false); // Disable loading
-  //     }
-  //   } else {
-  //     setLoading(false);
-  //     toast.error('No token found');
-  //   }
+  const getAdvocateData = async () => {
+    if (token) {
+      try {
+        const advocateDetails = await axiosInstance.get(
+          '/advocates/getDetails',
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          },
+        );
+        // console.log(advocateDetails)
+        setLatLong(advocateDetails.data.user.advocate_location);
+        setAdvocateDetails(advocateDetails.data.user);
+        // console.log('Advocate Details ', advocateDetails.data);
+      } catch (error: unknown) {
+        if (axios.isAxiosError(error) && error.response) {
+          // Handle AxiosError with specific status
+          if (error.response.status === 404) {
+            toast.error(error.response.data.error); // Show alert with the error message
+          } else if (error.response.status === 400) {
+            // email cannot update
+            toast.error(error.response.data.error);
+          } else {
+            // Handle other HTTP errors
+            toast.error('An error occurred. Please try again later.');
+          }
+        } else {
+          // Handle unknown or non-Axios errors
+          toast.error(`An unexpected error occurred. : ${error}`);
+        }
+      } finally {
+        setLoading(false); // Disable loading
+      }
+    } else {
+      setLoading(false);
+      toast.error('No token found');
+    }
 
-  //   setLoading(false);
-  // };
+    setLoading(false);
+  };
 
-  // useEffect(() => {
-  //   getLitigantData();
-  // }, [updated]);
+  useEffect(() => {
+    getAdvocateData();
+  }, []);
 
   const inputChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
@@ -114,72 +115,69 @@ const CompleteProfileAdvocate: React.FC = () => {
   const data: { [key: string]: any } = {}; // Initialize an empty object for the data
   // Check each field and only add it to data if it has a value
   if (AdvocateDetails.fullName) data.fullName = AdvocateDetails.fullName;
-  if (AdvocateDetails.state) data.litigant_state = AdvocateDetails.state;
-  if (AdvocateDetails.district)
-    data.litigant_district = AdvocateDetails.district;
-  if (AdvocateDetails.gender) data.litigant_gender = AdvocateDetails.gender;
+  if (AdvocateDetails.state) data.state = AdvocateDetails.state;
+  if (AdvocateDetails.place) data.place = AdvocateDetails.place;
   if (AdvocateDetails.dateOfBirth)
-    data.litigant_dob = AdvocateDetails.dateOfBirth;
+    data.dateOfBirth = AdvocateDetails.dateOfBirth;
   if (AdvocateDetails.preferred_language)
-    data.litigant_preferred_language = AdvocateDetails.preferred_language;
+    data.preferred_language = AdvocateDetails.preferred_language;
   if (AdvocateDetails.mobileNumber)
-    data.litigant_mob = AdvocateDetails.mobileNumber;
+    data.mobileNumber = AdvocateDetails.mobileNumber;
   if (AdvocateDetails.barLicenseNumber)
-    data.litigant_lang = AdvocateDetails.barLicenseNumber;
+    data.barLicenseNumber = AdvocateDetails.barLicenseNumber;
+  if (AdvocateDetails.pincode) data.pincode = AdvocateDetails.pincode;
   if (AdvocateDetails.specialization)
-    data.litigant_lang = AdvocateDetails.specialization;
-  if (AdvocateDetails.pincode) data.litigant_pincode = AdvocateDetails.pincode;
+    data.specialization = AdvocateDetails.specialization;
   if (AdvocateDetails.advocate_lat)
-    data.litigant_lat = AdvocateDetails.advocate_lat; // Add latitude if it's set
+    data.advocate_lat = AdvocateDetails.advocate_lat; // Add latitude if it's set
   if (AdvocateDetails.advocate_long)
-    data.litigant_long = AdvocateDetails.advocate_long; // Add longitude if it's set
+    data.advocate_long = AdvocateDetails.advocate_long; // Add longitude if it's set
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    navigate('/dashboard/AdvocateCompleteProfile');
-    // if (token) {
-    //   try {
-    //     const response = await axiosInstance.post(
-    //       '/litigants/completeProfile',
-    //       data,
-    //       {
-    //         headers: { Authorization: `Bearer ${token}` },
-    //       },
-    //     );
-    //console.log('Data ', data);
-    //     toast.success(response.data.message);
-    //     navigate('/dashboard/CompleteProfile');
-    //   } catch (error: unknown) {
-    //     if (axios.isAxiosError(error) && error.response) {
-    //       // Handle AxiosError with specific status
-    //       if (error.response.status === 404) {
-    //         // Litigant not found
-    //         toast.error(error.response.data.error);
-    //         // Show alert with the error message
-    //       } else if (error.response.status === 400) {
-    //         // email cannot update
-    //         toast.error(error.response.data.error);
-    //       } else {
-    //         // Handle other HTTP errors
-    //         toast.error('An error occurred. Please try again later.');
-    //       }
-    //     } else {
-    //       // Handle unknown or non-Axios errors
-    //       toast.error('An unexpected error occurred.');
-    //     }
-    //   } finally {
-    //     setLoading(false); // Disable loading
-    //   }
-    // } else {
-    //   setLoading(false);
-    //   toast.error('No token found');
-    // }
+    if (token) {
+      try {
+        const response = await axiosInstance.put(
+          '/advocates/completeProfile',
+          data,
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          },
+        );
+        console.log('Data ', data);
+        toast.success(response.data.message);
+        navigate('/dashboard/CompleteProfileAdvocate');
+      } catch (error: unknown) {
+        if (axios.isAxiosError(error) && error.response) {
+          // Handle AxiosError with specific status
+          if (error.response.status === 404) {
+            // Litigant not found
+            toast.error(error.response.data.error);
+            // Show alert with the error message
+          } else if (error.response.status === 400) {
+            // email cannot update
+            toast.error(error.response.data.error);
+          } else {
+            // Handle other HTTP errors
+            toast.error('An error occurred. Please try again later.');
+          }
+        } else {
+          // Handle unknown or non-Axios errors
+          toast.error('An unexpected error occurred.');
+        }
+      } finally {
+        setLoading(false); // Disable loading
+      }
+    } else {
+      setLoading(false);
+      toast.error('No token found');
+    }
 
     setLoading(false);
     toast.success('Profile is Completed');
     // setUpdated(!updated);
-    window.location.reload();
+    // window.location.reload();
   };
 
   const getLocation = () => {
@@ -190,12 +188,11 @@ const CompleteProfileAdvocate: React.FC = () => {
           const longitude = position.coords.longitude.toString(); // Get longitude
           setAdvocateDetails((prevDetails) => ({
             ...prevDetails,
-            litigant_lat: latitude, // Set latitude
-            litigant_long: longitude, // Set longitude
+            advocate_lat: latitude, // Set latitude
+            advocate_long: longitude, // Set longitude
           }));
-          console.log(
-            `Latitude: ${position.coords.latitude} and Longitude: ${position.coords.longitude}`,
-          );
+          console.log('located');
+          toast.success('Location fetched successfully');
         },
         (error) => {
           toast.error('Error fetching location'); // Log the error message
@@ -219,6 +216,15 @@ const CompleteProfileAdvocate: React.FC = () => {
       toast.error('Geolocation is not supported by this browser.');
     }
   };
+
+  const formatDateToYYYYMMDD = (input:any) => {
+    //convert date to YYYY-MM-DD convert it to string
+    if (input === undefined) {
+      return '';
+    }
+    return input.split('T')[0];
+  };
+  
 
   return (
     <>
@@ -339,16 +345,16 @@ const CompleteProfileAdvocate: React.FC = () => {
                     <input
                       className="w-full rounded border border-stroke bg-gray py-3 px-4 text-black"
                       type="text"
-                      name="district"
+                      name="place"
                       id="district"
                       placeholder="District"
                       onChange={inputChangeHandler}
-                      value={AdvocateDetails.district}
+                      value={AdvocateDetails.place}
                     />
                   </div>
 
                   {/* Gender */}
-                  <div className="mb-5.5">
+                  {/* <div className="mb-5.5">
                     <label
                       className="mb-3 block text-sm font-medium text-black dark:text-white"
                       htmlFor="gender"
@@ -372,7 +378,7 @@ const CompleteProfileAdvocate: React.FC = () => {
                       <option value="Female">Female</option>
                       <option value="Other">Other</option>
                     </select>
-                  </div>
+                  </div> */}
 
                   {/* Date of Birth */}
                   <div className="mb-5.5">
@@ -387,7 +393,7 @@ const CompleteProfileAdvocate: React.FC = () => {
                       type="date"
                       name="dateOfBirth"
                       id="dob"
-                      value={AdvocateDetails.dateOfBirth}
+                      value={formatDateToYYYYMMDD(AdvocateDetails.dateOfBirth)}
                       onChange={inputChangeHandler}
                     />
                   </div>
@@ -497,7 +503,7 @@ const CompleteProfileAdvocate: React.FC = () => {
                         setAdvocateDetails({
                           fullName: '',
                           state: '',
-                          district: '',
+                          place: '',
                           gender: '',
                           dateOfBirth: '',
                           mobileNumber: '',

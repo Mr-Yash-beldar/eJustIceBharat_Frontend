@@ -8,14 +8,15 @@ import React, {
 import axiosInstance from '../utils/axiosInstance';
 import { toast } from 'react-toastify';
 
+
 interface AuthContextType {
   isAuthenticated: boolean;
   profileCompleted: boolean;
   profileCompletionPercentage: number;
   loading: boolean;
-  role: string ;
+  role: string;
   setIsAuthenticated: (value: boolean) => void;
-  setRole: (value: string ) => void;
+  setRole: (value: string) => void;
   logout: () => void;
 }
 
@@ -31,40 +32,42 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [profileCompletionPercentage, setProfileCompletionPercentage] =
     useState(0);
   const [loading, setLoading] = useState(true);
-  const [role, setRole] = useState<string>('litigant');
 
+  const [role, setRole] = useState<string>('');
   const verifyToken = async () => {
     const token = localStorage.getItem('token');
     if (token) {
       try {
-        const { data } = await axiosInstance.get('/auth/verifyLitigant-token', {
+        const { data } = await axiosInstance.get('/auth/verify-token', {
           headers: { Authorization: `Bearer ${token}` },
         });
-        
+
         if (data.valid) {
+          // console.log(data);
           setIsAuthenticated(true);
-          setRole(data.litigant.role);
+          setRole(data.user.role);
 
           const profileResponse = await axiosInstance.get(
-            '/litigants/getDetails',
+            `/${data.user.role}s/getDetails`,
             {
               headers: { Authorization: `Bearer ${token}` },
             },
           );
           // toast.success('Refreshed');
 
-          const { isCompleted, completionPercentage } = profileResponse.data;
+          const { isCompleted, completionPercentage } = profileResponse.data; 
           setProfileCompleted(isCompleted);
           setProfileCompletionPercentage(completionPercentage);
         } else {
           setIsAuthenticated(false);
         }
       } catch (error: any) {
-        toast.error('Error verifying token:', error);
+        toast.error('Error verifying User:', error);
+        console.log(error);
         setIsAuthenticated(false);
       }
     } else {
-      toast.error('No token found');
+      toast.error('No User found');
       setIsAuthenticated(false);
     }
 

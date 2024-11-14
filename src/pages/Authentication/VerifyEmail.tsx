@@ -6,10 +6,10 @@ import Logo from '../../images/logo/logo_dark.png';
 import axiosInstance from '../../utils/axiosInstance';
 import { toast } from 'react-toastify';
 import axios from 'axios';
-// import { useAuth } from '../../context/AuthProvider';
+import { useAuth } from '../../context/AuthProvider';
 
 const VerifyEmail: React.FC = () => {
-  // const { role } = useAuth();
+  const { role } = useAuth();
 
   const { id } = useParams();
   const [otpData, setOtpData] = useState({
@@ -38,37 +38,32 @@ const VerifyEmail: React.FC = () => {
 
     try {
       // Send OTP and ID to the API for verification
-      const response = await axiosInstance.post('email/verifyOtp', data);
+
+      const url = role === 'advocate' ? 'verifyOtp' : 'verifyAdvocateOtp';
+      const response = await axiosInstance.post(`email/${url}`, data);
 
       // Check the response from the API
       if (response.status === 200) {
+        toast.success('Email Verify Successfully');
 
-         toast.success("Email Verify Successfully")
         // Redirect to the common sign-in page with role in state
         navigate('/auth/signin');
-
-      // } else if (response.status === 402) {
-      //     toast.error("Invalid OTP");
-      // }
-      // else if (response.status === 405) {
-      //     toast.error("OTP has Expired");
-      // }
-      }
-      else {
-        toast.error('An error occurred while verifying OTP. Please try again later.');
-      }
-
-    }  catch (error:unknown) {
-      if (axios.isAxiosError(error) && error.response) {
-
-      if (error.response && error.response.status === 402) {
-        // User already exists, handle accordingly
-        toast.error(error.response.data.error); // Show alert with the error message
       } else {
-        toast.error(error.response.data.error || "An unexpected error occurred."); // General error alert
+        toast.error(
+          'An error occurred while verifying OTP. Please try again later.',
+        );
       }
-    }
-  
+    } catch (error: unknown) {
+      if (axios.isAxiosError(error) && error.response) {
+        if (error.response && error.response.status === 402) {
+          // User already exists, handle accordingly
+          toast.error(error.response.data.error); // Show alert with the error message
+        } else {
+          toast.error(
+            error.response.data.error || 'An unexpected error occurred.',
+          ); // General error alert
+        }
+      }
     } finally {
       setLoading(false); // Disable loading
     }
