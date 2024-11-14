@@ -1,21 +1,42 @@
-import React, { useState } from 'react';
-import casesData from './Cases';
+import React, { useEffect, useState } from 'react';
+import { Case } from '../Cases/Cases';
 import Notification from './Notification';
 import CaseDetailsModal from './CaseDetail';
 import { jsPDF } from 'jspdf';
+import axiosInstance from '../../utils/axiosInstance';
 
 const ViewCasesTable: React.FC = () => {
-  const [caseData, setCaseData] = useState(casesData);
+  const token = localStorage.getItem('token');
+  const [Cases, setCases] = useState<Case[]>([]);
   const [feedbackMessage, setFeedbackMessage] = useState('');
   const [messageType, setMessageType] = useState<'success' | 'error'>(
     'success',
   );
-  const [selectedCase, setSelectedCase] = useState<
-    (typeof casesData)[0] | null
-  >(null);
+  const [selectedCase, setSelectedCase] = useState<(typeof Cases)[0] | null>(
+    null,
+  );
   const [confirmDeleteIndex, setConfirmDeleteIndex] = useState<number | null>(
     null,
   );
+  const [searchQuery, setSearchQuery] = useState('');
+
+  const fetchCases = async () => {
+    try {
+      const response = await axiosInstance.get('/cases', {
+        headers: { Authorization: `Bearer ${token}` },
+        params: {
+          case_status: 'Requested,Filed,Accepted,Registered,Closed',
+        },
+      });
+      setCases(response.data.cases);
+    } catch (error) {
+      console.error('Error fetching advocates:', error);
+    }
+  };
+
+  useEffect(() => {
+    fetchCases();
+  }, []);
 
   const handleDelete = (index: number, caseStatus: string) => {
     if (caseStatus === 'Filed') {
@@ -27,18 +48,18 @@ const ViewCasesTable: React.FC = () => {
   };
 
   const confirmDelete = (index: number) => {
-    const updatedCases = caseData.filter((_, i) => i !== index);
-    setCaseData(updatedCases);
+    const updatedCases = Cases.filter((_, i) => i !== index);
+    setCases(updatedCases);
     setFeedbackMessage('Case deleted successfully!');
     setMessageType('success');
-    setConfirmDeleteIndex(null); // Reset confirmation state
+    setConfirmDeleteIndex(null);
   };
 
-  const handleView = (caseItem: (typeof casesData)[0]) => {
+  const handleView = (caseItem: (typeof Cases)[0]) => {
     setSelectedCase(caseItem);
   };
 
-  const handleDownload = (caseItem: (typeof casesData)[0]) => {
+  const handleDownload = (caseItem: (typeof Cases)[0]) => {
     const doc = new jsPDF();
     doc.setFontSize(16);
     doc.text('Case Details', 10, 10);
@@ -80,9 +101,28 @@ const ViewCasesTable: React.FC = () => {
     setSelectedCase(null);
   };
 
+  const filteredCases = Cases.filter(
+    (caseItem) =>
+      caseItem.case_title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      caseItem.case_status.toLowerCase().includes(searchQuery.toLowerCase()),
+  );
+
   return (
     <div className="flex flex-col items-center relative">
       <h2 className="text-2xl font-bold mb-4">View Cases</h2>
+      <div className="w-full mb-6 flex items-center space-x-2 border-2 border-white rounded-lg p-2 shadow-lg bg-white relative">
+        <input
+          type="text"
+          placeholder="Search by Case Title or Status"
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          className="border-0 pl-12 pr-4 py-2 w-full focus:ring-0 transition duration-200 ease-in-out"
+        />
+        <button className="bg-blue-500 hover:bg-blue-600 text-white font-semibold rounded-full px-6 py-2 shadow-lg transition duration-200 ease-in-out">
+          Search
+        </button>
+      </div>
+
       {feedbackMessage && (
         <div className="w-full flex justify-end mb-2">
           <Notification
@@ -111,7 +151,7 @@ const ViewCasesTable: React.FC = () => {
             </tr>
           </thead>
           <tbody>
-            {caseData.map((caseItem, index) => (
+            {filteredCases.map((caseItem, index) => (
               <tr
                 key={index}
                 className="border-b border-gray-200 hover:bg-gray-50"
@@ -156,8 +196,27 @@ const ViewCasesTable: React.FC = () => {
                       </svg>
                     </button>
                     <button
-                      className="text-gray-600 hover:text-red-600"
+                      className="text-gray-600 hover:text-green-600"
+                      onClick={() => handleDownload(caseItem)}
+                    >
+                      {/* Download Icon */}
+                      <svg
+                        width="18"
+                        height="18"
+                        viewBox="0 0 24 24"
+                        fill="currentColor"
+                      >
+                        <path d="M5 20h14v-2H5v2zm7-18l-7 7h4v6h6v-6h4l-7-7z" />
+                      </svg>
+                    </button>
+                    <button
+                      className={`text-gray-600 hover:text-red-600 ${
+                        caseItem.case_status === 'Filed'
+                          ? ''
+                          : 'opacity-50 cursor-not-allowed'
+                      }`}
                       onClick={() => handleDelete(index, caseItem.case_status)}
+                      disabled={caseItem.case_status !== 'Filed'}
                     >
                       {/* Delete Icon */}
                       <svg
@@ -166,44 +225,18 @@ const ViewCasesTable: React.FC = () => {
                         viewBox="0 0 24 24"
                         fill="currentColor"
                       >
-                        <path d="M16 9v10H8V9h8m-1.5-6H9.5l-1 1H5v2h14V4h-3.5l-1-1z" />
+                        <path d="M15 4V3H9v1H4v2h16V4h-5zM6 20c0 1.104.896 2 2 2h8c1.104 0 2-.896 2-2V7H6v13z" />
                       </svg>
                     </button>
-                    <button
-                      className="text-gray-600 hover:text-green-600"
-                      onClick={() => handleDownload(caseItem)}
-                    >
-                      <svg
-                        width="18"
-                        height="18"
-                        viewBox="0 0 24 24"
-                        fill="currentColor"
+                    {confirmDeleteIndex === index && (
+                      <button
+                        className="ml-2 text-red-600 hover:text-red-800"
+                        onClick={() => confirmDelete(index)}
                       >
-                        <path d="M12 16l-6-6h4V4h4v6h4l-6 6zM5 18h14v2H5z" />
-                      </svg>
-                    </button>
+                        Confirm
+                      </button>
+                    )}
                   </div>
-                  {confirmDeleteIndex === index && (
-                    <div className="bg-gray-50 border border-gray-200 rounded shadow p-4 mt-2">
-                      <p className="text-sm text-gray-600 mb-2">
-                        Are you sure you want to delete this case?
-                      </p>
-                      <div className="flex justify-end space-x-2">
-                        <button
-                          className="px-4 py-2 text-sm text-white bg-red-500 rounded hover:bg-red-600"
-                          onClick={() => confirmDelete(index)}
-                        >
-                          Delete
-                        </button>
-                        <button
-                          className="px-4 py-2 text-sm text-gray-600 bg-gray-200 rounded hover:bg-gray-300"
-                          onClick={() => setConfirmDeleteIndex(null)}
-                        >
-                          Cancel
-                        </button>
-                      </div>
-                    </div>
-                  )}
                 </td>
               </tr>
             ))}
