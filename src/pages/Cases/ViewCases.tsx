@@ -237,6 +237,27 @@ const ViewCasesTable: React.FC = () => {
                       </button>
                     )}
                   </div>
+                  {confirmDeleteIndex === index && (
+                    <div className="bg-gray-50 border border-gray-200 rounded shadow p-4 mt-2">
+                      <p className="text-sm text-gray-600 mb-2">
+                        Are you sure you want to delete this case?
+                      </p>
+                      <div className="flex justify-end space-x-2">
+                        <button
+                          className="px-4 py-2 text-sm text-white bg-red-500 rounded hover:bg-red-600"
+                          onClick={() => confirmDelete(index)}
+                        >
+                          Delete
+                        </button>
+                        <button
+                          className="px-4 py-2 text-sm text-gray-600 bg-gray-200 rounded hover:bg-gray-300"
+                          onClick={() => setConfirmDeleteIndex(null)}
+                        >
+                          Cancel
+                        </button>
+                      </div>
+                    </div>
+                  )}
                 </td>
               </tr>
             ))}
