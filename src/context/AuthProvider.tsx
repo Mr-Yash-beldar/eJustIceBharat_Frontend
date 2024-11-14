@@ -43,7 +43,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         });
 
         if (data.valid) {
-          console.log(data);
+          // console.log(data);
           setIsAuthenticated(true);
           setRole(data.user.role);
 
@@ -55,7 +55,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
           );
           // toast.success('Refreshed');
 
-          const { isCompleted, completionPercentage } = profileResponse.data;
+          const { isCompleted, completionPercentage } = profileResponse.data; 
           setProfileCompleted(isCompleted);
           setProfileCompletionPercentage(completionPercentage);
         } else {
