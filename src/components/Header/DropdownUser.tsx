@@ -12,7 +12,7 @@ const DropdownUser = () => {
   const [loading, setLoading] = useState(false);
   const [Profile, setProfile] = useState<any>();
   const [dropdownOpen, setDropdownOpen] = useState(false);
-  const { role } = useAuth();
+  const { role,logout } = useAuth();
 
   const getData = async () => {
     if (token) {
@@ -155,8 +155,8 @@ const DropdownUser = () => {
               </Link>
             </li>
             <li>
-              <Link
-                to="/auth/signin"
+              <button
+                onClick={logout}
                 className="flex items-center gap-3.5 text-sm font-medium duration-300 ease-in-out hover:text-primary lg:text-base"
               >
                 <svg
@@ -177,7 +177,7 @@ const DropdownUser = () => {
                   />
                 </svg>
                 Log Out
-              </Link>
+              </button>
             </li>
           </ul>
         </div>
@@ -242,8 +242,8 @@ const DropdownUser = () => {
               </Link>
             </li>
             <li>
-              <Link
-                to="/auth/signin"
+            <button
+                onClick={logout}
                 className="flex items-center gap-3.5 text-sm font-medium duration-300 ease-in-out hover:text-primary lg:text-base"
               >
                 <svg
@@ -264,7 +264,7 @@ const DropdownUser = () => {
                   />
                 </svg>
                 Log Out
-              </Link>
+              </button>
             </li>
           </ul>
         </div>
