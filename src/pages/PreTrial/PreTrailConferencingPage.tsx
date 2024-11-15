@@ -4,7 +4,7 @@ import UpcomingPretrialCard from './UpcomingPretrialCard';
 import CompletedPretrialCard from './CompletedPretrialCard';
 
 const PreTrialConferencingPage: React.FC = () => {
-  const [scheduledDate] = useState(new Date('2024-11-02T13:55:00')); // Hardcoded future date
+  const [scheduledDate] = useState(new Date('2024-11-13T13:34:00')); // Hardcoded future date
   const [currentDate, setCurrentDate] = useState(new Date());
   const [showUpcomingCard, setShowUpcomingCard] = useState(false);
   const [showCompletedCard, setShowCompletedCard] = useState(false);

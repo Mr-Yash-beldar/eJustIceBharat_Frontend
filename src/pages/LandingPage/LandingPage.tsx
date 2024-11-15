@@ -2,14 +2,16 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
-
-
 const LandingPage: React.FC = () => {
   const navigate = useNavigate();
 
   const handleSignIn = (role: 'litigant' | 'advocate') => {
-    localStorage.setItem('role',role);
+    localStorage.setItem('role', role);
     navigate('/auth/signin');
+  };
+
+  const handleOfficerSignIn = () => {
+    navigate('/auth/signinOfficer'); // Navigate to a different path for court officer
   };
 
   return (
@@ -32,6 +34,12 @@ const LandingPage: React.FC = () => {
             className="px-6 py-3 bg-white text-blue-600 rounded-md shadow-lg hover:bg-gray-200 transition duration-300"
           >
             Sign in as Advocate
+          </button>
+          <button
+            onClick={handleOfficerSignIn}
+            className="px-6 py-3 bg-white text-blue-600 rounded-md shadow-lg hover:bg-gray-200 transition duration-300"
+          >
+            Sign in as Court Officer
           </button>
         </div>
       </div>

@@ -3,6 +3,7 @@ import { Route, Routes, useLocation } from 'react-router-dom';
 
 import Loader from './common/Loader';
 import PageTitle from './components/PageTitle';
+import SignInOfficer from './CourtOfficerPages/Authentication/SigninCourtOfficer';
 import SignIn from './pages/Authentication/SignIn';
 import SignUp from './pages/Authentication/SignUp';
 import ForgotPassword from './pages/Authentication/ForgotPassword';
@@ -10,13 +11,13 @@ import ResetPassword from './pages/Authentication/ResetPassword';
 import VerifyEmail from './pages/Authentication/VerifyEmail';
 import CompleteProfile from './pages/CompleteProfile/CompleteProfile';
 import DefaultLayout from './layout/DefaultLayout';
+import DefaultLayoutOfficer from './CourtOfficerPages/LayoutOfficer/DefaultLayoutOfficer';
 import AdvocateList from './pages/FindAdvocate/AdvocateList';
 import AddCase from './pages/Cases/AddCase';
 import ViewCaseTable from './pages/Cases/ViewCases';
 import ProtectedRoute from './ProtectedRoutes/ProtectedRoute';
 import ProfileCompletionRoute from './ProtectedRoutes/ProfileCompletionRoute';
-import PreTrialConferencingPage from './pages/PreTrial/PreTrailConferencingPage';
-import PayFees from './pages/PayFees/PayFees';
+import CaseTable from './pages/PreTrial/JoinTable';
 import LandingPage from './pages/LandingPage/LandingPage';
 import { useAuth } from './context/AuthProvider';
 import HomeCard from './pages/Home/HomeCard';
@@ -28,6 +29,10 @@ import AdvocateFeedbackPage from './pages/FeedbackAdvocate/AdvocateFeedbackPage'
 import HomeCardAdvocate from './AdvocatePages/HomeAdvocate/HomeCardAdvocate';
 import Evidence from './AdvocatePages/EvidencePresentation/EvidencePresentation';
 import FeedbackPage from './AdvocatePages/ViewFeedbacks/FeedbackPage';
+import CaseListOfficer from './CourtOfficerPages/RequestedCasesOfficer/CaseListOfficer';
+import ScheduleTable from './CourtOfficerPages/SchedulePreTrial/ScheduleTable';
+import HomeCardOfficer from './CourtOfficerPages/OfficerHome/HomeCardOfficer';
+import CaseFee from './pages/PayFees/CasesFees';
 
 function App() {
   const { pathname } = useLocation();
@@ -63,6 +68,17 @@ function App() {
             </div>
           }
         />
+
+        <Route
+          path="/auth/signinOfficer"
+          element={
+            <div>
+              <PageTitle title="Signin | EjusticeBharat" />
+              <SignInOfficer />
+            </div>
+          }
+        />
+
         <Route
           path="/auth/signup"
           element={
@@ -165,7 +181,7 @@ function App() {
                       <>
                         <PageTitle title="PreTrial Conferencing | EJusticeBharat" />
                         <ProfileCompletionRoute>
-                          <PreTrialConferencingPage />
+                          <CaseTable />
                         </ProfileCompletionRoute>
                       </>
                     }
@@ -176,7 +192,7 @@ function App() {
                       <>
                         <PageTitle title="Pay Fees| EJusticeBharat" />
                         <ProfileCompletionRoute>
-                          <PayFees />
+                          <CaseFee />
                         </ProfileCompletionRoute>
                       </>
                     }
@@ -276,9 +292,61 @@ function App() {
                       </>
                     }
                   />
+                  <Route
+                    path="RequestedCasesOfficer"
+                    element={
+                      <>
+                        <PageTitle title="RequestedCases| EJusticeBharat" />
+
+                        <CaseListOfficer />
+                      </>
+                    }
+                  />
+
+                  <Route
+                    path="SchedulePreTrial"
+                    element={
+                      <>
+                        <PageTitle title="SchedulePreTrial| EJusticeBharat" />
+
+                        <ScheduleTable />
+                      </>
+                    }
+                  />
+
+                  <Route
+                    path="OfficerHome"
+                    element={
+                      <>
+                        <PageTitle title="OfficerHome| EJusticeBharat" />
+
+                        <HomeCardOfficer />
+                      </>
+                    }
+                  />
                 </Routes>
               </DefaultLayout>
             </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/dashboard/*"
+          element={
+            <DefaultLayoutOfficer>
+              <Routes>
+                <Route
+                  path="RequestedCasesOfficer"
+                  element={
+                    <>
+                      <PageTitle title="RequestedCases| EJusticeBharat" />
+
+                      <CaseListOfficer />
+                    </>
+                  }
+                />
+              </Routes>
+            </DefaultLayoutOfficer>
           }
         />
       </Routes>

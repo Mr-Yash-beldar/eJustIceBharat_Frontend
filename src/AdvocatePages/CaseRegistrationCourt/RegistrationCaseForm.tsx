@@ -11,10 +11,7 @@ const RegisterCaseForm: React.FC<RegisterCaseFormProps> = ({
 }) => {
   // Consolidate all attributes into one useState
   const [formData, setFormData] = useState({
-    courtName: '',
-    courtLocation: '',
     hearingDate: '',
-    judgePreference: '',
     advocateRemark: '',
   });
 
@@ -54,30 +51,6 @@ const RegisterCaseForm: React.FC<RegisterCaseFormProps> = ({
         </h2>
         <form onSubmit={handleSubmit}>
           <label className="block mb-2">
-            Court Name:
-            <input
-              type="text"
-              name="courtName"
-              value={formData.courtName}
-              onChange={handleInputChange}
-              placeholder="Enter court name"
-              className="w-full p-2 border border-gray-300 rounded mt-1"
-              required
-            />
-          </label>
-          <label className="block mb-2">
-            Court Location:
-            <input
-              type="text"
-              name="courtLocation"
-              value={formData.courtLocation}
-              onChange={handleInputChange}
-              placeholder="Enter court location"
-              className="w-full p-2 border border-gray-300 rounded mt-1"
-              required
-            />
-          </label>
-          <label className="block mb-2">
             Desired Hearing Date:
             <input
               type="date"
@@ -88,24 +61,13 @@ const RegisterCaseForm: React.FC<RegisterCaseFormProps> = ({
               required
             />
           </label>
-          <label className="block mb-2">
-            Assigned Judge Preference:
-            <input
-              type="text"
-              name="judgePreference"
-              value={formData.judgePreference}
-              onChange={handleInputChange}
-              placeholder="Enter judge preference (optional)"
-              className="w-full p-2 border border-gray-300 rounded mt-1"
-            />
-          </label>
           <label className="block mb-4">
             Advocate Remark:
             <textarea
               name="advocateRemark"
               value={formData.advocateRemark}
               onChange={handleInputChange}
-              placeholder="Add remarks for the advocate"
+              placeholder="Add your remarks for the case"
               className="w-full p-2 border border-gray-300 rounded mt-1"
               rows={3}
             />

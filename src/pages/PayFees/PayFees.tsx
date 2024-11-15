@@ -1,28 +1,30 @@
-// PayFees.tsx
 import React, { useState, useEffect } from 'react';
 import NoFeesChargedCard from './NoFeesChargedCard';
 import FeesChargedCard from './FeesChargedCard';
 import PaymentConfirmationCard from './PaymentConfirmationCard';
 
-const PayFees: React.FC = () => {
+interface PayFeesProps {
+  caseTitle: string;
+}
+
+const PayFees: React.FC<PayFeesProps> = ({ caseTitle }) => {
   const [loading, setLoading] = useState(false);
   const [paymentMessage, setPaymentMessage] = useState('');
   const [feesCharged, setFeesCharged] = useState<number>(0);
   const [showConfirmation, setShowConfirmation] = useState(false);
 
   const fetchFeesCharged = () => {
-    setFeesCharged(30);
+    setFeesCharged(30); // Simulated fee amount
   };
 
   const handlePayFees = () => {
     setLoading(true);
-    const caseName = 'XYZ';
     const advocateName = 'ABC';
     const feeAmount = feesCharged;
 
     setTimeout(() => {
       setLoading(false);
-      const message = `₹${feeAmount} paid to Advocate ${advocateName} for case ${caseName}.`;
+      const message = `₹${feeAmount} paid to Advocate ${advocateName} for case ${caseTitle}.`;
       setPaymentMessage(message);
       console.log(message);
       setShowConfirmation(true);
@@ -31,8 +33,8 @@ const PayFees: React.FC = () => {
         setFeesCharged(0);
         setShowConfirmation(false);
         setPaymentMessage('');
-      }, 30000);
-    }, 2000);
+      }, 30000); // Reset after 30 seconds
+    }, 2000); // Simulate payment processing delay
   };
 
   useEffect(() => {
