@@ -308,8 +308,9 @@ function App() {
                     element={
                       <>
                         <PageTitle title="SchedulePreTrial| EJusticeBharat" />
-
-                        <ScheduleTable />
+                        <ProfileCompletionRoute>
+                          <ScheduleTable />
+                        </ProfileCompletionRoute>
                       </>
                     }
                   />
