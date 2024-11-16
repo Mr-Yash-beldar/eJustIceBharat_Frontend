@@ -12,12 +12,20 @@ interface CaseCardProps {
 
 const CaseCard: React.FC<CaseCardProps> = ({ caseData, onViewMore }) => {
   const { case_title, case_type, filing_date, plaintiffName } = caseData;
+  
+  const formatDateToYYYYMMDD = (input:any) => {
+    //convert date to YYYY-MM-DD convert it to string
+    if (input === undefined) {
+      return '';
+    }
+    return input.split('T')[0];
+  };
 
   return (
     <div className="bg-white rounded-lg shadow-lg p-6 text-center hover:shadow-xl transition-shadow duration-300 ease-in-out">
       <div className="mb-4">
         <h2 className="text-xl font-bold text-gray-800">{case_title}</h2>
-        <p className="text-gray-500 text-sm">Filed on: {filing_date}</p>
+        <p className="text-gray-500 text-sm">Filed on: {formatDateToYYYYMMDD(filing_date)}</p>
       </div>
       
       <p className="text-gray-600 text-sm">Case Type: {case_type}</p>
