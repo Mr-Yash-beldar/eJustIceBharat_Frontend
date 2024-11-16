@@ -12,7 +12,7 @@ import CompleteProfile from './pages/CompleteProfile/CompleteProfile';
 import DefaultLayout from './layout/DefaultLayout';
 import AdvocateList from './pages/FindAdvocate/AdvocateList';
 import AddCase from './pages/Cases/AddCase';
-import ViewCaseTable from './pages/Cases/ViewCases';
+// import ViewCaseTable from './pages/Cases/ViewCases';
 import ProtectedRoute from './ProtectedRoutes/ProtectedRoute';
 import ProfileCompletionRoute from './ProtectedRoutes/ProfileCompletionRoute';
 import PreTrialConferencingPage from './pages/PreTrial/PreTrailConferencingPage';
@@ -26,7 +26,7 @@ import CompleteProfileAdvocate from './AdvocatePages/CompleteProfileAdvocate.tsx
 import RegistrationTable from './AdvocatePages/CaseRegistrationCourt/RegistrationTable';
 import AdvocateFeedbackPage from './pages/FeedbackAdvocate/AdvocateFeedbackPage';
 import HomeCardAdvocate from './AdvocatePages/HomeAdvocate/HomeCardAdvocate';
-import Evidence from './AdvocatePages/EvidencePresentation/EvidencePresentation';
+// import Evidence from './AdvocatePages/EvidencePresentation/EvidencePresentation';
 import FeedbackPage from './AdvocatePages/ViewFeedbacks/FeedbackPage';
 
 function App() {
@@ -143,7 +143,7 @@ function App() {
                       <>
                         <PageTitle title="ViewCases | EJusticeBharat" />
                         <ProfileCompletionRoute>
-                          <ViewCaseTable />
+                          <AdvocateFeedbackPage />
                         </ProfileCompletionRoute>
                       </>
                     }
@@ -259,7 +259,7 @@ function App() {
                       <>
                         <PageTitle title="EvidencePresentation| EJusticeBharat" />
                         <ProfileCompletionRoute>
-                          <Evidence />
+                          <HomeCard />
                         </ProfileCompletionRoute>
                       </>
                     }
