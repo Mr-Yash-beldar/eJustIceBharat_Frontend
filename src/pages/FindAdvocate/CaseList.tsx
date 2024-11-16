@@ -3,19 +3,21 @@ import {Case} from '../Cases/Cases';
 import { FaPaperPlane, FaSpinner } from 'react-icons/fa'; // Paper plane icon for "send" and spinner for loading
 import Loader from '../../common/Loader';
 import axiosInstance from '../../utils/axiosInstance';
+import { toast } from 'react-toastify';
 
 interface SendRequestProps {
   advocateName: string;
+  advocateId:string;
 }
 
-const SendRequest: React.FC<SendRequestProps> = ({ advocateName }) => {
+const SendRequest: React.FC<SendRequestProps> = ({ advocateName, advocateId}) => {
   const token = localStorage.getItem('token');
   const [Cases,setCases]=useState<Case[]>([]);
   const [loading,setLoading]=useState(false) ;
   const [loadingCases, setLoadingCases] = useState<string | null>(null); // State to track loading case title
   const [successMessage, setSuccessMessage] = useState<string | null>(null); // State for success message
 
-  // cases?case_status=Requested,Filed
+  // cases?case_status=Requested,Filed  
 
   const fetchCases = async () => {
     setLoading(true);
@@ -23,7 +25,7 @@ const SendRequest: React.FC<SendRequestProps> = ({ advocateName }) => {
       const response = await axiosInstance.get('/cases', {
         headers: { Authorization: `Bearer ${token}` },
         params: {
-          case_status:'Requested,Filed',
+          case_status:'rejected,filed',
         },
       });
 
@@ -41,26 +43,47 @@ const SendRequest: React.FC<SendRequestProps> = ({ advocateName }) => {
     fetchCases(); // Fetch advocates on initial load or when filters change
   }, []);
 
-  const handleRequest = (caseTitle: string) => {
+  const handleRequest = async (
+    caseTitle: string,
+    caseId: string,
+    advocateId: string
+  ) => {
     setLoadingCases(caseTitle); // Set loading state for the case
-    console.log(
-      `Request started for case: ${caseTitle} to advocate ${advocateName}`,
+    console.log(`Request started for case: ${caseTitle} to advocate ${advocateName}`);
+  
+    try {
+      const response = await axiosInstance.post('/request/create', {
+        caseId,
+        advocateId,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
     );
-
-    setTimeout(() => {
-      console.log(`Request sent for case: ${caseTitle}`);
+  
+      // Handle successful response
+      console.log(`Request sent for case: ${caseTitle}`, response.data);
+  
       setLoadingCases(null); // Reset loading state
-      setSuccessMessage(
-        `Request sent successfully for case: ${caseTitle} to advocate: ${advocateName}`,
-      ); // Set success message
-
-      // Clear success message after a few seconds
-      setTimeout(() => {
-        setSuccessMessage(null);
-      }, 3000); // Adjust duration as needed
-    }, 2000); // Simulate loading for 2 seconds
+      toast.success(`Request sent successfully for case: ${caseTitle} to advocate: ${advocateName}`, {
+        position: "top-right",
+        autoClose: 3000,
+      });
+      setSuccessMessage(`Request sent successfully for case: ${caseTitle} to advocate: ${advocateName}`);
+    } catch (error) {
+      console.error(`Error sending request for case: ${caseTitle}`, error);
+      setLoadingCases(null); // Reset loading state
+  
+      toast.error(`Failed to send request for case: ${caseTitle}. Please try again.`, {
+        position: "top-right",
+        autoClose: 3000,
+      });
+    }
   };
-
+  
+  
   return (
     <div className="p-4">
       <h2 className="text-xl font-semibold mb-4">Cases to Request</h2>
@@ -87,7 +110,7 @@ const SendRequest: React.FC<SendRequestProps> = ({ advocateName }) => {
                 {/* Status display */}
               </div>
               <button
-                onClick={() => handleRequest(caseItem.case_title)}
+                onClick={() => handleRequest(caseItem.case_title, caseItem.id, advocateId)}
                 className="text-blue-500 hover:text-blue-700 transition-colors flex items-center"
                 disabled={loadingCases === caseItem.case_title}
               >
