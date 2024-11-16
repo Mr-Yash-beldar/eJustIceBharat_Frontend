@@ -1,7 +1,9 @@
 import React from 'react';
+import axiosInstance from '../../utils/axiosInstance';
 
 interface CaseDetailsProps {
   caseData: {
+    id: string;
     case_title: string;
     case_description: string;
     case_type: string;
@@ -30,7 +32,45 @@ const CaseDetailsModal: React.FC<CaseDetailsProps> = ({
   onClose,
   onAccept,
   onReject,
-}) => {
+}) => 
+  {;
+
+    const updateCaseStatus = async (caseId: string, status: string) => {
+      try {
+        const token = localStorage.getItem('token');
+        const response = await axiosInstance.patch(`cases/updateStatus/${caseId}`, {
+          case_status: status,
+        },{
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        return response.data;
+      } catch (error) {
+        console.error("Error updating case status:", error);
+        throw error;
+      }
+    };
+    
+    const handleAccept = async () => {
+      try {
+        await updateCaseStatus(caseData.id, "accepted");
+        onAccept(); // Optionally update the UI state or trigger parent component refresh
+      } catch (error) {
+        console.error("Failed to update case status to Accepted");
+      }
+    };
+
+    const formatDateToYYYYMMDD = (input:any) => {
+      //convert date to YYYY-MM-DD convert it to string
+      if (input === undefined) {
+        return '';
+      }
+      return input.split('T')[0];
+    };
+
+    
+
   return (
     <div
       className="fixed inset-0 flex justify-center items-start bg-black bg-opacity-50 z-50"
@@ -64,7 +104,7 @@ const CaseDetailsModal: React.FC<CaseDetailsProps> = ({
             <strong>Case Type:</strong> {caseData.case_type}
           </p>
           <p className="text-lg">
-            <strong>Filing Date:</strong> {caseData.filing_date}
+            <strong>Filing Date:</strong> {formatDateToYYYYMMDD(caseData.filing_date)}
           </p>
           <p className="text-lg">
             <strong>Urgency Level:</strong> {caseData.urgency_level}
@@ -115,7 +155,7 @@ const CaseDetailsModal: React.FC<CaseDetailsProps> = ({
 
         <div className="flex justify-end mt-6 space-x-4">
           <button
-            onClick={onAccept}
+            onClick={handleAccept}
             className="px-6 py-3 bg-green-600 text-white font-semibold rounded-lg shadow-lg hover:bg-green-700 transition-colors duration-300"
           >
             Accept Case
