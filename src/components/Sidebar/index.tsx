@@ -9,7 +9,7 @@ interface SidebarProps {
 }
 
 const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
-  const { role } = useAuth();
+  const { role,logout } = useAuth();
   const location = useLocation();
   const { pathname } = location;
 
@@ -232,7 +232,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                   </NavLink>
                 </li>
 
-                <li>
+                {/* <li>
                   <NavLink
                     to="/chart"
                     className={({ isActive }) =>
@@ -272,9 +272,9 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                     </svg>
                     Contact Advocate
                   </NavLink>
-                </li>
+                </li> */}
 
-                <li>
+                {/* <li>
                   <NavLink
                     to="/chart"
                     className={({ isActive }) =>
@@ -298,7 +298,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                     </svg>
                     Notifications
                   </NavLink>
-                </li>
+                </li> */}
 
                 {/* <!-- Menu Item CompleteProfile --> */}
                 <li>
@@ -392,6 +392,9 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                         isActive ? 'bg-graydark dark:bg-meta-4' : ''
                       } hover:bg-graydark dark:hover:bg-meta-4`
                     }
+                    onClick={() => {
+                      logout(); // Call your function here
+                    }}
                   >
                     <svg
                       className="fill-current"
@@ -538,7 +541,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                     View My Cases
                   </NavLink>
                 </li>
-
+{/* 
                 <li>
                   <NavLink
                     to="/dashboard/CaseRegistrationToCourt"
@@ -581,7 +584,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                     </svg>
                     Register Case To Court
                   </NavLink>
-                </li>
+                </li> */}
 
                 <li>
                   <NavLink
@@ -609,7 +612,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                   </NavLink>
                 </li>
 
-                <li>
+                {/* <li>
                   <NavLink
                     to="/chart"
                     className={({ isActive }) =>
@@ -633,7 +636,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                     </svg>
                     Notifications
                   </NavLink>
-                </li>
+                </li> */}
 
                 <li>
                   <NavLink
@@ -658,6 +661,31 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                       />
                     </svg>
                     PreTrial Conferencing
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink
+                    to="/dashboard/SchedulePreTrial"
+                    className={({ isActive }) =>
+                      `group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out ${
+                        isActive ? 'bg-graydark dark:bg-meta-4' : ''
+                      } hover:bg-graydark dark:hover:bg-meta-4`
+                    }
+                  >
+                    <svg
+                      className="fill-current"
+                      width="18"
+                      height="19"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M19 9C19 11.21 17.21 13 15 13H9C6.79 13 5 11.21 5 9V8C5 5.79 6.79 4 9 4H15C17.21 4 19 5.79 19 8V9ZM21 19H18C18 16.79 16.21 15 14 15H10C7.79 15 6 16.79 6 19H3C1.34 19 0 20.34 0 22H24C24 20.34 22.66 19 21 19Z"
+                        fill=""
+                      />
+                    </svg>
+                    Schedule PreTrial
                   </NavLink>
                 </li>
 
@@ -717,7 +745,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                   </NavLink>
                 </li>
 
-                <li>
+                {/* <li>
                   <NavLink
                     to="/dashboard/OfficerHome"
                     className={({ isActive }) =>
@@ -754,7 +782,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                     Home
                   </NavLink>
                 </li>
-                <li>
+                <li> 
                   <NavLink
                     to="/dashboard/RequestedCasesOfficer"
                     className={({ isActive }) =>
@@ -781,31 +809,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                   </NavLink>
                 </li>
 
-                <li>
-                  <NavLink
-                    to="/dashboard/SchedulePreTrial"
-                    className={({ isActive }) =>
-                      `group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out ${
-                        isActive ? 'bg-graydark dark:bg-meta-4' : ''
-                      } hover:bg-graydark dark:hover:bg-meta-4`
-                    }
-                  >
-                    <svg
-                      className="fill-current"
-                      width="18"
-                      height="19"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        d="M19 9C19 11.21 17.21 13 15 13H9C6.79 13 5 11.21 5 9V8C5 5.79 6.79 4 9 4H15C17.21 4 19 5.79 19 8V9ZM21 19H18C18 16.79 16.21 15 14 15H10C7.79 15 6 16.79 6 19H3C1.34 19 0 20.34 0 22H24C24 20.34 22.66 19 21 19Z"
-                        fill=""
-                      />
-                    </svg>
-                    Schedule PreTrial
-                  </NavLink>
-                </li>
+                */}
               </ul>
             )}
           </div>
