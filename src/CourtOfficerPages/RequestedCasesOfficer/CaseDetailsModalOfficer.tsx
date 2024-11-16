@@ -19,13 +19,16 @@ interface CaseDetailsProps {
     evidence_provided: string;
     witness_details: string;
     case_status: 'Filed' | 'Requested' | 'Accepted' | 'Registered' | 'Closed';
+    advocate_name: string;
+    desired_hearing_date: string; // Format: YYYY-MM-DD
+    remark_for_case_by_advocate: string;
   };
   onClose: () => void;
   onAccept: () => void;
   onReject: () => void;
 }
 
-const CaseDetailsModal: React.FC<CaseDetailsProps> = ({
+const CaseDetailsModalOfficer: React.FC<CaseDetailsProps> = ({
   caseData,
   onClose,
   onAccept,
@@ -101,9 +104,11 @@ const CaseDetailsModal: React.FC<CaseDetailsProps> = ({
           <p className="text-lg">
             <strong>Address:</strong> {caseData.defendantAddress}
           </p>
+
           <p className="mt-4 text-blue-600 font-medium">
             Additional Information
           </p>
+
           <p className="mt-4 text-lg">
             <strong>Evidence Provided:</strong> {caseData.evidence_provided}
           </p>
@@ -112,6 +117,20 @@ const CaseDetailsModal: React.FC<CaseDetailsProps> = ({
           </p>
           <p className="text-lg">
             <strong>Status:</strong> {caseData.case_status}
+          </p>
+
+          <p className="text-lg">
+            <strong>Advocate :</strong> {caseData.advocate_name}
+          </p>
+
+          <p className="text-lg">
+            <strong>Desired Hearing Date :</strong>{' '}
+            {caseData.desired_hearing_date}
+          </p>
+
+          <p className="text-lg">
+            <strong>Advocate Remark :</strong>{' '}
+            {caseData.remark_for_case_by_advocate}
           </p>
         </div>
 
@@ -134,4 +153,4 @@ const CaseDetailsModal: React.FC<CaseDetailsProps> = ({
   );
 };
 
-export default CaseDetailsModal;
+export default CaseDetailsModalOfficer;
