@@ -4,6 +4,7 @@ import SendRequest from './CaseList';
 
 interface AdvocateProps {
   advocate: {
+    id: string;
     name: string;
     email: string;
     state: string;
@@ -123,7 +124,7 @@ const AdvocateDetailsModal: React.FC<AdvocateProps> = ({
           </button>
         </div>
 
-        {showSendRequest && <SendRequest advocateName={advocate.name} />}
+        {showSendRequest && <SendRequest advocateName={advocate.name} advocateId={advocate.id} />}
       </div>
     </div>
   );
