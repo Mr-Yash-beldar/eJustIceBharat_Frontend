@@ -14,7 +14,7 @@ import DefaultLayout from './layout/DefaultLayout';
 import DefaultLayoutOfficer from './CourtOfficerPages/LayoutOfficer/DefaultLayoutOfficer';
 import AdvocateList from './pages/FindAdvocate/AdvocateList';
 import AddCase from './pages/Cases/AddCase';
-// import ViewCaseTable from './pages/Cases/ViewCases';
+import ViewCaseTable from './pages/Cases/ViewCases';
 import ProtectedRoute from './ProtectedRoutes/ProtectedRoute';
 import ProfileCompletionRoute from './ProtectedRoutes/ProfileCompletionRoute';
 import CaseTable from './pages/PreTrial/JoinTable';
@@ -27,7 +27,7 @@ import CompleteProfileAdvocate from './AdvocatePages/CompleteProfileAdvocate.tsx
 import RegistrationTable from './AdvocatePages/CaseRegistrationCourt/RegistrationTable';
 import AdvocateFeedbackPage from './pages/FeedbackAdvocate/AdvocateFeedbackPage';
 import HomeCardAdvocate from './AdvocatePages/HomeAdvocate/HomeCardAdvocate';
-// import Evidence from './AdvocatePages/EvidencePresentation/EvidencePresentation';
+import Evidence from './AdvocatePages/EvidencePresentation/EvidencePresentation';
 import FeedbackPage from './AdvocatePages/ViewFeedbacks/FeedbackPage';
 import CaseListOfficer from './CourtOfficerPages/RequestedCasesOfficer/CaseListOfficer';
 import ScheduleTable from './CourtOfficerPages/SchedulePreTrial/ScheduleTable';
@@ -159,7 +159,7 @@ function App() {
                       <>
                         <PageTitle title="ViewCases | EJusticeBharat" />
                         <ProfileCompletionRoute>
-                          <AdvocateFeedbackPage />
+                          <ViewCaseTable />
                         </ProfileCompletionRoute>
                       </>
                     }
@@ -275,7 +275,7 @@ function App() {
                       <>
                         <PageTitle title="EvidencePresentation| EJusticeBharat" />
                         <ProfileCompletionRoute>
-                          <HomeCard />
+                          <Evidence />
                         </ProfileCompletionRoute>
                       </>
                     }
