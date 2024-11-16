@@ -1,6 +1,7 @@
 // cases.ts
 
 export interface Case {
+    id:string;
     case_title: string;
     case_description: string;
     case_type: string;
@@ -22,6 +23,7 @@ export interface Case {
   
   const cases: Case[] = [
     {
+      id: '1',
       case_title: "Smith vs. Johnson",
       case_description: "Dispute over property boundaries.",
       case_type: "Civil",
@@ -41,6 +43,7 @@ export interface Case {
       case_status: "Filed"
     },
     {
+      id: '2',
       case_title: "Doe vs. City of Springfield",
       case_description: "Claim against the city for negligence.",
       case_type: "Civil",
@@ -60,6 +63,7 @@ export interface Case {
       case_status: "Requested"
     },
     {
+      id: '3',
       case_title: "Garcia vs. Smith Corp.",
       case_description: "Employment discrimination case.",
       case_type: "Employment",
@@ -79,6 +83,7 @@ export interface Case {
       case_status: "Accepted"
     },
     {
+      id: '4',
       case_title: "Brown vs. Green LLC",
       case_description: "Contract dispute over service agreement.",
       case_type: "Commercial",
@@ -98,6 +103,7 @@ export interface Case {
       case_status: "Registered"
     },
     {
+      id: '5',
       case_title: "Taylor vs. Martin",
       case_description: "Personal injury claim.",
       case_type: "Personal Injury",
@@ -117,6 +123,7 @@ export interface Case {
       case_status: "Closed"
     },
     {
+      id: '6',
       case_title: "Wilson vs. State of Illinois",
       case_description: "Challenge to state law regarding zoning.",
       case_type: "Administrative",
@@ -136,6 +143,7 @@ export interface Case {
       case_status: "Filed"
     },
     {
+      id: '7',
       case_title: "Nguyen vs. First National Bank",
       case_description: "Dispute over loan terms.",
       case_type: "Financial",
@@ -155,6 +163,7 @@ export interface Case {
       case_status: "Requested"
     },
     {
+      id: '8',
       case_title: "Miller vs. United Airlines",
       case_description: "Claim for lost luggage.",
       case_type: "Consumer",
@@ -174,6 +183,7 @@ export interface Case {
       case_status: "Accepted"
     },
     {
+      id: '9',
       case_title: "Adams vs. ABC Corp.",
       case_description: "Intellectual property theft case.",
       case_type: "Intellectual Property",
@@ -193,6 +203,7 @@ export interface Case {
       case_status: "Registered"
     },
     {
+      id: '10',
       case_title: "Harris vs. Local Gym",
       case_description: "Injury claim due to negligence.",
       case_type: "Personal Injury",
