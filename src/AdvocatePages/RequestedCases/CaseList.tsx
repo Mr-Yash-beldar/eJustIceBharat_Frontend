@@ -1,33 +1,65 @@
-import React, { useState } from 'react';
-import cases from '../../pages/Cases/Cases';
+import React, { useEffect, useState } from 'react';
+import {Case} from '../../pages/Cases/Cases';
 import CaseCard from './CaseCard';
 import CaseDetailsModal from './CaseDetailsModel';
+import axiosInstance from '../../utils/axiosInstance';
 
-interface Case {
-  case_title: string;
-  case_description: string;
-  case_type: string;
-  filing_date: string;
-  causeOfAction: string;
-  urgency_level: string;
-  plaintiffName: string;
-  plaintiffContactEmail: string;
-  plaintiffContactPhone: string;
-  plaintiffAddress: string;
-  defendantName: string;
-  defendantContactEmail: string;
-  defendantContactPhone: string;
-  defendantAddress: string;
-  evidence_provided: string;
-  witness_details: string;
-  case_status: 'Filed' | 'Requested' | 'Accepted' | 'Registered' | 'Closed';
-}
+const transformCaseData = (data: any[]): Case[] => {
+  return data.map(item => ({
+    id: item.caseId._id,
+    case_title: item.caseId.case_title,
+    case_description: item.caseId.case_description,
+    case_type: item.caseId.case_type,
+    filing_date: item.caseId.filing_date,
+    causeOfAction: item.caseId.causeOfAction,
+    urgency_level: item.caseId.urgency_level,
+    plaintiffName: item.litigantId.litigant_name,
+    plaintiffContactEmail: item.litigantId.litigant_email,
+    plaintiffContactPhone: item.litigantId.litigant_mob,
+    plaintiffAddress: item.litigantId.litigant_address,
+    defendantName: item.caseId.defendantName,
+    defendantContactEmail: item.caseId.defendantContactEmail,
+    defendantContactPhone: item.caseId.defendantContactPhone,
+    defendantAddress: item.caseId.defendantAddress,
+    evidence_provided: item.caseId.evidence_provided,
+    witness_details: item.caseId.witness_details,
+    case_status: item.caseId.case_status,
+  }));
+};
+
+
+
+
 
 const CaseList: React.FC = () => {
+  const token = localStorage.getItem('token');
+  const [cases, setCases] = useState<Case[]>([]);
   const [visibleCount, setVisibleCount] = useState(6);
   const [selectedCase, setSelectedCase] = useState<Case | null>(null);
   const [maxLimitMessage, setMaxLimitMessage] = useState('');
   const maxVisibleCount = cases.length;
+
+  const fetchCaseData = async () => {
+    try {
+      const response = await axiosInstance.get('/request/getAll',{
+        params: { case_status: 'requested' }, // Pass filter via query params
+        headers: {
+          Authorization: `Bearer ${token}`, // Pass token in Authorization header
+        },
+        withCredentials: true, // Ensure credentials are sent if required
+      });
+      const transformedData = transformCaseData(response.data); // Transform the data
+      setCases(transformedData); // Update the state with transformed data
+    } catch (error) {
+      console.error('Error fetching case data:', error);
+    }
+  };
+
+  // Use effect to fetch data when the component mounts
+  useEffect(() => {
+    fetchCaseData();
+  }, []);
+
 
   const handleViewMore = (caseData: Case) => {
     setSelectedCase(caseData);
@@ -48,7 +80,7 @@ const CaseList: React.FC = () => {
   return (
     <div className="p-6">
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 p-4">
-        {casesToDisplay.map((caseItem, index) => (
+        {casesToDisplay.map((caseItem:any, index) => (
           <CaseCard
             key={index}
             caseData={caseItem}
