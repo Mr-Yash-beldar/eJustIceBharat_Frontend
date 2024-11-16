@@ -1,34 +1,57 @@
 import React, { useState } from 'react';
+import axiosInstance from '../../utils/axiosInstance';
+import { toast } from 'react-toastify';
+import {  useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 interface FeeChargeFormProps {
   caseTitle: string;
+  id: string;
   onSubmit: (amount: number) => void;
   onClose: () => void;
 }
 
 const FeeChargeForm: React.FC<FeeChargeFormProps> = ({
   caseTitle,
-  onSubmit,
+  id,
   onClose,
 }) => {
+ const navigate=useNavigate();
   const [amount, setAmount] = useState<number | ''>('');
   const [message, setMessage] = useState<string>('');
   const [isError, setIsError] = useState<boolean>(false);
 
-  const handleFormSubmit = (e: React.FormEvent) => {
+  const handleFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const parsedAmount =
       typeof amount === 'string' ? parseFloat(amount) : amount;
-    if (parsedAmount > 0) {
-      onSubmit(parsedAmount);
+    try {
+      const token = localStorage.getItem('token');
+      const response = await axiosInstance.put(
+        `/request/update/${id}`,
+        {
+          fee: parsedAmount,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      );
       setMessage(
         `Fee of $${parsedAmount} charged successfully for case "${caseTitle}".`,
       );
+      toast.success(response.data.message);
+      navigate('/dashboard/ViewMyAcceptedCases');
       setIsError(false);
-    } else {
-      setMessage('Error: Amount must be greater than 0.');
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        toast.error( error.response?.data.error);
+      }
+      setMessage('Error Applying Fee');
       setIsError(true);
     }
+    
   };
 
   const handleAmountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
