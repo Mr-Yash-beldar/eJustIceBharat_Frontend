@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 // @ts-ignore
-// import App from '../../components/Meeting/App';
+import App from '../../components/Meeting/App';
 
 interface UpcomingPretrialCardProps {
   scheduledDate: Date;
@@ -18,7 +18,7 @@ const UpcomingPretrialCard: React.FC<UpcomingPretrialCardProps> = ({
   formatTimeRemaining,
 }) => {
   const [meetingStarted, setMeetingStarted] = useState(false);
-  const meetingCode = 'ABC123'; // Mock meeting code
+  // const meetingCode = 'ABC123'; // Mock meeting code
 
   // Determine if the button should be enabled
   const isJoinButtonEnabled =
@@ -33,7 +33,7 @@ const UpcomingPretrialCard: React.FC<UpcomingPretrialCardProps> = ({
 
   if (meetingStarted) {
     // Render the imported Meeting component if the meeting has started
-    return <h1>Meeting</h1>;
+    return <App/>;
   }
 
   // Default rendering for UpcomingPretrialCard

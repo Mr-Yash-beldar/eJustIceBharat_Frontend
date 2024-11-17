@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import {Case} from '../Cases/Cases';
+// import {Case} from '../Cases/Cases';
 import { FaPaperPlane, FaSpinner } from 'react-icons/fa'; // Paper plane icon for "send" and spinner for loading
 import Loader from '../../common/Loader';
 import axiosInstance from '../../utils/axiosInstance';
@@ -12,7 +12,7 @@ interface SendRequestProps {
 
 const SendRequest: React.FC<SendRequestProps> = ({ advocateName, advocateId}) => {
   const token = localStorage.getItem('token');
-  const [Cases,setCases]=useState<Case[]>([]);
+  const [Cases,setCases]=useState<any[]>([]);
   const [loading,setLoading]=useState(false) ;
   const [loadingCases, setLoadingCases] = useState<string | null>(null); // State to track loading case title
   const [successMessage, setSuccessMessage] = useState<string | null>(null); // State for success message
@@ -40,16 +40,18 @@ const SendRequest: React.FC<SendRequestProps> = ({ advocateName, advocateId}) =>
       setLoading(false);
     }
   };
+  console.log("cases:", Cases);
 
   useEffect(() => {
     fetchCases(); // Fetch advocates on initial load or when filters change
   }, []);
 
-  const handleRequest = async (
+  const handleRequest:any = async (
     caseTitle: string,
     caseId: string,
     advocateId: string
   ) => {
+    console.log(caseId);
     setLoadingCases(caseTitle); // Set loading state for the case
     console.log(`Request started for case: ${caseTitle} to advocate ${advocateName}`);
   
@@ -113,7 +115,7 @@ const SendRequest: React.FC<SendRequestProps> = ({ advocateName, advocateId}) =>
                 {/* Status display */}
               </div>
               <button
-                onClick={() => handleRequest(caseItem.case_title, caseItem.id, advocateId)}
+                onClick={() => handleRequest(caseItem.case_title, caseItem._id, advocateId)}
                 className="text-blue-500 hover:text-blue-700 transition-colors flex items-center"
                 disabled={loadingCases === caseItem.case_title}
               >

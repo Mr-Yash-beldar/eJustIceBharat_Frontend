@@ -33,6 +33,8 @@ import CaseListOfficer from './CourtOfficerPages/RequestedCasesOfficer/CaseListO
 import ScheduleTable from './CourtOfficerPages/SchedulePreTrial/ScheduleTable';
 import HomeCardOfficer from './CourtOfficerPages/OfficerHome/HomeCardOfficer';
 import CaseFee from './pages/PayFees/CasesFees';
+import Meeting from './pages/Meeting/Meeting.tsx';
+
 
 function App() {
   const { pathname } = useLocation();
@@ -264,6 +266,17 @@ function App() {
                         <PageTitle title="CaseRegistrationToCourt| EJusticeBharat" />
                         <ProfileCompletionRoute>
                           <RegistrationTable />
+                        </ProfileCompletionRoute>
+                      </>
+                    }
+                  />
+                  <Route
+                    path="Meeting"
+                    element={
+                      <>
+                        <PageTitle title="EJusticeBharat | Video Conference" />
+                        <ProfileCompletionRoute>
+                          <Meeting />
                         </ProfileCompletionRoute>
                       </>
                     }
