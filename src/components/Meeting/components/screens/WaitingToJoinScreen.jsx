@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import animationData from "../../../src/static/animations/join_meeting.json";
+import animationData from "../../static/animations/join_meeting.json";
 import Lottie from "lottie-react";
 import useIsTab from "../../hooks/useIsTab";
 import useIsMobile from "../../hooks/useIsMobile";

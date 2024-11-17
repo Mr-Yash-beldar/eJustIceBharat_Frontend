@@ -1,6 +1,6 @@
 import { useMeeting, useParticipant } from "@videosdk.live/react-sdk";
 import React, { useMemo } from "react";
-import MicOffIcon from "../../icons/ParticipantTabPanel/MicOffIcon";
+import MicOffIcon from "../../icons/ParticipantTabPanel/MicOffIcon.jsx";
 import MicOnIcon from "../../icons/ParticipantTabPanel/MicOnIcon";
 import RaiseHand from "../../icons/ParticipantTabPanel/RaiseHand";
 import VideoCamOffIcon from "../../icons/ParticipantTabPanel/VideoCamOffIcon";

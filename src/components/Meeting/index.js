@@ -25,6 +25,6 @@ root.render(
       pauseOnHover
       theme="light"
     />
-    <App name={"Yashodip"} meetingCode={"f4ux-yckf-ud5h"}/>
+    <App />
   </>
 );

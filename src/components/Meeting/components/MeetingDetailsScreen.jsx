@@ -15,9 +15,7 @@ export function MeetingDetailsScreen({
     <div className="flex flex-1 flex-col justify-center w-full md:p-[6px] sm:p-1 p-1.5">
       {/* Join Meeting Form */}
       <input
-        value={meetingId}
-        disabled={true}
-        hidden
+        value={meetingId} 
         onChange={(e) => {
           setMeetingId(e.target.value);
           setMeetingIdError(false); // Clear error on input change

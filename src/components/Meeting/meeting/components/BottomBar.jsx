@@ -15,7 +15,7 @@ import recordingBlink from "../../static/animations/recording-blink.json";
 import useIsRecording from "../../hooks/useIsRecording";
 import RecordingIcon from "../../icons/Bottombar/RecordingIcon";
 import MicOnIcon from "../../icons/Bottombar/MicOnIcon";
-import MicOffIcon from "../../icons/Bottombar/MicOffIcon";
+import MicOffIcon from "../../icons/ParticipantTabPanel/MicOffIcon";
 import WebcamOnIcon from "../../icons/Bottombar/WebcamOnIcon";
 import WebcamOffIcon from "../../icons/Bottombar/WebcamOffIcon";
 import ScreenShareIcon from "../../icons/Bottombar/ScreenShareIcon";
