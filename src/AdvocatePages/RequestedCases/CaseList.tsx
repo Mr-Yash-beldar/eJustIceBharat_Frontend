@@ -29,8 +29,6 @@ const transformCaseData = (data: any[]): Case[] => {
 
 
 
-
-
 const CaseList: React.FC = () => {
   const token = localStorage.getItem('token');
   const [cases, setCases] = useState<Case[]>([]);
