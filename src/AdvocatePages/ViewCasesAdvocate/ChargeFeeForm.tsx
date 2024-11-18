@@ -28,7 +28,7 @@ const FeeChargeForm: React.FC<FeeChargeFormProps> = ({
     try {
       const token = localStorage.getItem('token');
       const response = await axiosInstance.put(
-        `/request/update/${id}`,
+        `/request/applyFees/${id}`,
         {
           fee: parsedAmount,
         },
