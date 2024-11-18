@@ -4,7 +4,6 @@
     "lib": ["DOM", "DOM.Iterable", "ESNext"],
     "module": "ESNext",
     "skipLibCheck": true,
-    
 
     /* Bundler mode */
     "moduleResolution": "bundler",
@@ -13,6 +12,8 @@
     "isolatedModules": true,
     "noEmit": true,
     "jsx": "react-jsx",
+    "allowJs": true, // Allows JavaScript files
+    "checkJs": true, // Type-check JavaScript files
 
     /* Linting */
     "strict": true,
@@ -20,6 +21,6 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["src", "src/lib.d.ts"],
+  "include": ["src", "src/lib.d.ts", "./src/components/Meeting"], // Include the JavaScript folder
   "references": [{ "path": "./tsconfig.node.json" }]
 }
