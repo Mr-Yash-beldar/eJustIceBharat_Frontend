@@ -1,4 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
+// @ts-ignore
+// import App from '../../components/Meeting/App';
 
 interface UpcomingPretrialCardProps {
   scheduledDate: Date;
@@ -15,9 +17,26 @@ const UpcomingPretrialCard: React.FC<UpcomingPretrialCardProps> = ({
   timeUntilJoin,
   formatTimeRemaining,
 }) => {
-  // Determine if the button should be enabled
-  const isJoinButtonEnabled = currentDate >= scheduledDate && currentDate <= new Date(scheduledDate.getTime() + 15 * 60 * 1000);
+  const [meetingStarted, setMeetingStarted] = useState(false);
+  const meetingCode = 'ABC123'; // Mock meeting code
 
+  // Determine if the button should be enabled
+  const isJoinButtonEnabled =
+    currentDate >= scheduledDate &&
+    currentDate <= new Date(scheduledDate.getTime() + 15 * 60 * 1000);
+
+  const handleJoinMeeting = () => {
+    if (isJoinButtonEnabled) {
+      setMeetingStarted(true); // Trigger meeting start
+    }
+  };
+
+  if (meetingStarted) {
+    // Render the imported Meeting component if the meeting has started
+    return <h1>Meeting</h1>;
+  }
+
+  // Default rendering for UpcomingPretrialCard
   return (
     <div className="bg-blue-200 p-12 rounded-lg shadow-lg text-center w-[600px]">
       <h2 className="text-3xl font-semibold">Upcoming Pretrial Scheduled</h2>
@@ -51,6 +70,7 @@ const UpcomingPretrialCard: React.FC<UpcomingPretrialCardProps> = ({
               : 'bg-green-300 cursor-not-allowed' // Disabled button style
           }`}
           disabled={!isJoinButtonEnabled} // Button is disabled if not within the 15-min window
+          onClick={handleJoinMeeting} // Handle button click
         >
           Join Pretrial
         </button>

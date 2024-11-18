@@ -32,6 +32,8 @@ const SendRequest: React.FC<SendRequestProps> = ({ advocateName, advocateId}) =>
       // console.log(response.data.cases);
       setCases(response.data.cases);
 
+      // console.log(response.data.cases)
+
     } catch (error) {
       console.error('Error fetching advocates:', error);
     } finally {
@@ -62,7 +64,6 @@ const SendRequest: React.FC<SendRequestProps> = ({ advocateName, advocateId}) =>
         },
       }
     );
-  
       // Handle successful response
       console.log(`Request sent for case: ${caseTitle}`, response.data);
   
@@ -73,6 +74,7 @@ const SendRequest: React.FC<SendRequestProps> = ({ advocateName, advocateId}) =>
       });
       setSuccessMessage(`Request sent successfully for case: ${caseTitle} to advocate: ${advocateName}`);
     } catch (error) {
+      console.log(`advocateId is ${advocateId} caseId is ${caseId}`)
       console.error(`Error sending request for case: ${caseTitle}`, error);
       setLoadingCases(null); // Reset loading state
   
@@ -106,6 +108,7 @@ const SendRequest: React.FC<SendRequestProps> = ({ advocateName, advocateId}) =>
                 <p>{caseItem.case_description}</p>
                 <p className="text-sm text-gray-500">
                   Status: {caseItem.case_status}
+                 
                 </p>{' '}
                 {/* Status display */}
               </div>
