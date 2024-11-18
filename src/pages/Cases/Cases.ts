@@ -83,7 +83,7 @@ export interface Case {
       case_status: "Accepted"
     },
     {
-      id: '4',
+       id: '4',
       case_title: "Brown vs. Green LLC",
       case_description: "Contract dispute over service agreement.",
       case_type: "Commercial",
