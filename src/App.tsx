@@ -35,7 +35,6 @@ import HomeCardOfficer from './CourtOfficerPages/OfficerHome/HomeCardOfficer';
 import CaseFee from './pages/PayFees/CasesFees';
 import Meeting from './pages/Meeting/Meeting.tsx';
 
-
 function App() {
   const { pathname } = useLocation();
   const { loading } = useAuth();
@@ -270,17 +269,6 @@ function App() {
                       </>
                     }
                   />
-                  <Route
-                    path="Meeting"
-                    element={
-                      <>
-                        <PageTitle title="EJusticeBharat | Video Conference" />
-                        <ProfileCompletionRoute>
-                          <Meeting />
-                        </ProfileCompletionRoute>
-                      </>
-                    }
-                  />
 
                   <Route
                     path="EvidencePresentation"
@@ -340,6 +328,20 @@ function App() {
                   />
                 </Routes>
               </DefaultLayout>
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/dashboard/Meeting"
+          element={
+            <ProtectedRoute>
+              <ProfileCompletionRoute>
+                <>
+                  <PageTitle title="EJusticeBharat | Video Conference" />
+                  <Meeting />
+                </>
+              </ProfileCompletionRoute>
             </ProtectedRoute>
           }
         />
