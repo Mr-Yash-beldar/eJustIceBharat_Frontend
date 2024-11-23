@@ -37,7 +37,7 @@ const ViewCasesAdvocate: React.FC = () => {
   const fetchCaseData = async () => {
     try {
       const response = await axiosInstance.get('/request/getAll',{
-        params: { case_status: 'accepted' }, // Pass filter via query params
+        params: {  }, // Pass filter via query params
         headers: {
           Authorization: `Bearer ${token}`, // Pass token in Authorization header
         },
@@ -215,6 +215,7 @@ const ViewCasesAdvocate: React.FC = () => {
                         <path d="M12 16l-6-6h4V4h4v6h4l-6 6zM5 18h14v2H5z" />
                       </svg>
                     </button>
+                    {caseItem.case_status === 'accepted' && (
                     <button
                       className="text-gray-600 hover:text-purple-600"
                       onClick={() => handleChargeFeeIconClick(caseItem)}
@@ -229,6 +230,7 @@ const ViewCasesAdvocate: React.FC = () => {
                         <path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 14H4V8h16v10zm-2-6H6v2h12v-2z" />
                       </svg>
                     </button>
+                    )}
                   </div>
                 </td>
               </tr>

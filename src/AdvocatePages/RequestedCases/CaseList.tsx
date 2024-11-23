@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import {Case} from '../../pages/Cases/Cases';
+import { Case } from '../../pages/Cases/Cases';
 import CaseCard from './CaseCard';
 import CaseDetailsModal from './CaseDetailsModel';
 import axiosInstance from '../../utils/axiosInstance';
+import toast from 'react-hot-toast';
 
 const transformCaseData = (data: any[]): Case[] => {
-  return data.map(item => ({
+  return data.map((item) => ({
     id: item.caseId._id,
     case_title: item.caseId.case_title,
     case_description: item.caseId.case_description,
@@ -27,8 +28,6 @@ const transformCaseData = (data: any[]): Case[] => {
   }));
 };
 
-
-
 const CaseList: React.FC = () => {
   const token = localStorage.getItem('token');
   const [cases, setCases] = useState<Case[]>([]);
@@ -39,7 +38,7 @@ const CaseList: React.FC = () => {
 
   const fetchCaseData = async () => {
     try {
-      const response = await axiosInstance.get('/request/getAll',{
+      const response = await axiosInstance.get('/request/getAll', {
         params: { case_status: 'requested' }, // Pass filter via query params
         headers: {
           Authorization: `Bearer ${token}`, // Pass token in Authorization header
@@ -57,7 +56,6 @@ const CaseList: React.FC = () => {
   useEffect(() => {
     fetchCaseData();
   }, []);
-
 
   const handleViewMore = (caseData: Case) => {
     setSelectedCase(caseData);
@@ -78,7 +76,7 @@ const CaseList: React.FC = () => {
   return (
     <div className="p-6">
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 p-4">
-        {casesToDisplay.map((caseItem:any, index) => (
+        {casesToDisplay.map((caseItem: any, index) => (
           <CaseCard
             key={index}
             caseData={caseItem}
@@ -103,16 +101,20 @@ const CaseList: React.FC = () => {
       )}
 
       <div className="text-center mt-4">
-        <span>
-          Page {currentPage} of {Math.ceil(maxVisibleCount / 6)}
-        </span>
+        {cases.length ? (
+          <span>
+            Page {currentPage} of {Math.ceil(maxVisibleCount / 6)}
+          </span>
+        ) : (
+          <span>No Cases Found</span>
+        )}
       </div>
 
       {selectedCase && (
         <CaseDetailsModal
           caseData={selectedCase}
           onClose={() => setSelectedCase(null)}
-          onAccept={() => console.log('Case accepted:', selectedCase)}
+          onAccept={() => toast.success('Case Accepted')}
           onReject={() => console.log('Case rejected:', selectedCase)}
         />
       )}

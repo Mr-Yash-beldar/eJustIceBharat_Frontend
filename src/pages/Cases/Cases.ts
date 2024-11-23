@@ -18,7 +18,7 @@ export interface Case {
     defendantAddress: string;
     evidence_provided: string;
     witness_details: string;
-    case_status: 'Filed' | 'Requested' | 'Accepted' | 'Registered' | 'Closed'; // New attribute
+    case_status: string; // New attribute
   }
   
   const cases: Case[] = [

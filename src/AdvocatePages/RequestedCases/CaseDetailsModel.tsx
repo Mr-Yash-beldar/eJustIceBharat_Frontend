@@ -20,7 +20,7 @@ interface CaseDetailsProps {
     defendantAddress: string;
     evidence_provided: string;
     witness_details: string;
-    case_status: 'Filed' | 'Requested' | 'Accepted' | 'Registered' | 'Closed';
+    case_status: string;
   };
   onClose: () => void;
   onAccept: () => void;

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 // @ts-ignore
 import App from '../../components/Meeting/App';
 
@@ -18,6 +19,7 @@ const UpcomingPretrialCard: React.FC<UpcomingPretrialCardProps> = ({
   formatTimeRemaining,
 }) => {
   const [meetingStarted, setMeetingStarted] = useState(false);
+  const navigate = useNavigate();
   // const meetingCode = 'ABC123'; // Mock meeting code
 
   // Determine if the button should be enabled
@@ -33,7 +35,8 @@ const UpcomingPretrialCard: React.FC<UpcomingPretrialCardProps> = ({
 
   if (meetingStarted) {
     // Render the imported Meeting component if the meeting has started
-    return <App/>;
+        // Navigate to the route with the meeting code
+        navigate(`/dashboard/meeting`);
   }
 
   // Default rendering for UpcomingPretrialCard

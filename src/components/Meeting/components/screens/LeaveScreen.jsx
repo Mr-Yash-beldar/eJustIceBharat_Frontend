@@ -11,6 +11,7 @@ export function LeaveScreen({ setIsMeetingLeft }) {
         >
           Rejoin the Meeting
         </button>
+        
       </div>
     </div>
   );
