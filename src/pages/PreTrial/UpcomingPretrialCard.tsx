@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 // @ts-ignore
 import App from '../../components/Meeting/App';
@@ -8,10 +8,12 @@ interface UpcomingPretrialCardProps {
   currentDate: Date;
   timeUntilScheduled: number;
   timeUntilJoin: number;
+  CaseID: string;
   formatTimeRemaining: (time: number) => string;
 }
 
 const UpcomingPretrialCard: React.FC<UpcomingPretrialCardProps> = ({
+  CaseID,
   scheduledDate,
   currentDate,
   timeUntilScheduled,
@@ -19,8 +21,25 @@ const UpcomingPretrialCard: React.FC<UpcomingPretrialCardProps> = ({
   formatTimeRemaining,
 }) => {
   const [meetingStarted, setMeetingStarted] = useState(false);
+  const [meetingCode, setMeetingCode] = useState('');
   const navigate = useNavigate();
-  // const meetingCode = 'ABC123'; // Mock meeting code
+  
+  const fetchCaseData = async () => {
+    try {
+      const response = await axiosInstance.post('/e', {
+        caseId: CaseID,
+      });
+      setMeetingCode(response.data.pretrialSchedule);
+    } catch (error) {
+      console.error('Error fetching case data:', error);
+      setMeetingCode(''); // Fallback date
+    }
+  };
+
+  // Fetch data only once when component mounts
+  useEffect(() => {
+    fetchCaseData();
+  }, [CaseID]);
 
   // Determine if the button should be enabled
   const isJoinButtonEnabled =

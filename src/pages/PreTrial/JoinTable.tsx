@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Case } from '../Cases/Cases'; // Import your cases data
 import PreTrialConferencingPage from './PreTrailConferencingPage'; // Import PreTrialConferencingPage component
 import axiosInstance from '../../utils/axiosInstance';
+import { useAuth } from '../../context/AuthProvider';
 
 const transformCaseData = (data: any[]): Case[] => {
   return data.map((item) => ({
@@ -31,12 +32,14 @@ const CaseTable: React.FC = () => {
   const [selectedCaseId, setSelectedCaseId] = useState<string | null>(null);
   const [selectedCaseName, setSelectedCaseName] = useState<string | null>(null);
   const [cases, setCases] = useState<Case[]>([]);
+  const {role}=useAuth();
 
   const token = localStorage.getItem('token');
+  const url=role==='litigant'?'getAllpre':'getAll';
 
   const fetchCaseData = async () => {
     try {
-      const response = await axiosInstance.get('/request/getAll', {
+      const response = await axiosInstance.get(`/request/${url}`, {
         params: { case_status: 'scheduled' }, // Pass filter via query params
         headers: {
           Authorization: `Bearer ${token}`, // Pass token in Authorization header

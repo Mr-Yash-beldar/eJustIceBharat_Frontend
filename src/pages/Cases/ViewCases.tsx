@@ -24,9 +24,7 @@ const ViewCasesTable: React.FC = () => {
     try {
       const response = await axiosInstance.get('/cases', {
         headers: { Authorization: `Bearer ${token}` },
-        params: {
-          case_status: 'Requested,Filed,Accepted,Registered,Closed',
-        },
+        
       });
       setCases(response.data.cases);
     } catch (error) {

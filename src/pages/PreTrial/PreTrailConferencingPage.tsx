@@ -87,6 +87,7 @@ const PreTrialConferencingPage: React.FC<PreTrialConferencingPageProps> = ({ Cas
           {!showUpcomingCard && !showCompletedCard && <NoPretrialCard />}
           {showUpcomingCard && (
             <UpcomingPretrialCard
+              CaseID={CaseID}
               scheduledDate={scheduledDate}
               currentDate={currentDate}
               timeUntilScheduled={timeUntilScheduled}
