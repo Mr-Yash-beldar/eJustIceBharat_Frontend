@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 // @ts-ignore
 import App from '../../components/Meeting/App';
+import axiosInstance from '../../utils/axiosInstance';
 
 interface UpcomingPretrialCardProps {
   scheduledDate: Date;
@@ -23,10 +24,11 @@ const UpcomingPretrialCard: React.FC<UpcomingPretrialCardProps> = ({
   const [meetingStarted, setMeetingStarted] = useState(false);
   const [meetingCode, setMeetingCode] = useState('');
   const navigate = useNavigate();
+
   
   const fetchCaseData = async () => {
     try {
-      const response = await axiosInstance.post('/e', {
+      const response = await axiosInstance.post('/ejusticeBharat/meeting/get-meeting-code', {
         caseId: CaseID,
       });
       setMeetingCode(response.data.pretrialSchedule);
@@ -55,7 +57,7 @@ const UpcomingPretrialCard: React.FC<UpcomingPretrialCardProps> = ({
   if (meetingStarted) {
     // Render the imported Meeting component if the meeting has started
         // Navigate to the route with the meeting code
-        navigate(`/dashboard/meeting`);
+        navigate('/dashboard/meeting', { state: { meetingCode } });
   }
 
   // Default rendering for UpcomingPretrialCard

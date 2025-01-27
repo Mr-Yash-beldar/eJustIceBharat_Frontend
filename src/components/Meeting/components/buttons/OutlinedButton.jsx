@@ -98,7 +98,7 @@ export const OutlinedButton = ({
       >
         <div
           className={`flex items-center justify-center  rounded-lg ${
-            bgColor ? `${bgColor}` : isFocused ? "bg-white" : "bg-gray-750"
+            bgColor ? `${bgColor}` : isFocused ? "bg-white" : "bg-red-500"
           } ${
             mouseOver
               ? "border-2 border-transparent border-solid"
@@ -214,7 +214,7 @@ export const OutlinedButton = ({
         } overflow-hidden flex flex-col items-center justify-center whitespace-pre-line`}
         ref={tooltipRef}
       >
-        <div className={"rounded-md p-1.5 bg-black "}>
+        <div className={"rounded-md p-1.5 bg-yellow-500"}> "}>
           <p className="text-base text-white ">{tooltip || ""}</p>
         </div>
       </div>

@@ -80,7 +80,7 @@ export const MobileIconButton = ({
               }}
             >
               {badge && (
-                <div class="inline-flex absolute -top-2 -right-3 justify-center items-center w-6 h-6 text-xs font-bold text-white bg-black rounded-full">
+                <div class="inline-flex absolute -top-2 -right-3 justify-center items-center w-6 h-6 text-xs font-bold text-white bg-yellow-500 rounded-full">
                   {badge}
                 </div>
               )}
@@ -138,10 +138,10 @@ export const MobileIconButton = ({
         style={{ zIndex: 999 }}
         className={`${
           tooltipShow ? "" : "hidden"
-        } overflow-hidden flex flex-col items-center justify-center pb-1`}
+        } overflow-hidden flex flex-col items-center   justify-center pb-1`}
         ref={tooltipRef}
       >
-        <div className={"rounded-md p-1.5 bg-black "}>
+        <div className={"rounded-md p-1.5 bg-yellow-500"}> "}>
           <p className="text-base text-white ">{tooltipTitle || ""}</p>
         </div>
       </div>
