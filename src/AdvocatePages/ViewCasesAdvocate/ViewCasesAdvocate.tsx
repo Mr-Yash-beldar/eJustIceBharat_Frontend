@@ -43,10 +43,11 @@ const ViewCasesAdvocate: React.FC = () => {
         },
         withCredentials: true, // Ensure credentials are sent if required
       });
+      // console.log(response.data);
       const transformedData = transformCaseData(response.data); // Transform the data
       setCaseData(transformedData); // Update the state with transformed data
     } catch (error) {
-      console.error('Error fetching case data:', error);
+      console.error('Error fetching case data:', error);  
     }
   };
 
