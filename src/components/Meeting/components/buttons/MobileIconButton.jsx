@@ -141,7 +141,7 @@ export const MobileIconButton = ({
         } overflow-hidden flex flex-col items-center   justify-center pb-1`}
         ref={tooltipRef}
       >
-        <div className={"rounded-md p-1.5 bg-yellow-500"}> "}>
+        <div className="rounded-md p-1.5 bg-yellow-500">
           <p className="text-base text-white ">{tooltipTitle || ""}</p>
         </div>
       </div>

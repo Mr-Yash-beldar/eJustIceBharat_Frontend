@@ -214,7 +214,7 @@ export const OutlinedButton = ({
         } overflow-hidden flex flex-col items-center justify-center whitespace-pre-line`}
         ref={tooltipRef}
       >
-        <div className={"rounded-md p-1.5 bg-yellow-500"}> "}>
+        <div className="rounded-md p-1.5 bg-yellow-500">
           <p className="text-base text-white ">{tooltip || ""}</p>
         </div>
       </div>
