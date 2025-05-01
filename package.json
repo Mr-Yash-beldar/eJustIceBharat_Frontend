@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "esbuild src/index.js --bundle --outfile=dist/bundle.js --loader:.js=jsx",
+    "build": "vite build",
     "preview": "vite preview"
   },
   "author": {
