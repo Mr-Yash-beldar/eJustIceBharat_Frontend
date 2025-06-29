@@ -6,10 +6,11 @@ import Logo from '../../images/logo/logo_dark.png';
 import axiosInstance from '../../utils/axiosInstance';
 import { toast } from 'react-toastify';
 import axios from 'axios';
-import { useAuth } from '../../context/AuthProvider';
+
 
 const VerifyEmail: React.FC = () => {
-  const { role } = useAuth();
+  //get role from localStorage
+  const role=localStorage.getItem('role');
 
   const { id } = useParams();
   const [otpData, setOtpData] = useState({
@@ -39,7 +40,7 @@ const VerifyEmail: React.FC = () => {
     try {
       // Send OTP and ID to the API for verification
 
-      const url = role === 'advocate' ? 'verifyOtp' : 'verifyAdvocateOtp';
+      const url = role === 'litigant' ? 'verifyOtp' : 'verifyAdvocateOtp';
       const response = await axiosInstance.post(`email/${url}`, data);
 
       // Check the response from the API
