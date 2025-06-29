@@ -12,7 +12,8 @@ interface PreTrialConferencingPageProps {
 const PreTrialConferencingPage: React.FC<PreTrialConferencingPageProps> = ({ CaseID,CaseName }) => {
   const [meetingDate, setMeetingDate] = useState<string>('');
   const [scheduledDate, setScheduledDate] = useState<Date | null>(null);
-  const [currentDate, setCurrentDate] = useState(new Date());
+  const [currentDate, setCurrentDate] = useState(new Date()); 
+  console.log("Todays Date=", currentDate);
   const [showUpcomingCard, setShowUpcomingCard] = useState(false);
   const [showCompletedCard, setShowCompletedCard] = useState(false);
 
