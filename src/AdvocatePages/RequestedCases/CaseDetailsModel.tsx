@@ -38,7 +38,7 @@ const CaseDetailsModal: React.FC<CaseDetailsProps> = ({
     const updateCaseStatus = async (caseId: string, status: string) => {
       try {
         const token = localStorage.getItem('token');
-        const response = await axiosInstance.patch(`cases/updateStatus/${caseId}`, {
+        const response = await axiosInstance.put(`cases/updateStatus/${caseId}`, {
           case_status: status,
         },{
           headers: {
